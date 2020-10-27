@@ -182,9 +182,9 @@ public class Homepage extends javax.swing.JFrame {
                 .addComponent(home_btn_var)
                 .addGap(33, 33, 33)
                 .addComponent(search_btn_var)
-                .addGap(40, 40, 40)
+                .addGap(33, 33, 33)
                 .addComponent(playlist_btn_var)
-                .addGap(36, 36, 36)
+                .addGap(33, 33, 33)
                 .addComponent(downloads_btn_var)
                 .addGap(33, 33, 33)
                 .addComponent(create_btn_var)
@@ -267,7 +267,7 @@ public class Homepage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab5", create_var);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(193, 137, -1, -1));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, -1, -1));
 
         coverpanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -309,7 +309,7 @@ public class Homepage extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, 170));
+        jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

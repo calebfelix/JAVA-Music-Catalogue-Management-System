@@ -6,6 +6,10 @@
 package musiccataloguemasy;
 
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -16,8 +20,10 @@ public class Signup extends javax.swing.JFrame {
     /**
      * Creates new form Signup
      */
+    MySQLConnect myc;
     public Signup() {
         initComponents();
+        myc = new MySQLConnect();
         setVisible(true);
         setLocationRelativeTo(null);
     }
@@ -512,8 +518,33 @@ public class Signup extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void u_submit_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_u_submit_varActionPerformed
-         new Homepage().setVisible(true);
-       this.setVisible(false);
+         String username = u_username_var.getText();
+        String pass =u_password_var.getText();
+        if(username.trim().equals("") || pass.trim().equals("")){
+                JOptionPane.showMessageDialog(null, "All Fields are Compulsory!!");
+        }else{
+            try{
+                    Connection con = (Connection) myc.getConn();
+                    String sql = "select * from account where user_id=? and password=?" ;
+                    PreparedStatement pst =  con.prepareStatement(sql);
+                    pst.setString(1, username);
+                    pst.setString(2, pass);
+                    ResultSet rs = pst.executeQuery();
+                    if(rs.next()){
+                            JOptionPane.showMessageDialog(null, "Login Successful");
+                             new Homepage().setVisible(true);
+                             this.setVisible(false);
+                    }else{
+                            JOptionPane.showMessageDialog(null, "Incorrect username/Password!!!");
+                    }
+            
+                    }catch(Exception e){
+                        
+                    }
+        }
+        
+        
+
     }//GEN-LAST:event_u_submit_varActionPerformed
 
     private void PP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PP2ActionPerformed
@@ -525,13 +556,57 @@ public class Signup extends javax.swing.JFrame {
     }//GEN-LAST:event_PP3ActionPerformed
 
     private void e_submit_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_submit_varActionPerformed
-      new Homepage().setVisible(true);
-       this.setVisible(false);
+         String email = e_email_var.getText();
+        String pass =e_password_var.getText();
+        if(email.trim().equals("") || pass.trim().equals("")){
+                JOptionPane.showMessageDialog(null, "All Fields are Compulsory!!");
+        }else{
+            try{
+                    Connection con = (Connection) myc.getConn();
+                    String sql = "select * from account where email=? and password=?" ;
+                    PreparedStatement pst =  con.prepareStatement(sql);
+                    pst.setString(1, email);
+                    pst.setString(2, pass);
+                    ResultSet rs = pst.executeQuery();
+                    if(rs.next()){
+                            JOptionPane.showMessageDialog(null, "Login Successful");
+                             new Homepage().setVisible(true);
+                             this.setVisible(false);
+                    }else{
+                            JOptionPane.showMessageDialog(null, "Incorrect email/Password!!!");
+                    }
+            
+                    }catch(Exception e){
+                        
+                    }
+        }
     }//GEN-LAST:event_e_submit_varActionPerformed
 
     private void p_submit_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_submit_varActionPerformed
-      new Homepage().setVisible(true);
-       this.setVisible(false);
+        String phone = p_phone_var.getText();
+        String pass =p_password_var.getText();
+        if(phone.trim().equals("") || pass.trim().equals("")){
+                JOptionPane.showMessageDialog(null, "All Fields are Compulsory!!");
+        }else{
+            try{
+                    Connection con = (Connection) myc.getConn();
+                    String sql = "select * from account where phone_no=? and password=?" ;
+                    PreparedStatement pst =  con.prepareStatement(sql);
+                    pst.setString(1, phone);
+                    pst.setString(2, pass);
+                    ResultSet rs = pst.executeQuery();
+                    if(rs.next()){
+                            JOptionPane.showMessageDialog(null, "Login Successful");
+                             new Homepage().setVisible(true);
+                             this.setVisible(false);
+                    }else{
+                            JOptionPane.showMessageDialog(null, "Incorrect phone no/Password!!!");
+                    }
+            
+                    }catch(Exception e){
+                        
+                    }
+        }
     }//GEN-LAST:event_p_submit_varActionPerformed
 
     private void u_username_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_u_username_varActionPerformed
