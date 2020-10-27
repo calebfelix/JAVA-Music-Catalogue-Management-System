@@ -103,7 +103,7 @@
                               <Group type="103" groupAlignment="1" attributes="0">
                                   <Group type="102" attributes="0">
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                          <Component id="ConfirmPassword_var" max="32767" attributes="0"/>
+                                          <Component id="password_var" max="32767" attributes="0"/>
                                           <Component id="Gender_cb" pref="201" max="32767" attributes="0"/>
                                       </Group>
                                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
@@ -140,7 +140,7 @@
                           <Component id="Email_var" max="32767" attributes="0"/>
                           <Component id="PhoneNo_var" alignment="0" max="32767" attributes="0"/>
                           <Component id="Country_var" max="32767" attributes="0"/>
-                          <Component id="password_var" alignment="0" max="32767" attributes="0"/>
+                          <Component id="ConfirmPassword_var" alignment="0" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace pref="42" max="32767" attributes="0"/>
                   </Group>
@@ -191,9 +191,9 @@
                       <EmptySpace min="-2" pref="43" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
                           <Component id="jLabel5" alignment="3" min="-2" pref="51" max="-2" attributes="0"/>
-                          <Component id="ConfirmPassword_var" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
-                          <Component id="jLabel10" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
                           <Component id="password_var" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
+                          <Component id="jLabel10" alignment="3" min="-2" pref="41" max="-2" attributes="0"/>
+                          <Component id="ConfirmPassword_var" alignment="3" min="-2" pref="34" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace min="-2" pref="31" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="3" attributes="0">
@@ -405,17 +405,17 @@
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="submit_signup_btnActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="ConfirmPassword_var">
+            <Component class="javax.swing.JPasswordField" name="password_var">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="cc" red="cc" type="rgb"/>
                 </Property>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ConfirmPassword_varActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="password_varActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JPasswordField" name="password_var">
+            <Component class="javax.swing.JPasswordField" name="ConfirmPassword_var">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="cc" green="cc" red="cc" type="rgb"/>
@@ -442,7 +442,7 @@
             <Component class="com.toedter.calendar.JDateChooser" name="DOB_dc">
               <Properties>
                 <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-                  <Color blue="cc" green="cc" red="cc" type="rgb"/>
+                  <Color blue="ff" green="cc" red="cc" type="rgb"/>
                 </Property>
                 <Property name="dateFormatString" type="java.lang.String" value="dd-MM-yyyy"/>
               </Properties>

@@ -58,8 +58,8 @@ public class Loginswap extends javax.swing.JFrame {
         Country_var = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         submit_signup_btn = new javax.swing.JButton();
-        ConfirmPassword_var = new javax.swing.JPasswordField();
         password_var = new javax.swing.JPasswordField();
+        ConfirmPassword_var = new javax.swing.JPasswordField();
         Gender_cb = new javax.swing.JComboBox<>();
         DOB_dc = new com.toedter.calendar.JDateChooser();
 
@@ -156,19 +156,19 @@ public class Loginswap extends javax.swing.JFrame {
             }
         });
 
-        ConfirmPassword_var.setBackground(new java.awt.Color(204, 204, 204));
-        ConfirmPassword_var.addActionListener(new java.awt.event.ActionListener() {
+        password_var.setBackground(new java.awt.Color(204, 204, 204));
+        password_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ConfirmPassword_varActionPerformed(evt);
+                password_varActionPerformed(evt);
             }
         });
 
-        password_var.setBackground(new java.awt.Color(204, 204, 204));
+        ConfirmPassword_var.setBackground(new java.awt.Color(204, 204, 204));
 
         Gender_cb.setBackground(new java.awt.Color(204, 204, 204));
         Gender_cb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others" }));
 
-        DOB_dc.setBackground(new java.awt.Color(204, 204, 204));
+        DOB_dc.setBackground(new java.awt.Color(204, 204, 255));
         DOB_dc.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -199,7 +199,7 @@ public class Loginswap extends javax.swing.JFrame {
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(ConfirmPassword_var)
+                                    .addComponent(password_var)
                                     .addComponent(Gender_cb, 0, 201, Short.MAX_VALUE))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -225,7 +225,7 @@ public class Loginswap extends javax.swing.JFrame {
                     .addComponent(Email_var)
                     .addComponent(PhoneNo_var)
                     .addComponent(Country_var)
-                    .addComponent(password_var))
+                    .addComponent(ConfirmPassword_var))
                 .addContainerGap(42, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
@@ -265,9 +265,9 @@ public class Loginswap extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ConfirmPassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(ConfirmPassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -325,8 +325,8 @@ public class Loginswap extends javax.swing.JFrame {
         String email = Email_var.getText();
         String country = Country_var.getText();
         String phone_no = PhoneNo_var.getText();
-        String password = password_var.getText();
-        String confirm_password = ConfirmPassword_var.getText();
+        String password = ConfirmPassword_var.getText();
+        String confirm_password = password_var.getText();
         String gender = Gender_cb.getItemAt(Gender_cb.getSelectedIndex());
         Date dob = DOB_dc.getDate();
         String user_id = User_id_var.getText();
@@ -399,8 +399,8 @@ public class Loginswap extends javax.swing.JFrame {
             }
         }else{
             JOptionPane.showMessageDialog(null, "Password and Confirm Password must be same!!");
-            password_var.setText("");
             ConfirmPassword_var.setText("");
+            password_var.setText("");
         }
     }//GEN-LAST:event_submit_signup_btnActionPerformed
 
@@ -412,9 +412,9 @@ public class Loginswap extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PhoneNo_varActionPerformed
 
-    private void ConfirmPassword_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ConfirmPassword_varActionPerformed
+    private void password_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password_varActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_ConfirmPassword_varActionPerformed
+    }//GEN-LAST:event_password_varActionPerformed
 
     /**
      * @param args the command line arguments
