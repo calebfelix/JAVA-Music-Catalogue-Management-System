@@ -5,7 +5,17 @@
  */
 package musiccataloguemasy;
 
+
 import java.awt.Color;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  *
@@ -16,10 +26,14 @@ public class Homepage extends javax.swing.JFrame {
     /**
      * Creates new form Homepage
      */
+    MySQLConnect myc;
+  
     public Homepage() {
         initComponents();
+        myc = new MySQLConnect();
         setVisible(true);
         setLocationRelativeTo(null);
+        ;
     }
 
     /**
@@ -45,6 +59,19 @@ public class Homepage extends javax.swing.JFrame {
         downloads_var = new javax.swing.JPanel();
         create_var = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        description_var = new javax.swing.JTextArea();
+        trackname_var = new javax.swing.JTextField();
+        artist_var = new javax.swing.JTextField();
+        genre_var = new javax.swing.JTextField();
+        submitTrack_var = new javax.swing.JButton();
+        reset_var = new javax.swing.JButton();
         coverpanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
@@ -197,11 +224,11 @@ public class Homepage extends javax.swing.JFrame {
         home_var.setLayout(home_varLayout);
         home_varLayout.setHorizontalGroup(
             home_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 948, Short.MAX_VALUE)
+            .addGap(0, 969, Short.MAX_VALUE)
         );
         home_varLayout.setVerticalGroup(
             home_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
+            .addGap(0, 574, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab1", home_var);
@@ -210,11 +237,11 @@ public class Homepage extends javax.swing.JFrame {
         search_var.setLayout(search_varLayout);
         search_varLayout.setHorizontalGroup(
             search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 948, Short.MAX_VALUE)
+            .addGap(0, 969, Short.MAX_VALUE)
         );
         search_varLayout.setVerticalGroup(
             search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
+            .addGap(0, 574, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", search_var);
@@ -223,11 +250,11 @@ public class Homepage extends javax.swing.JFrame {
         playlist_var.setLayout(playlist_varLayout);
         playlist_varLayout.setHorizontalGroup(
             playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 948, Short.MAX_VALUE)
+            .addGap(0, 969, Short.MAX_VALUE)
         );
         playlist_varLayout.setVerticalGroup(
             playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
+            .addGap(0, 574, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab3", playlist_var);
@@ -236,11 +263,11 @@ public class Homepage extends javax.swing.JFrame {
         downloads_var.setLayout(downloads_varLayout);
         downloads_varLayout.setHorizontalGroup(
             downloads_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 948, Short.MAX_VALUE)
+            .addGap(0, 969, Short.MAX_VALUE)
         );
         downloads_varLayout.setVerticalGroup(
             downloads_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 596, Short.MAX_VALUE)
+            .addGap(0, 574, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab4", downloads_var);
@@ -248,26 +275,123 @@ public class Homepage extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
         jLabel2.setText("Create");
 
+        jLabel3.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        jLabel3.setText("Add Music:");
+
+        jLabel4.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel4.setText("Track Name:");
+
+        jLabel5.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel5.setText("Artist :");
+
+        jLabel6.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel6.setText("Genre :");
+
+        jLabel7.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel7.setText("Description :");
+
+        jLabel8.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel8.setText("Track file:");
+
+        description_var.setColumns(20);
+        description_var.setRows(5);
+        jScrollPane1.setViewportView(description_var);
+
+        submitTrack_var.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        submitTrack_var.setText("Submit Track");
+        submitTrack_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        submitTrack_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submitTrack_varActionPerformed(evt);
+            }
+        });
+
+        reset_var.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        reset_var.setText("Reset");
+        reset_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        reset_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                reset_varActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout create_varLayout = new javax.swing.GroupLayout(create_var);
         create_var.setLayout(create_varLayout);
         create_varLayout.setHorizontalGroup(
             create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, create_varLayout.createSequentialGroup()
-                .addContainerGap(784, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(62, 62, 62))
+            .addGroup(create_varLayout.createSequentialGroup()
+                .addGap(96, 96, 96)
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(85, 85, 85)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel8)
+                            .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGap(18, 18, 18)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(create_varLayout.createSequentialGroup()
+                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(genre_var, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 198, Short.MAX_VALUE)
+                                    .addComponent(artist_var, javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(trackname_var, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGap(66, 66, 66)
+                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(submitTrack_var, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(reset_var, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(288, Short.MAX_VALUE))
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 102, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))))
         );
         create_varLayout.setVerticalGroup(
             create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(create_varLayout.createSequentialGroup()
                 .addGap(33, 33, 33)
-                .addComponent(jLabel2)
-                .addContainerGap(524, Short.MAX_VALUE))
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(trackname_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(submitTrack_var)))
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addComponent(reset_var)))
+                .addGap(42, 42, 42)
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(51, 51, 51)
+                .addComponent(jLabel8)
+                .addGap(58, 58, 58)
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel7)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(112, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("tab5", create_var);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, -1, -1));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, -1, 600));
 
         coverpanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -362,6 +486,56 @@ public class Homepage extends javax.swing.JFrame {
         jTabbedPane1.setSelectedIndex(1);
     }//GEN-LAST:event_search_btn_varActionPerformed
 
+    private void submitTrack_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitTrack_varActionPerformed
+        // TODO add your handling code here:
+        String Track_name = trackname_var.getText();
+        String Artist = artist_var.getText();
+        String Genre = genre_var.getText();
+        String Description = description_var.getText();
+        
+        if(Track_name.trim().equals("")||
+            Artist.trim().equals("")|| 
+            Genre.trim().equals("")||
+            Description.trim().equals("")){
+                JOptionPane.showMessageDialog(null, "All fields are compulsary");
+        }else{
+                
+                try{
+                    Connection con = myc.getConn();
+                    PreparedStatement pst ;
+                    String saveQ = "insert into tracks(track_name, artist, genre,description) values(?,?,?,?)";
+                    pst = con.prepareStatement(saveQ);
+                    pst.setString(1, Track_name);
+                    pst.setString(2, Artist);
+                    pst.setString(3, Genre);
+                    pst.setString(4, Description);
+                    
+                    //track
+                    
+             
+                    
+                    int i = pst.executeUpdate();
+                    if (i>=1) {
+                        JOptionPane.showMessageDialog(null, "done bro");
+                        
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Loss");
+                    }
+                            
+                }catch(Exception e){
+                    JOptionPane.showMessageDialog(null, e);
+                }
+        }
+    }//GEN-LAST:event_submitTrack_varActionPerformed
+
+    private void reset_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_varActionPerformed
+        // TODO add your handling code here:
+        trackname_var.setText("");
+        artist_var.setText("");
+        description_var.setText("");
+        genre_var.setText("");
+    }//GEN-LAST:event_reset_varActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -398,22 +572,35 @@ public class Homepage extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField artist_var;
     private javax.swing.JPanel coverpanel;
     private javax.swing.JButton create_btn_var;
     private javax.swing.JPanel create_var;
+    private javax.swing.JTextArea description_var;
     private javax.swing.JButton downloads_btn_var;
     private javax.swing.JPanel downloads_var;
+    private javax.swing.JTextField genre_var;
     private javax.swing.JButton home_btn_var;
     private javax.swing.JPanel home_var;
     private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton playlist_btn_var;
     private javax.swing.JPanel playlist_var;
+    private javax.swing.JButton reset_var;
     private javax.swing.JButton search_btn_var;
     private javax.swing.JPanel search_var;
+    private javax.swing.JButton submitTrack_var;
+    private javax.swing.JTextField trackname_var;
     // End of variables declaration//GEN-END:variables
 }
