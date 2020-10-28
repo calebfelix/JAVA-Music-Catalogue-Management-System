@@ -6,23 +6,28 @@
 package musiccataloguemasy;
 
 
-import java.awt.Color;
+import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.InputStream;
-import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
-import javax.swing.filechooser.FileNameExtensionFilter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
+import java.util.ArrayList;
+import javax.swing.DefaultListModel;
 
 /**
  *
  * @author Nancy Merciline
  */
 public class Homepage extends javax.swing.JFrame {
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+        playlist pl = new playlist();
+    
+    ArrayList updateList = new ArrayList();
+    
+    javazoom.jl.player.Player player;
+    File simpan;
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////
     /**
      * Creates new form Homepage
      */
@@ -33,8 +38,171 @@ public class Homepage extends javax.swing.JFrame {
         myc = new MySQLConnect();
         setVisible(true);
         setLocationRelativeTo(null);
-        ;
+        
     }
+    
+    ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    
+    void updateList() {
+        updateList = pl.getListSong();
+        DefaultListModel model =  new DefaultListModel();
+        for (int i = 0; i < updateList.size(); i++) {
+            int j = i + 1;
+            model.add(i, j + " | " + ((File) updateList.get(i)).getName());
+        }
+        jPlaylist.setModel(model);
+   }    
+
+
+void add(){
+    pl.add(this);
+    updateList();
+}
+
+void remove(){
+    try{
+        int akandihapus = jPlaylist.getLeadSelectionIndex();
+        pl.ls.remove(akandihapus);
+        updateList();
+    }catch(Exception e){
+    }
+}
+
+void up(){
+    try{
+        int s1 = jPlaylist.getLeadSelectionIndex();
+        simpan = (File) pl.ls.get(s1);
+        pl.ls.remove(s1);
+        pl.ls.add(s1 - 1, simpan );
+        updateList();
+        jPlaylist.setSelectedIndex(s1-1);
+    }catch(Exception e){
+    }
+}
+
+void down(){
+    try{
+        int s1 = jPlaylist.getLeadSelectionIndex();
+        simpan = (File) pl.ls.get(s1);
+        pl.ls.remove(s1);
+        pl.ls.add(s1 + 1, simpan );
+        updateList();
+        jPlaylist.setSelectedIndex(s1+1);
+    }catch(Exception e){
+    }
+}
+
+void open(){
+    pl.openPls(this);
+    updateList();
+}
+
+void save(){
+    pl.saveAsPlaylist(this);
+    updateList();
+}
+
+File play1;
+static int a = 0;
+
+void putar(){
+    if(a==0){
+        try{
+            int p1 = jPlaylist.getSelectedIndex();
+            play1 = (File) this.updateList.get(p1);
+            FileInputStream fis = new FileInputStream(play1);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            player = new javazoom.jl.player.Player(bis);
+            a =1;
+        }catch(Exception e){
+            System.out.println("Problem playing file");
+            System.out.println(e);
+        }
+        
+        new Thread(){
+            @Override
+            public void run(){
+                try{
+                    player.play();
+                
+            }catch (Exception e){
+            }
+        }
+    }.start();
+    }else{
+        player.close();
+        a=0;
+        putar();
+    }
+}
+
+File sa;
+void next(){
+    if(a==0){
+        try{
+            int s1 = jPlaylist.getSelectedIndex() +1;
+            sa = (File) this.pl.ls.get(s1);
+            FileInputStream fis = new FileInputStream(sa);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            player = new javazoom.jl.player.Player(bis);
+            a =1;
+            jPlaylist.setSelectedIndex(s1);
+        }catch(Exception e){
+            System.out.println("Problem playing file");
+            System.out.println(e);
+        }
+        
+        new Thread(){
+            @Override
+            public void run(){
+                try{
+                    player.play();
+                
+            }catch (Exception e){
+            }
+        }
+    }.start();
+    }else{
+        player.close();
+        a=0;
+        next();
+    }
+
+}
+
+void previous(){
+    if(a==0){
+        try{
+            int s1 = jPlaylist.getSelectedIndex() -1;
+            sa = (File) this.pl.ls.get(s1);
+            FileInputStream fis = new FileInputStream(sa);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            player = new javazoom.jl.player.Player(bis);
+            a =1;
+            jPlaylist.setSelectedIndex(s1);
+        }catch(Exception e){
+            System.out.println("Problem playing file");
+            System.out.println(e);
+        }
+        
+        new Thread(){
+            @Override
+            public void run(){
+                try{
+                    player.play();
+                
+            }catch (Exception e){
+            }
+        }
+    }.start();
+    }else{
+        player.close();
+        a=0;
+        previous();
+    }
+}
+    
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -56,6 +224,17 @@ public class Homepage extends javax.swing.JFrame {
         home_var = new javax.swing.JPanel();
         search_var = new javax.swing.JPanel();
         playlist_var = new javax.swing.JPanel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
+        jButton9 = new javax.swing.JButton();
+        jButton10 = new javax.swing.JButton();
+        jButton11 = new javax.swing.JButton();
+        jButton12 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jPlaylist = new javax.swing.JList<>();
         downloads_var = new javax.swing.JPanel();
         create_var = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
@@ -246,15 +425,127 @@ public class Homepage extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("tab2", search_var);
 
+        jButton1.setText("add");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setText("Move up");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("remove");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Move down");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setText("| |");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        jButton9.setText("|<");
+        jButton9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton9ActionPerformed(evt);
+            }
+        });
+
+        jButton10.setText("play");
+        jButton10.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton10ActionPerformed(evt);
+            }
+        });
+
+        jButton11.setText(">|");
+        jButton11.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton11ActionPerformed(evt);
+            }
+        });
+
+        jButton12.setText("[_]");
+        jButton12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton12ActionPerformed(evt);
+            }
+        });
+
+        jScrollPane2.setViewportView(jPlaylist);
+
         javax.swing.GroupLayout playlist_varLayout = new javax.swing.GroupLayout(playlist_var);
         playlist_var.setLayout(playlist_varLayout);
         playlist_varLayout.setHorizontalGroup(
             playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 969, Short.MAX_VALUE)
+            .addGroup(playlist_varLayout.createSequentialGroup()
+                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(playlist_varLayout.createSequentialGroup()
+                        .addGap(160, 160, 160)
+                        .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(playlist_varLayout.createSequentialGroup()
+                        .addGap(102, 102, 102)
+                        .addComponent(jButton8, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(49, 49, 49)
+                        .addComponent(jButton9, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(50, 50, 50)
+                        .addComponent(jButton10, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(46, 46, 46)
+                        .addComponent(jButton11, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(36, 36, 36)
+                        .addComponent(jButton12, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(playlist_varLayout.createSequentialGroup()
+                        .addGap(123, 123, 123)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 455, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE))))
+                .addContainerGap(289, Short.MAX_VALUE))
         );
         playlist_varLayout.setVerticalGroup(
             playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGroup(playlist_varLayout.createSequentialGroup()
+                .addGap(116, 116, 116)
+                .addComponent(jButton1)
+                .addGap(28, 28, 28)
+                .addComponent(jButton4)
+                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(playlist_varLayout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playlist_varLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton5)
+                        .addGap(155, 155, 155)))
+                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton8)
+                    .addComponent(jButton9)
+                    .addComponent(jButton10)
+                    .addComponent(jButton11)
+                    .addComponent(jButton12))
+                .addGap(47, 47, 47))
         );
 
         jTabbedPane1.addTab("tab3", playlist_var);
@@ -329,9 +620,8 @@ public class Homepage extends javax.swing.JFrame {
                             .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 64, Short.MAX_VALUE)
-                                    .addComponent(jLabel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                         .addGap(18, 18, 18)
                         .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(create_varLayout.createSequentialGroup()
@@ -463,6 +753,7 @@ public class Homepage extends javax.swing.JFrame {
 
     private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
          new Intpage().setVisible(true);
+         player.close();
        this.setVisible(false);
     }//GEN-LAST:event_jButton6ActionPerformed
 
@@ -536,6 +827,42 @@ public class Homepage extends javax.swing.JFrame {
         genre_var.setText("");
     }//GEN-LAST:event_reset_varActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        add();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        up();        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+      remove();  // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        down();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton9ActionPerformed
+       previous(); // TODO add your handling code here:
+    }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void jButton10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton10ActionPerformed
+        putar();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton10ActionPerformed
+
+    private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
+        next();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton11ActionPerformed
+
+    private void jButton12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton12ActionPerformed
+        player.close();// TODO add your handling code here:
+    }//GEN-LAST:event_jButton12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -582,7 +909,16 @@ public class Homepage extends javax.swing.JFrame {
     private javax.swing.JTextField genre_var;
     private javax.swing.JButton home_btn_var;
     private javax.swing.JPanel home_var;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton10;
+    private javax.swing.JButton jButton11;
+    private javax.swing.JButton jButton12;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton8;
+    private javax.swing.JButton jButton9;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -593,7 +929,9 @@ public class Homepage extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JList<String> jPlaylist;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton playlist_btn_var;
     private javax.swing.JPanel playlist_var;
