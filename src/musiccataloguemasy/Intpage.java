@@ -16,6 +16,7 @@ public class Intpage extends javax.swing.JFrame {
      */
     public Intpage() {
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
