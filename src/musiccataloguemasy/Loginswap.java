@@ -12,6 +12,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern;
 
 /**
  *
@@ -26,7 +28,30 @@ public class Loginswap extends javax.swing.JFrame {
     public Loginswap() {
         initComponents();
         myc = new MySQLConnect();
+        setLocationRelativeTo(null);
     }
+    
+        boolean isValid(String email) { 
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                            "[a-zA-Z0-9_+&*-]+)*@" + 
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                            "A-Z]{2,7}$"; 
+                              
+        Pattern pat = Pattern.compile(emailRegex); 
+        if (email == null) 
+            return false; 
+        return pat.matcher(email).matches(); 
+    } 
+        boolean passValid(String password){
+            String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+            Pattern  PASSWORD_PATTERN =Pattern.compile(PASSWORD_REGEX);
+            if (PASSWORD_PATTERN.matcher(password).matches()){
+                return true;
+            }else{
+                return false;
+            }
+       }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -255,13 +280,14 @@ public class Loginswap extends javax.swing.JFrame {
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(Email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
-                        .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(43, 43, 43)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -341,10 +367,23 @@ public class Loginswap extends javax.swing.JFrame {
             gender.trim().equals("")||
             user_id.trim().equals("")) {
             JOptionPane.showMessageDialog(null,"All fields are compulsary.. please check missing fields!!");
+            if(isValid(email)==false){
+               JOptionPane.showMessageDialog(null,"please enter valid email");
+
+            }
+           
         }else if(password.equals(confirm_password)){
             if(dob==null){
                 JOptionPane.showMessageDialog(null, "Please enter date of birth");
                 DOB_dc.grabFocus();
+            }else{
+                 if(passValid(password)==false){
+                JOptionPane.showMessageDialog(null, "Invalid Password :\n" +
+                                                                           "- minimum 8 or more characters\n" +
+                                                                           "- one or more uppercase characters\n" +
+                                                                           "- one or more lowercase characters\n" +
+                                                                           "- one or more digits\n" +
+                                                                           "- one or more special characters (like $, @, or !)");
             }else{
               ///main code
               //chicking email reg
@@ -392,7 +431,7 @@ public class Loginswap extends javax.swing.JFrame {
                 } catch (Exception e) {
                         JOptionPane.showMessageDialog(null,"User not inserted/saved exception : "+e);
                 }
-                
+            }
                 
                 
                 

@@ -62,7 +62,7 @@ public class playlist {
         } else if (Valid == javax.swing.JFileChooser.APPROVE_OPTION){
             File pls = fc.getSelectedFile();
             try{
-                fos = new FileOutputStream(pls + ".tgr");
+                fos = new FileOutputStream(pls + ".mcms");
                 oos = new ObjectOutputStream(fos);
                 for (int i=0; i<ls.size() ; i++){
                     File tmp = (File) ls.get(i);
