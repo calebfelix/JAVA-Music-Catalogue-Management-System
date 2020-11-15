@@ -242,7 +242,7 @@ public class Signup extends javax.swing.JFrame {
                     .addComponent(u_password_var, javax.swing.GroupLayout.DEFAULT_SIZE, 277, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                .addContainerGap(128, Short.MAX_VALUE)
+                .addContainerGap(134, Short.MAX_VALUE)
                 .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -254,7 +254,7 @@ public class Signup extends javax.swing.JFrame {
         p1Layout.setVerticalGroup(
             p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(p1Layout.createSequentialGroup()
-                .addGap(55, 55, 55)
+                .addGap(68, 68, 68)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 105, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(72, 72, 72)
                 .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -264,7 +264,7 @@ public class Signup extends javax.swing.JFrame {
                 .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23))
         );
@@ -530,9 +530,11 @@ public class Signup extends javax.swing.JFrame {
                     pst.setString(1, username);
                     pst.setString(2, pass);
                     ResultSet rs = pst.executeQuery();
+                    System.out.println(rs);
                     if(rs.next()){
                             JOptionPane.showMessageDialog(null, "Login Successful");
-                             new Homepage().setVisible(true);
+                            String UNAME = rs.getString("user_id");
+                             new Homepage(UNAME).setVisible(true);
                              this.setVisible(false);
                     }else{
                             JOptionPane.showMessageDialog(null, "Incorrect username/Password!!!");
@@ -570,7 +572,8 @@ public class Signup extends javax.swing.JFrame {
                     ResultSet rs = pst.executeQuery();
                     if(rs.next()){
                             JOptionPane.showMessageDialog(null, "Login Successful");
-                             new Homepage().setVisible(true);
+                            String UNAME = rs.getString("user_id");
+                             new Homepage(UNAME).setVisible(true);
                              this.setVisible(false);
                     }else{
                             JOptionPane.showMessageDialog(null, "Incorrect email/Password!!!");
@@ -597,7 +600,8 @@ public class Signup extends javax.swing.JFrame {
                     ResultSet rs = pst.executeQuery();
                     if(rs.next()){
                             JOptionPane.showMessageDialog(null, "Login Successful");
-                             new Homepage().setVisible(true);
+                            String UNAME = rs.getString("user_id");
+                             new Homepage(UNAME).setVisible(true);
                              this.setVisible(false);
                     }else{
                             JOptionPane.showMessageDialog(null, "Incorrect phone no/Password!!!");

@@ -51,6 +51,15 @@ public class Loginswap extends javax.swing.JFrame {
                 return false;
             }
        }
+        
+        boolean phValid(String phNo){
+            String regex = "(0/91)?[7-9][0-9]{9}";
+            if(phNo.matches(regex)){
+                return true;
+            }else{
+                return false;
+            }
+        }
     
 
     /**
@@ -83,8 +92,8 @@ public class Loginswap extends javax.swing.JFrame {
         Country_var = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         submit_signup_btn = new javax.swing.JButton();
+        Confirmpassword_var = new javax.swing.JPasswordField();
         password_var = new javax.swing.JPasswordField();
-        ConfirmPassword_var = new javax.swing.JPasswordField();
         Gender_cb = new javax.swing.JComboBox<>();
         DOB_dc = new com.toedter.calendar.JDateChooser();
 
@@ -113,7 +122,7 @@ public class Loginswap extends javax.swing.JFrame {
         jLabel6.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
         jLabel6.setText("Gender:");
 
-        FirstName_var.setBackground(new java.awt.Color(204, 204, 204));
+        FirstName_var.setBackground(new java.awt.Color(255, 255, 255));
         FirstName_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         FirstName_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -121,7 +130,7 @@ public class Loginswap extends javax.swing.JFrame {
             }
         });
 
-        Lastname_var.setBackground(new java.awt.Color(204, 204, 204));
+        Lastname_var.setBackground(new java.awt.Color(255, 255, 255));
         Lastname_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
@@ -139,21 +148,22 @@ public class Loginswap extends javax.swing.JFrame {
         jLabel11.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
         jLabel11.setText("Country:");
 
-        User_id_var.setBackground(new java.awt.Color(204, 204, 204));
+        User_id_var.setBackground(new java.awt.Color(255, 255, 255));
         User_id_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        Email_var.setBackground(new java.awt.Color(204, 204, 204));
+        Email_var.setBackground(new java.awt.Color(255, 255, 255));
         Email_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        PhoneNo_var.setBackground(new java.awt.Color(204, 204, 204));
+        PhoneNo_var.setBackground(new java.awt.Color(255, 255, 255));
         PhoneNo_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        PhoneNo_var.setForeground(new java.awt.Color(0, 0, 0));
         PhoneNo_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PhoneNo_varActionPerformed(evt);
             }
         });
 
-        Country_var.setBackground(new java.awt.Color(204, 204, 204));
+        Country_var.setBackground(new java.awt.Color(255, 255, 255));
         Country_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         Country_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,17 +191,23 @@ public class Loginswap extends javax.swing.JFrame {
             }
         });
 
-        password_var.setBackground(new java.awt.Color(204, 204, 204));
+        Confirmpassword_var.setBackground(new java.awt.Color(255, 255, 255));
+        Confirmpassword_var.setForeground(new java.awt.Color(0, 0, 0));
+        Confirmpassword_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Confirmpassword_varActionPerformed(evt);
+            }
+        });
+
+        password_var.setBackground(new java.awt.Color(255, 255, 255));
         password_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 password_varActionPerformed(evt);
             }
         });
 
-        ConfirmPassword_var.setBackground(new java.awt.Color(204, 204, 204));
-
         Gender_cb.setBackground(new java.awt.Color(204, 204, 204));
-        Gender_cb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Male", "Female", "Others" }));
+        Gender_cb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select...", "Male", "Female", "Others" }));
 
         DOB_dc.setBackground(new java.awt.Color(204, 204, 255));
         DOB_dc.setDateFormatString("dd-MM-yyyy");
@@ -208,101 +224,114 @@ public class Loginswap extends javax.swing.JFrame {
                         .addGap(237, 237, 237)
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(FirstName_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(User_id_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Lastname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(Confirmpassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(717, 717, 717)
+                        .addComponent(submit_signup_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGap(71, 71, 71)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, 163, Short.MAX_VALUE)
-                                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addGap(18, 18, 18))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(jLabel5)
-                                .addGap(37, 37, 37)))
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(password_var)
-                                    .addComponent(Gender_cb, 0, 201, Short.MAX_VALUE))
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(68, 68, 68)
-                                        .addComponent(jLabel11, javax.swing.GroupLayout.DEFAULT_SIZE, 82, Short.MAX_VALUE)
-                                        .addGap(11, 11, 11))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(Lastname_var, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(FirstName_var)
-                                    .addComponent(DOB_dc, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
+                                .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(68, 68, 68)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel7))))))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(User_id_var, javax.swing.GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE)
-                    .addComponent(Email_var)
-                    .addComponent(PhoneNo_var)
-                    .addComponent(Country_var)
-                    .addComponent(ConfirmPassword_var))
-                .addContainerGap(42, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(submit_signup_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(48, 48, 48))
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Country_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Gender_cb, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(36, 36, 36)
+                        .addGap(14, 14, 14)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(40, 40, 40)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(FirstName_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(User_id_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Lastname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(FirstName_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(User_id_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(Lastname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(Email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(13, 13, 13)
-                        .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(43, 43, 43)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Gender_cb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Confirmpassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ConfirmPassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(31, 31, 31)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Country_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Gender_cb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(129, 129, 129)
+                    .addComponent(Country_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(135, 135, 135)
                 .addComponent(submit_signup_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(40, 40, 40))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -312,14 +341,14 @@ public class Loginswap extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(78, Short.MAX_VALUE))
+                .addContainerGap(15, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(38, 38, 38)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -351,8 +380,8 @@ public class Loginswap extends javax.swing.JFrame {
         String email = Email_var.getText();
         String country = Country_var.getText();
         String phone_no = PhoneNo_var.getText();
-        String password = ConfirmPassword_var.getText();
-        String confirm_password = password_var.getText();
+        String password = password_var.getText();
+        String confirm_password = Confirmpassword_var.getText();
         String gender = Gender_cb.getItemAt(Gender_cb.getSelectedIndex());
         Date dob = DOB_dc.getDate();
         String user_id = User_id_var.getText();
@@ -364,9 +393,9 @@ public class Loginswap extends javax.swing.JFrame {
             password.trim().equals("")||
             confirm_password.trim().equals("")||
             phone_no.trim().equals("")||
-            gender.trim().equals("")||
+            gender.trim().equals("Select...")||
             user_id.trim().equals("")) {
-            JOptionPane.showMessageDialog(null,"All fields are compulsary.. please check missing fields!!");
+            JOptionPane.showMessageDialog(null,"All fields are compulsary...please check missing fields!!");
             if(isValid(email)==false){
                JOptionPane.showMessageDialog(null,"please enter valid email");
 
@@ -384,6 +413,8 @@ public class Loginswap extends javax.swing.JFrame {
                                                                            "- one or more lowercase characters\n" +
                                                                            "- one or more digits\n" +
                                                                            "- one or more special characters (like $, @, or !)");
+            }else if(phValid(phone_no)==false){
+                JOptionPane.showMessageDialog(null,"invalid phone Number");
             }else{
               ///main code
               //chicking email reg
@@ -393,8 +424,9 @@ public class Loginswap extends javax.swing.JFrame {
                         PreparedStatement pat = con.prepareStatement(checkemail);
                         pat.setString(1, email);
                         ResultSet rs=pat.executeQuery();
+                        
                             if(rs.next()){
-                                JOptionPane.showMessageDialog(null, "This" +email+ " Email is already taken!!");
+                                JOptionPane.showMessageDialog(null, "This ("+email+") Email is already taken!!");
                                 Email_var.setText("");
                                 Email_var.grabFocus();
                             }else{
@@ -433,13 +465,13 @@ public class Loginswap extends javax.swing.JFrame {
                 }
             }
                 
-                
+               
                 
             }
         }else{
             JOptionPane.showMessageDialog(null, "Password and Confirm Password must be same!!");
-            ConfirmPassword_var.setText("");
             password_var.setText("");
+            Confirmpassword_var.setText("");
         }
     }//GEN-LAST:event_submit_signup_btnActionPerformed
 
@@ -450,6 +482,10 @@ public class Loginswap extends javax.swing.JFrame {
     private void PhoneNo_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNo_varActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_PhoneNo_varActionPerformed
+
+    private void Confirmpassword_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirmpassword_varActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Confirmpassword_varActionPerformed
 
     private void password_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password_varActionPerformed
         // TODO add your handling code here:
@@ -489,7 +525,7 @@ public class Loginswap extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JPasswordField ConfirmPassword_var;
+    private javax.swing.JPasswordField Confirmpassword_var;
     private javax.swing.JTextField Country_var;
     private com.toedter.calendar.JDateChooser DOB_dc;
     private javax.swing.JTextField Email_var;

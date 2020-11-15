@@ -20,7 +20,7 @@ public class MySQLConnect {
         try{
         Class.forName("com.mysql.jdbc.Driver");
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/miniproject_test","root","admin");
-        JOptionPane.showMessageDialog(null, "MySQL connected");
+//        JOptionPane.showMessageDialog(null, "MySQL connected");
          return conn;
         }catch(Exception e){
            

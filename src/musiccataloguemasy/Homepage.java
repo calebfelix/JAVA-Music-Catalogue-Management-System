@@ -6,6 +6,7 @@
 package musiccataloguemasy;
 
 
+import AppPackage.AnimationClass;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -15,10 +16,12 @@ import java.io.InputStream;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javazoom.jl.player.Player;
 
@@ -29,6 +32,8 @@ import javazoom.jl.player.Player;
 public class Homepage extends javax.swing.JFrame {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     playlist pl = new playlist();
+    AnimationClass ac = new AnimationClass();
+ 
     
 private Player player;
 private FileInputStream FIS;
@@ -51,7 +56,8 @@ private boolean valid;
      */
     MySQLConnect myc;
   
-    public Homepage() {
+    public Homepage(String UNAME) {
+    
     player = null;
     FIS = null;
     valid = false;
@@ -62,16 +68,154 @@ private boolean valid;
     canResume = false;
     ispressed=false;
         initComponents();
+        HOME_UNAME.setText(UNAME);
+        updateList();
+
+        slideshow();
+//        home_var.setEnabled(false);
+//        jPanel4.setEnabled(false);
         myc = new MySQLConnect();
         setVisible(true);
         setLocationRelativeTo(null);
         
+        
     }
     
     ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    
+public void slideshow(){
+//        int a = jLabel1.getWidth();
+//        System.out.println(a);
+        int timestamp = 1000;
+        new Thread()  {
+            @Override
+            public void run() {
+                int nb=0;
+                try{
+                    
+                     
+                    while (true) {                        
+                        switch(nb){
+/////////////////////////////////////////////////////////////////////////////////Left move///////////////////////////////////////////////
+                            case 0:
+                                
+                                ImageIcon II = new ImageIcon(getClass().getResource("/images/smoke.jpg.png"));
+                                JL1.setIcon(II);
+                                
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXLeft(0, -500, 12, 10, JL1);
+                                ac.jLabelXLeft(500, 0, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                             case 1:
+                                 
+                                 ImageIcon II2 = new ImageIcon(getClass().getResource("/images/Alan Walker.jpg.png"));
+                                JL2.setIcon(II2);
+                                 
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXRight(-500, 0, 12, 10, JL1);
+                                ac.jLabelXRight(0, 500, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;        
+                                
+                                case 2:
+                                    
+                                ImageIcon II3 = new ImageIcon(getClass().getResource("/images/Billie Eilish.jpg.png"));
+                                JL1.setIcon(II3);
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXLeft(0, -500, 12, 10, JL1);
+                                ac.jLabelXLeft(500, 0, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                             case 3:
+                                 ImageIcon II4  = new ImageIcon(getClass().getResource("/images/Ed Sheeran.jpg.png"));
+                                JL2.setIcon(II4);
+                                 
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXRight(-500, 0, 12, 10, JL1);
+                                ac.jLabelXRight(0, 500, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                                case 4:
+                                    
+                                ImageIcon II5 = new ImageIcon(getClass().getResource("/images/Khalid.jpg.png"));
+                                JL1.setIcon(II5); 
+                                    
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXLeft(0, -500, 12, 10, JL1);
+                                ac.jLabelXLeft(500, 0, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                             case 5:
+                                 
+                                 ImageIcon II6  = new ImageIcon(getClass().getResource("/images/Taylor Swift.jpg.png"));
+                                JL2.setIcon(II6);
+                                 
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXRight(-500, 0, 12, 10, JL1);
+                                ac.jLabelXRight(0, 500, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                                case 6:
+                                    
+                                ImageIcon II7 = new ImageIcon(getClass().getResource("/images/Travis Scott.jpg.png"));
+                                JL1.setIcon(II7); 
+                                    
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXLeft(0, -500, 12, 10, JL1);
+                                ac.jLabelXLeft(500, 0, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                             case 7:
+                                 
+                                 ImageIcon II8  = new ImageIcon(getClass().getResource("/images/Post Malone.jpg.png"));
+                                JL2.setIcon(II8);
+                                 
+                                 Thread.sleep(timestamp);
+                                ac.jLabelXRight(-500, 0, 12, 10, JL1);
+                                ac.jLabelXRight(0, 500, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb=0;
+                                break;
+                                
+                                
+                        }
+                    }
+                    
+                }catch(Exception ex){
+                    
+                }
+               
+            }
+        }.start();
+    }    
+    
     
 void updateList() {
-        updateList = pl.getListSong();
+        updateList = pl.getListSong(HOME_UNAME.getText());
+        System.out.println("helllllllllllllllllllllllllllllllllllllllll"+updateList);
         DefaultListModel model =  new DefaultListModel();
         for (int i = 0; i < updateList.size(); i++) {
             int j = i + 1;
@@ -79,6 +223,14 @@ void updateList() {
         }
         jPlaylist.setModel(model);
    }    
+
+void reset(){
+    trackname_var.setText("");
+        artist_var.setText("");
+        description_var.setText("");
+        genre_var.setText("");
+        path_var.setText("");
+}
 
 
 void add(){
@@ -182,6 +334,7 @@ public boolean putar(int pos){
                         
                     }catch(Exception e){
                         JOptionPane.showMessageDialog(null, "Error playing mp3 file");
+                        
                         valid = false;
                     }
                 }
@@ -189,6 +342,7 @@ public boolean putar(int pos){
     ).start();
     }catch(Exception e){
         JOptionPane.showMessageDialog(null, "Select mp3 file");
+        playlist_btn_var.doClick();
         valid = false;
         
     }
@@ -292,7 +446,7 @@ void previous(){
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
+        side_panel = new javax.swing.JPanel();
         home_btn_var = new javax.swing.JButton();
         search_btn_var = new javax.swing.JButton();
         playlist_btn_var = new javax.swing.JButton();
@@ -300,17 +454,17 @@ void previous(){
         create_btn_var = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         home_var = new javax.swing.JPanel();
+        jPanel4 = new javax.swing.JPanel();
+        HOME_UNAME = new javax.swing.JLabel();
+        welcome_var = new javax.swing.JLabel();
+        JL2 = new javax.swing.JLabel();
+        JL1 = new javax.swing.JLabel();
         search_var = new javax.swing.JPanel();
         playlist_var = new javax.swing.JPanel();
         add_var = new javax.swing.JButton();
         up_var = new javax.swing.JButton();
         remove_var = new javax.swing.JButton();
         down_var = new javax.swing.JButton();
-        pause_var = new javax.swing.JButton();
-        previous_var = new javax.swing.JButton();
-        play_var = new javax.swing.JButton();
-        next_var = new javax.swing.JButton();
-        stop_var = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jPlaylist = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
@@ -335,13 +489,19 @@ void previous(){
         coverpanel = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         logout_var = new javax.swing.JButton();
+        Player_controls = new javax.swing.JPanel();
+        next_var = new javax.swing.JButton();
+        stop_var = new javax.swing.JButton();
+        play_var = new javax.swing.JButton();
+        pause_var = new javax.swing.JButton();
+        previous_var = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(204, 204, 204));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        side_panel.setBackground(new java.awt.Color(204, 204, 255));
 
         home_btn_var.setBackground(new java.awt.Color(204, 204, 255));
         home_btn_var.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
@@ -448,13 +608,13 @@ void previous(){
             }
         });
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout side_panelLayout = new javax.swing.GroupLayout(side_panel);
+        side_panel.setLayout(side_panelLayout);
+        side_panelLayout.setHorizontalGroup(
+            side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(side_panelLayout.createSequentialGroup()
                 .addGap(29, 29, 29)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(create_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(downloads_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
                     .addComponent(home_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -462,10 +622,10 @@ void previous(){
                     .addComponent(playlist_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(26, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
+        side_panelLayout.setVerticalGroup(
+            side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, side_panelLayout.createSequentialGroup()
+                .addContainerGap(105, Short.MAX_VALUE)
                 .addComponent(home_btn_var)
                 .addGap(33, 33, 33)
                 .addComponent(search_btn_var)
@@ -475,21 +635,49 @@ void previous(){
                 .addComponent(downloads_btn_var)
                 .addGap(33, 33, 33)
                 .addComponent(create_btn_var)
-                .addContainerGap(53, Short.MAX_VALUE))
+                .addGap(98, 98, 98))
         );
 
-        jPanel1.add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 205, -1, -1));
+        jPanel1.add(side_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, -1, 510));
 
-        javax.swing.GroupLayout home_varLayout = new javax.swing.GroupLayout(home_var);
-        home_var.setLayout(home_varLayout);
-        home_varLayout.setHorizontalGroup(
-            home_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 928, Short.MAX_VALUE)
+        home_var.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        HOME_UNAME.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        HOME_UNAME.setText("NONE");
+
+        welcome_var.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        welcome_var.setText("WELCOME  !!!");
+
+        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
+        jPanel4.setLayout(jPanel4Layout);
+        jPanel4Layout.setHorizontalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(115, 115, 115)
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(welcome_var)
+                    .addComponent(HOME_UNAME))
+                .addContainerGap(118, Short.MAX_VALUE))
         );
-        home_varLayout.setVerticalGroup(
-            home_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+        jPanel4Layout.setVerticalGroup(
+            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel4Layout.createSequentialGroup()
+                .addGap(61, 61, 61)
+                .addComponent(welcome_var)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(HOME_UNAME)
+                .addContainerGap(365, Short.MAX_VALUE))
         );
+
+        home_var.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 430, 510));
+
+        JL2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                JL2MouseClicked(evt);
+            }
+        });
+        home_var.add(JL2, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 500, 500));
+        home_var.add(JL1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 500, 500));
 
         jTabbedPane1.addTab("tab1", home_var);
 
@@ -501,7 +689,7 @@ void previous(){
         );
         search_varLayout.setVerticalGroup(
             search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGap(0, 504, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab2", search_var);
@@ -534,46 +722,7 @@ void previous(){
             }
         });
 
-        pause_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        pause_var.setText("| |");
-        pause_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                pause_varActionPerformed(evt);
-            }
-        });
-
-        previous_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        previous_var.setText("◄◄");
-        previous_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                previous_varActionPerformed(evt);
-            }
-        });
-
-        play_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        play_var.setText(" ▶");
-        play_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                play_varActionPerformed(evt);
-            }
-        });
-
-        next_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
-        next_var.setText("►►");
-        next_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                next_varActionPerformed(evt);
-            }
-        });
-
-        stop_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
-        stop_var.setText("■");
-        stop_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                stop_varActionPerformed(evt);
-            }
-        });
-
+        jPlaylist.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jScrollPane2.setViewportView(jPlaylist);
 
         jLabel9.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
@@ -583,67 +732,43 @@ void previous(){
         playlist_var.setLayout(playlist_varLayout);
         playlist_varLayout.setHorizontalGroup(
             playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, playlist_varLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(123, 123, 123))
             .addGroup(playlist_varLayout.createSequentialGroup()
                 .addGap(107, 107, 107)
-                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(playlist_varLayout.createSequentialGroup()
-                        .addComponent(add_var, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(remove_var, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(playlist_varLayout.createSequentialGroup()
-                        .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(playlist_varLayout.createSequentialGroup()
-                                .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)
-                                .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(39, 39, 39)
-                                .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(36, 36, 36)
-                                .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jScrollPane2))
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(up_var, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(down_var, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGap(246, 246, 246))
+                            .addComponent(down_var, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(246, 246, 246))
+                    .addGroup(playlist_varLayout.createSequentialGroup()
+                        .addComponent(add_var, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(40, 40, 40)
+                        .addComponent(remove_var, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(54, 54, 54))))
         );
         playlist_varLayout.setVerticalGroup(
             playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(playlist_varLayout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9)
+                    .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(add_var)
+                        .addComponent(remove_var)))
                 .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(playlist_varLayout.createSequentialGroup()
-                        .addGap(27, 27, 27)
-                        .addComponent(jLabel9)
-                        .addGap(107, 107, 107)
+                        .addGap(47, 47, 47)
                         .addComponent(up_var)
                         .addGap(74, 74, 74)
                         .addComponent(down_var))
                     .addGroup(playlist_varLayout.createSequentialGroup()
-                        .addGap(100, 100, 100)
-                        .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(add_var)
-                            .addComponent(remove_var))
-                        .addGap(31, 31, 31)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(playlist_varLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(playlist_varLayout.createSequentialGroup()
-                        .addGap(18, 18, 18)
-                        .addGroup(playlist_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap())
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 263, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(139, 139, 139))
         );
 
         jTabbedPane1.addTab("tab3", playlist_var);
@@ -656,7 +781,7 @@ void previous(){
         );
         downloads_varLayout.setVerticalGroup(
             downloads_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 574, Short.MAX_VALUE)
+            .addGap(0, 504, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("tab4", downloads_var);
@@ -667,26 +792,26 @@ void previous(){
         jLabel3.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
         jLabel3.setText("Add Music:");
 
-        jLabel4.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
-        jLabel4.setText("Track Name:");
+        jLabel4.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel4.setText("Track Name :");
 
-        jLabel5.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel5.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
         jLabel5.setText("Artist :");
 
-        jLabel6.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel6.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
         jLabel6.setText("Genre :");
 
-        jLabel7.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
         jLabel7.setText("Description :");
 
-        jLabel8.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
-        jLabel8.setText("Track file:");
+        jLabel8.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel8.setText("Track file :");
 
         description_var.setColumns(20);
         description_var.setRows(5);
         jScrollPane1.setViewportView(description_var);
 
-        submitTrack_var.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        submitTrack_var.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
         submitTrack_var.setText("Submit Track");
         submitTrack_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         submitTrack_var.addActionListener(new java.awt.event.ActionListener() {
@@ -695,7 +820,7 @@ void previous(){
             }
         });
 
-        reset_var.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        reset_var.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
         reset_var.setText("Reset");
         reset_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
         reset_var.addActionListener(new java.awt.event.ActionListener() {
@@ -704,7 +829,7 @@ void previous(){
             }
         });
 
-        filechose_var.setFont(new java.awt.Font("Papyrus", 1, 12)); // NOI18N
+        filechose_var.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
         filechose_var.setText("select file");
         filechose_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -725,90 +850,83 @@ void previous(){
             .addGroup(create_varLayout.createSequentialGroup()
                 .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(create_varLayout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(422, 422, 422)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 176, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(57, 57, 57)
+                        .addComponent(jLabel3))
                     .addGroup(create_varLayout.createSequentialGroup()
-                        .addGap(181, 181, 181)
-                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 6, Short.MAX_VALUE))
-            .addGroup(create_varLayout.createSequentialGroup()
-                .addGap(181, 181, 181)
-                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(116, 116, 116)
                         .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8))
-                        .addGap(18, 18, 18)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(create_varLayout.createSequentialGroup()
-                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(create_varLayout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
-                                .addComponent(trackname_var))
+                                .addGap(38, 38, 38)
+                                .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(create_varLayout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(25, 25, 25)
-                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(reset_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(submitTrack_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(filechose_var, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                                .addGap(38, 38, 38)
+                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(create_varLayout.createSequentialGroup()
+                                .addGap(36, 36, 36)
+                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(create_varLayout.createSequentialGroup()
+                                        .addComponent(trackname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(31, 31, 31)
+                                        .addComponent(filechose_var, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(create_varLayout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                .addGap(85, 85, 85)
+                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel2)
+                    .addComponent(submitTrack_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(reset_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(55, Short.MAX_VALUE))
         );
         create_varLayout.setVerticalGroup(
             create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(create_varLayout.createSequentialGroup()
-                .addGap(28, 28, 28)
                 .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel2))
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(5, 5, 5)
-                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabel2))
-                .addGap(5, 5, 5)
-                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(create_varLayout.createSequentialGroup()
-                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(trackname_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(trackname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(43, 43, 43)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(44, 44, 44)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
+                        .addGap(40, 40, 40)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(filechose_var)
+                            .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8))
+                        .addGap(55, 55, 55)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jLabel7)
                             .addGroup(create_varLayout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addComponent(jLabel5))
-                            .addGroup(create_varLayout.createSequentialGroup()
-                                .addGap(43, 43, 43)
-                                .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(create_varLayout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addComponent(reset_var))
-                    .addComponent(submitTrack_var))
-                .addGap(42, 42, 42)
-                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(create_varLayout.createSequentialGroup()
-                        .addGap(2, 2, 2)
-                        .addComponent(jLabel6))
-                    .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(49, 49, 49)
-                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8)
-                    .addComponent(filechose_var)
-                    .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(55, 55, 55)
-                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel7)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(submitTrack_var)
+                                .addGap(25, 25, 25)
+                                .addComponent(reset_var))
+                            .addComponent(jScrollPane1))))
+                .addGap(67, 67, 67))
         );
 
         jTabbedPane1.addTab("tab5", create_var);
 
-        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 930, 600));
+        jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 930, 530));
 
         coverpanel.setBackground(new java.awt.Color(204, 204, 204));
 
@@ -831,26 +949,99 @@ void previous(){
         coverpanelLayout.setHorizontalGroup(
             coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coverpanelLayout.createSequentialGroup()
-                .addContainerGap(205, Short.MAX_VALUE)
+                .addContainerGap(224, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(121, 121, 121)
+                .addGap(102, 102, 102)
                 .addComponent(logout_var, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24))
         );
         coverpanelLayout.setVerticalGroup(
             coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(coverpanelLayout.createSequentialGroup()
-                .addGroup(coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(coverpanelLayout.createSequentialGroup()
-                        .addGap(20, 20, 20)
-                        .addComponent(logout_var))
-                    .addGroup(coverpanelLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(20, 20, 20)
+                .addComponent(logout_var)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coverpanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
-        jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, -1));
+        jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, 160));
+
+        Player_controls.setBackground(new java.awt.Color(204, 204, 204));
+
+        next_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        next_var.setText("►►");
+        next_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                next_varActionPerformed(evt);
+            }
+        });
+
+        stop_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        stop_var.setText("■");
+        stop_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stop_varActionPerformed(evt);
+            }
+        });
+
+        play_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        play_var.setText(" ▶");
+        play_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                play_varActionPerformed(evt);
+            }
+        });
+
+        pause_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        pause_var.setText("| |");
+        pause_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pause_varActionPerformed(evt);
+            }
+        });
+
+        previous_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        previous_var.setText("◄◄");
+        previous_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previous_varActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout Player_controlsLayout = new javax.swing.GroupLayout(Player_controls);
+        Player_controls.setLayout(Player_controlsLayout);
+        Player_controlsLayout.setHorizontalGroup(
+            Player_controlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Player_controlsLayout.createSequentialGroup()
+                .addContainerGap(350, Short.MAX_VALUE)
+                .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(39, 39, 39)
+                .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(36, 36, 36)
+                .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(320, 320, 320))
+        );
+        Player_controlsLayout.setVerticalGroup(
+            Player_controlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Player_controlsLayout.createSequentialGroup()
+                .addContainerGap(14, Short.MAX_VALUE)
+                .addGroup(Player_controlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+
+        jPanel1.add(Player_controls, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, 1120, 80));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -860,7 +1051,7 @@ void previous(){
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 730, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -881,7 +1072,11 @@ void previous(){
     private void logout_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout_varActionPerformed
          new Intpage().setVisible(true);
          player.close();
+         
+         
+
        this.setVisible(false);
+       
     }//GEN-LAST:event_logout_varActionPerformed
 
     private void home_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_home_btn_varActionPerformed
@@ -889,6 +1084,7 @@ void previous(){
     }//GEN-LAST:event_home_btn_varActionPerformed
 
     private void playlist_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playlist_btn_varActionPerformed
+//        updateList();
         jTabbedPane1.setSelectedIndex(2);
     }//GEN-LAST:event_playlist_btn_varActionPerformed
 
@@ -906,6 +1102,15 @@ void previous(){
 
     private void submitTrack_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitTrack_varActionPerformed
         // TODO add your handling code here:
+       
+        
+        int dia = JOptionPane.showConfirmDialog(null,"Sure? You want to Upload This song?", "Track upload",
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.QUESTION_MESSAGE);
+     
+
+        if(dia==JOptionPane.YES_OPTION ){
+            
         String Track_name = trackname_var.getText();
         String Artist = artist_var.getText();
         String Genre = genre_var.getText();
@@ -925,13 +1130,15 @@ void previous(){
                 try{
                     Connection con = myc.getConn();
                     PreparedStatement pst ;
-                    String saveQ = "insert into tracks(track_name, artist, genre,description,audio) values(?,?,?,?,?)";
+                    String saveQ = "insert into tracks(user_id,track_name, artist, genre,description,audio) values(?,?,?,?,?,?)";
                     pst = con.prepareStatement(saveQ);
-                    pst.setString(1, Track_name);
-                    pst.setString(2, Artist);
-                    pst.setString(3, Genre);
-                    pst.setString(4, Description);
-                    pst.setString(5, path_link);
+                    pst.setString(1, HOME_UNAME.getText());
+                    pst.setString(2, Track_name);
+                    pst.setString(3, Artist);
+                    pst.setString(4, Genre);
+                    pst.setString(5, Description);
+                    pst.setString(6, path_link);
+                    JOptionPane.showMessageDialog(null, HOME_UNAME.getText());
           
                     
                     //track
@@ -940,25 +1147,28 @@ void previous(){
                     
                     int i = pst.executeUpdate();
                     if (i>=1) {
-                        JOptionPane.showMessageDialog(null, "done bro");
-                        
+                        JOptionPane.showMessageDialog(null, "Song uploaded!!");
+                        updateList();
+                        reset();
                     }else{
-                        JOptionPane.showMessageDialog(null, "Loss");
+                        JOptionPane.showMessageDialog(null, "There was an error while uploading!!!");
                     }
                             
                 }catch(Exception e){
                     JOptionPane.showMessageDialog(null, e);
                 }
         }
+        
+    }else{
+            System.out.println("no");
+        }
 
     }//GEN-LAST:event_submitTrack_varActionPerformed
 
     private void reset_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_reset_varActionPerformed
         // TODO add your handling code here:
-        trackname_var.setText("");
-        artist_var.setText("");
-        description_var.setText("");
-        genre_var.setText("");
+        reset();
+        
     }//GEN-LAST:event_reset_varActionPerformed
 
     private void add_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_varActionPerformed
@@ -1032,6 +1242,10 @@ void previous(){
         // TODO add your handling code here:
     }//GEN-LAST:event_path_varActionPerformed
 
+    private void JL2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_JL2MouseClicked
+        System.out.println("mouse click");
+    }//GEN-LAST:event_JL2MouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -1062,12 +1276,17 @@ void previous(){
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Homepage().setVisible(true);
+               
+                new Homepage("None").setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel HOME_UNAME;
+    private javax.swing.JLabel JL1;
+    private javax.swing.JLabel JL2;
+    private javax.swing.JPanel Player_controls;
     private javax.swing.JButton add_var;
     private javax.swing.JTextField artist_var;
     private javax.swing.JPanel coverpanel;
@@ -1091,7 +1310,7 @@ void previous(){
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel4;
     private javax.swing.JList<String> jPlaylist;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -1108,10 +1327,12 @@ void previous(){
     private javax.swing.JButton reset_var;
     private javax.swing.JButton search_btn_var;
     private javax.swing.JPanel search_var;
+    private javax.swing.JPanel side_panel;
     private javax.swing.JButton stop_var;
     private javax.swing.JButton submitTrack_var;
     private javax.swing.JTextField trackname_var;
     private javax.swing.JButton up_var;
+    private javax.swing.JLabel welcome_var;
     // End of variables declaration//GEN-END:variables
 
 byte[] music = null;

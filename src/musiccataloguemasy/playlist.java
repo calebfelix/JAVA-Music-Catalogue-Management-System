@@ -21,10 +21,16 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Arrays;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -33,6 +39,7 @@ import javax.swing.JFrame;
 public class playlist {
     JFileChooser fc = new JFileChooser();
     ArrayList ls = new ArrayList();
+    MySQLConnect myc = new MySQLConnect();
     
     void add(JFrame frame){
         fc.setMultiSelectionEnabled(true);
@@ -45,9 +52,38 @@ public class playlist {
         }
     }
     
-    ArrayList getListSong(){
-        return ls;
+    ArrayList getListSong(String name){
+         try {
+        
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+        String sql = "select * from tracks where user_id=?";
+        
+        pst = con.prepareStatement(sql);
+        pst.setString(1, name);
+        ResultSet rs=pst.executeQuery();
+        
+        while(rs.next()){
+            String songpath = rs.getString("audio");
+            File f = new File(songpath); 
+//           ls.addAll(Arrays.asList(file));
+            if(ls.contains(f)){
+            
+            System.out.println("song already present");
+  
+        }else{
+            ls.add(f);
+            System.out.println("song aadded");
+        }
+        }
+         return ls;
+       
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "nope");
     }
+        return ls;
+}
     
     
     //save playlist
