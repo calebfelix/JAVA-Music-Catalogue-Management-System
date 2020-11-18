@@ -36,15 +36,18 @@ public class Homepage extends javax.swing.JFrame {
     
  
     
-private Player player;
+private Player player1;
+private Player player2;
 private FileInputStream FIS;
 private BufferedInputStream BIS;
 private boolean canResume;
+private boolean canResume2;
 private boolean ispressed;
 private String path;
 private int total;
 private int stopped;
 private boolean valid;
+private boolean valid2;
 boolean anim = true;
 ////////////////////////////////////////////////////////////////////////////
     
@@ -61,14 +64,17 @@ boolean anim = true;
   
     public Homepage(String UNAME) {
     
-    player = null;
+    player1 = null;
+    player2 = null;
     FIS = null;
     valid = false;
+    valid2 = false;
     BIS = null;
     path = null;
     total = 0;
     stopped = 0;
     canResume = false;
+    canResume2 = false;
     ispressed=false;
         initComponents();
         
@@ -440,16 +446,16 @@ void save(){
     updateList();
 }
 
-File play1;
+File plai;
 
 
-public void pause(){
+public void pause_1(){
     try{
     stopped = FIS.available();
-    player.close();
+    player1.close();
     FIS = null;
     BIS = null;
-    player = null;
+    player1 = null;
     if(valid) canResume = true;
         pause_var.setEnabled(false);
         System.out.println("pause");
@@ -460,36 +466,53 @@ public void pause(){
     }
 }
 
-public void resume(){
+public void pause_2(){
+    try{
+    stopped = FIS.available();
+    player2.close();
+    FIS = null;
+    BIS = null;
+    player2 = null;
+    if(valid2) canResume2 = true;
+        pause2_var.setEnabled(false);
+        System.out.println("pause");
+        play2_var.setEnabled(true);
+        
+    }catch(Exception e){
+
+    }
+}
+
+public void resume_1(){
     if(!canResume) return;
-    if(putar(total-stopped)) canResume = false;
+    if(putar_1(total-stopped)) canResume = false;
+}
+
+public void resume_2(){
+    if(!canResume2) return;
+    if(putar_2(total-stopped)) canResume2 = false;
 }
 
 
-public boolean putar(int pos){
+public boolean putar_1(int pos){
     valid = true;
     canResume = false;
     try{
      int p1 = jPlaylist.getSelectedIndex();
-     play1 = (File) this.updateList.get(p1);
-    FIS = new FileInputStream(play1);
+     plai = (File) this.updateList.get(p1);
+    FIS = new FileInputStream(plai);
     total = FIS.available();
     if(pos > -1) FIS.skip(pos);
     BIS = new BufferedInputStream(FIS);
-    player = new Player(BIS);
+    player1 = new Player(BIS);
     new Thread(
             new Runnable(){
                 public void run(){
                     try{
                         play_var.setEnabled(false);
-                        player.play();
+                        player1.play();
                         play_var.setEnabled(true);
-                        System.out.println("song done");
-                       
-                        
-                        
-                        
-                        
+                        System.out.println("song done");   
                         
                     }catch(Exception e){
                         JOptionPane.showMessageDialog(null, "Error playing mp3 file");
@@ -509,32 +532,72 @@ public boolean putar(int pos){
     return valid;
 }
 
+
+
+public boolean putar_2(int pos){
+    valid2 = true;
+    canResume2 = false;
+    try{
+     int p1 = search_list.getSelectedIndex();
+     plai = (File) this.update.get(p1);
+    FIS = new FileInputStream(plai);
+    total = FIS.available();
+    if(pos > -1) FIS.skip(pos);
+    BIS = new BufferedInputStream(FIS);
+    player2 = new Player(BIS);
+    new Thread(
+            new Runnable(){
+                public void run(){
+                    try{
+                        play2_var.setEnabled(false);
+                        player2.play();
+                        play2_var.setEnabled(true);
+                        System.out.println("song done");   
+                        
+                    }catch(Exception e){
+                        JOptionPane.showMessageDialog(null, "Error playing mp3 file");
+                        
+                        valid = false;
+                    }
+                }
+            }
+    ).start();
+    }catch(Exception e){
+        JOptionPane.showMessageDialog(null, "Select mp3 file");
+        search_btn_var.doClick();
+        valid = false;
+        
+    }
+     
+    return valid;
+}
+
 public boolean canResume(){
     return canResume;
 }
 
 File sa;
-void next(){
+void next_1(){
     
         try{
-            player.close();
+            player1.close();
             int s1 = jPlaylist.getSelectedIndex() +1;
             sa = (File) this.pl.ls.get(s1);
             FileInputStream fis = new FileInputStream(sa);
             BufferedInputStream bis = new BufferedInputStream(fis);
-            player = new javazoom.jl.player.Player(bis);
+            player1 = new javazoom.jl.player.Player(bis);
             
             jPlaylist.setSelectedIndex(s1);
         }catch(Exception e){
             System.out.println("Problem playing file");
             System.out.println(e);
             try{
-            player.close();
+            player1.close();
             int s1 = 0;
             sa = (File) this.pl.ls.get(s1);
             FileInputStream fis = new FileInputStream(sa);
             BufferedInputStream bis = new BufferedInputStream(fis);
-            player = new javazoom.jl.player.Player(bis);
+            player1 = new javazoom.jl.player.Player(bis);
             
             jPlaylist.setSelectedIndex(s1);
         }catch(Exception er){
@@ -545,51 +608,83 @@ void next(){
             
         }
         pause_var.setEnabled(true);
-        putar(-1);
-//        new Thread(
-//            new Runnable(){
-//                public void run(){
-//                    try{
-//                        player.play();
-//                    }catch(Exception e){
-//                        JOptionPane.showMessageDialog(null, "Error playing mp3 file");
-//                        valid = false;
-//                    }
-//                }
-//            }
-//    ).start();
-    
+        putar_1(-1);
 
 }
 
-void previous(){
+void next_2(){
+    
+        try{
+            player2.close();
+            int s1 = search_list.getSelectedIndex() +1;
+            sa = (File) this.sl.sear.get(s1);
+            FileInputStream fis = new FileInputStream(sa);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            player2 = new javazoom.jl.player.Player(bis);
+            
+            search_list.setSelectedIndex(s1);
+        }catch(Exception e){
+            System.out.println("Problem playing file");
+            System.out.println(e);
+            try{
+            player2.close();
+            int s1 = 0;
+            sa = (File) this.sl.sear.get(s1);
+            FileInputStream fis = new FileInputStream(sa);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            player2 = new javazoom.jl.player.Player(bis);
+            
+            search_list.setSelectedIndex(s1);
+        }catch(Exception er){
+            
+                System.out.println(er);
+        }
+            
+            
+        }
+        pause2_var.setEnabled(true);
+        putar_2(-1);
+
+}
+
+
+void previous_1(){
    
         try{
-            player.close();
+            player1.close();
             int s1 = jPlaylist.getSelectedIndex() -1;
             sa = (File) this.pl.ls.get(s1);
             FileInputStream fis = new FileInputStream(sa);
             BufferedInputStream bis = new BufferedInputStream(fis);
-            player = new javazoom.jl.player.Player(bis);
+            player1 = new javazoom.jl.player.Player(bis);
             jPlaylist.setSelectedIndex(s1);
         }catch(Exception e){
             System.out.println("Problem playing file");
             System.out.println(e);
         }
         pause_var.setEnabled(true);
-        putar(-1);
-//        new Thread(
-//            new Runnable(){
-//                public void run(){
-//                    try{
-//                        player.play();
-//                    }catch(Exception e){
-//                        JOptionPane.showMessageDialog(null, "Error playing mp3 file");
-//                        valid = false;
-//                    }
-//                }
-//            }
-//    ).start();
+        putar_1(-1);
+
+    
+}
+
+void previous_2(){
+   
+        try{
+            player2.close();
+            int s1 = search_list.getSelectedIndex() -1;
+            sa = (File) this.sl.sear.get(s1);
+            FileInputStream fis = new FileInputStream(sa);
+            BufferedInputStream bis = new BufferedInputStream(fis);
+            player2 = new javazoom.jl.player.Player(bis);
+            search_list.setSelectedIndex(s1);
+        }catch(Exception e){
+            System.out.println("Problem playing file");
+            System.out.println(e);
+        }
+        pause2_var.setEnabled(true);
+        putar_2(-1);
+
     
 }
     
@@ -605,6 +700,9 @@ void previous(){
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        coverpanel = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        logout_var = new javax.swing.JButton();
         side_panel = new javax.swing.JPanel();
         home_btn_var = new javax.swing.JButton();
         search_btn_var = new javax.swing.JButton();
@@ -662,20 +760,47 @@ void previous(){
         reset_var = new javax.swing.JButton();
         filechose_var = new javax.swing.JButton();
         path_var = new javax.swing.JTextField();
-        coverpanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        logout_var = new javax.swing.JButton();
-        Player_controls = new javax.swing.JPanel();
+        control_Tab = new javax.swing.JTabbedPane();
+        Player_controls_1 = new javax.swing.JPanel();
         next_var = new javax.swing.JButton();
         stop_var = new javax.swing.JButton();
         play_var = new javax.swing.JButton();
         pause_var = new javax.swing.JButton();
         previous_var = new javax.swing.JButton();
+        Player_controls_2 = new javax.swing.JPanel();
+        next2_var = new javax.swing.JButton();
+        stop2_var = new javax.swing.JButton();
+        play2_var = new javax.swing.JButton();
+        pause2_var = new javax.swing.JButton();
+        previous2_var = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        coverpanel.setBackground(new java.awt.Color(51, 51, 51));
+        coverpanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel1.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(171, 85, 252));
+        jLabel1.setText("Music Catalogue Management System!!");
+        coverpanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 8, 698, 146));
+
+        logout_var.setBackground(new java.awt.Color(208, 173, 252));
+        logout_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        logout_var.setForeground(new java.awt.Color(0, 0, 0));
+        logout_var.setText("Logout");
+        logout_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        logout_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                logout_varActionPerformed(evt);
+            }
+        });
+        coverpanel.add(logout_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(1011, 36, 108, 28));
+
+        jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, 160));
 
         side_panel.setBackground(new java.awt.Color(187, 134, 252));
 
@@ -796,7 +921,7 @@ void previous(){
                     .addComponent(home_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(search_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(playlist_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(29, Short.MAX_VALUE))
+                .addContainerGap(32, Short.MAX_VALUE))
         );
         side_panelLayout.setVerticalGroup(
             side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -814,7 +939,7 @@ void previous(){
                 .addGap(82, 82, 82))
         );
 
-        jPanel1.add(side_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, -1, 550));
+        jPanel1.add(side_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 190, 550));
 
         jTabbedPane1.setBackground(new java.awt.Color(31, 27, 36));
 
@@ -864,6 +989,8 @@ void previous(){
 
         jTabbedPane1.addTab("tab1", home_var);
 
+        search_var.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
         search_list.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         search_list.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -871,6 +998,8 @@ void previous(){
             }
         });
         jScrollPane3.setViewportView(search_list);
+
+        search_var.add(jScrollPane3, new org.netbeans.lib.awtextra.AbsoluteConstraints(25, 121, 389, 356));
 
         info_panel.setBackground(new java.awt.Color(31, 27, 36));
 
@@ -956,7 +1085,7 @@ void previous(){
                             .addComponent(gen_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ui_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(art_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(62, Short.MAX_VALUE))
+                .addContainerGap(67, Short.MAX_VALUE))
         );
         info_panelLayout.setVerticalGroup(
             info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -990,24 +1119,7 @@ void previous(){
                 .addContainerGap(35, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout search_varLayout = new javax.swing.GroupLayout(search_var);
-        search_var.setLayout(search_varLayout);
-        search_varLayout.setHorizontalGroup(
-            search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(search_varLayout.createSequentialGroup()
-                .addGap(25, 25, 25)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59)
-                .addComponent(info_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        search_varLayout.setVerticalGroup(
-            search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(info_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, search_varLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(27, 27, 27))
-        );
+        search_var.add(info_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(473, 0, 460, -1));
 
         jTabbedPane1.addTab("tab2", search_var);
 
@@ -1272,45 +1384,10 @@ void previous(){
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 930, 530));
 
-        coverpanel.setBackground(new java.awt.Color(51, 51, 51));
+        control_Tab.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
-        jLabel1.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(171, 85, 252));
-        jLabel1.setText("Music Catalogue Management System!!");
-
-        logout_var.setBackground(new java.awt.Color(208, 173, 252));
-        logout_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        logout_var.setForeground(new java.awt.Color(0, 0, 0));
-        logout_var.setText("Logout");
-        logout_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-
-        javax.swing.GroupLayout coverpanelLayout = new javax.swing.GroupLayout(coverpanel);
-        coverpanel.setLayout(coverpanelLayout);
-        coverpanelLayout.setHorizontalGroup(
-            coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coverpanelLayout.createSequentialGroup()
-                .addContainerGap(270, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(logout_var, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(21, 21, 21))
-        );
-        coverpanelLayout.setVerticalGroup(
-            coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coverpanelLayout.createSequentialGroup()
-                .addContainerGap(8, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-            .addGroup(coverpanelLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addComponent(logout_var, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-
-        jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, 160));
-
-        Player_controls.setBackground(new java.awt.Color(39, 39, 39));
+        Player_controls_1.setBackground(new java.awt.Color(39, 39, 39));
+        Player_controls_1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         next_var.setBackground(new java.awt.Color(51, 51, 51));
         next_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1329,6 +1406,7 @@ void previous(){
                 next_varActionPerformed(evt);
             }
         });
+        Player_controls_1.add(next_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 60, 60));
 
         stop_var.setBackground(new java.awt.Color(51, 51, 51));
         stop_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1347,6 +1425,7 @@ void previous(){
                 stop_varActionPerformed(evt);
             }
         });
+        Player_controls_1.add(stop_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 60, 60));
 
         play_var.setBackground(new java.awt.Color(51, 51, 51));
         play_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1366,6 +1445,7 @@ void previous(){
                 play_varActionPerformed(evt);
             }
         });
+        Player_controls_1.add(play_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 60, 60));
 
         pause_var.setBackground(new java.awt.Color(51, 51, 51));
         pause_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1384,6 +1464,7 @@ void previous(){
                 pause_varActionPerformed(evt);
             }
         });
+        Player_controls_1.add(pause_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 60, 60));
 
         previous_var.setBackground(new java.awt.Color(51, 51, 51));
         previous_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1402,38 +1483,112 @@ void previous(){
                 previous_varActionPerformed(evt);
             }
         });
+        Player_controls_1.add(previous_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 60));
 
-        javax.swing.GroupLayout Player_controlsLayout = new javax.swing.GroupLayout(Player_controls);
-        Player_controls.setLayout(Player_controlsLayout);
-        Player_controlsLayout.setHorizontalGroup(
-            Player_controlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Player_controlsLayout.createSequentialGroup()
-                .addContainerGap(350, Short.MAX_VALUE)
-                .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(39, 39, 39)
-                .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36)
-                .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(320, 320, 320))
-        );
-        Player_controlsLayout.setVerticalGroup(
-            Player_controlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, Player_controlsLayout.createSequentialGroup()
-                .addContainerGap(14, Short.MAX_VALUE)
-                .addGroup(Player_controlsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
-        );
+        control_Tab.addTab("tab1", Player_controls_1);
 
-        jPanel1.add(Player_controls, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 650, 1120, 80));
+        Player_controls_2.setBackground(new java.awt.Color(39, 39, 39));
+        Player_controls_2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        next2_var.setBackground(new java.awt.Color(51, 51, 51));
+        next2_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        next2_var.setForeground(new java.awt.Color(0, 0, 0));
+        next2_var.setText("►►");
+        next2_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                next2_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                next2_varMouseExited(evt);
+            }
+        });
+        next2_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                next2_varActionPerformed(evt);
+            }
+        });
+        Player_controls_2.add(next2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 60, 60));
+
+        stop2_var.setBackground(new java.awt.Color(51, 51, 51));
+        stop2_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        stop2_var.setForeground(new java.awt.Color(0, 0, 0));
+        stop2_var.setText("■");
+        stop2_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                stop2_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                stop2_varMouseExited(evt);
+            }
+        });
+        stop2_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                stop2_varActionPerformed(evt);
+            }
+        });
+        Player_controls_2.add(stop2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 60, 60));
+
+        play2_var.setBackground(new java.awt.Color(51, 51, 51));
+        play2_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        play2_var.setForeground(new java.awt.Color(0, 0, 0));
+        play2_var.setText(" ▶");
+        play2_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        play2_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                play2_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                play2_varMouseExited(evt);
+            }
+        });
+        play2_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                play2_varActionPerformed(evt);
+            }
+        });
+        Player_controls_2.add(play2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 60, 60));
+
+        pause2_var.setBackground(new java.awt.Color(51, 51, 51));
+        pause2_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        pause2_var.setForeground(new java.awt.Color(0, 0, 0));
+        pause2_var.setText("| |");
+        pause2_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pause2_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pause2_varMouseExited(evt);
+            }
+        });
+        pause2_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pause2_varActionPerformed(evt);
+            }
+        });
+        Player_controls_2.add(pause2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 60, 60));
+
+        previous2_var.setBackground(new java.awt.Color(51, 51, 51));
+        previous2_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        previous2_var.setForeground(new java.awt.Color(0, 0, 0));
+        previous2_var.setText("◄◄");
+        previous2_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                previous2_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                previous2_varMouseExited(evt);
+            }
+        });
+        previous2_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                previous2_varActionPerformed(evt);
+            }
+        });
+        Player_controls_2.add(previous2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 60));
+
+        control_Tab.addTab("tab1", Player_controls_2);
+
+        jPanel1.add(control_Tab, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 620, 510, 110));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -1468,6 +1623,7 @@ void previous(){
     private void playlist_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_playlist_btn_varActionPerformed
 //        updateList();
         jTabbedPane1.setSelectedIndex(2);
+        control_Tab.setSelectedIndex(0);
     }//GEN-LAST:event_playlist_btn_varActionPerformed
 
     private void downloads_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloads_btn_varActionPerformed
@@ -1480,6 +1636,7 @@ void previous(){
 
     private void search_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_search_btn_varActionPerformed
         jTabbedPane1.setSelectedIndex(1);
+        control_Tab.setSelectedIndex(1);
     }//GEN-LAST:event_search_btn_varActionPerformed
 
     private void submitTrack_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submitTrack_varActionPerformed
@@ -1588,36 +1745,37 @@ void previous(){
     }//GEN-LAST:event_down_varActionPerformed
 
     private void pause_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pause_varActionPerformed
-       pause(); // TODO add your handling code here:
+       
+        pause_1(); // TODO add your handling code here:
     }//GEN-LAST:event_pause_varActionPerformed
 
     private void previous_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous_varActionPerformed
-       previous(); // TODO add your handling code here:
+       stop2_var.doClick();
+        previous_1(); // TODO add your handling code here:
     }//GEN-LAST:event_previous_varActionPerformed
 
     private void play_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play_varActionPerformed
-                if(canResume==false){
-            
-            putar(-1);
-                
+        stop2_var.doClick();
+        
+        if(canResume==false){ 
+            putar_1(-1);     
         }
-
         else{
-            resume();
+            resume_1();
             pause_var.setEnabled(true);
             play_var.setEnabled(false);
-            System.out.println("resume");
-            
+            System.out.println("resume");           
         }
     }//GEN-LAST:event_play_varActionPerformed
 
     private void next_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next_varActionPerformed
-        next();// TODO add your handling code here:
+        stop2_var.doClick();
+        next_1();// TODO add your handling code here:
     }//GEN-LAST:event_next_varActionPerformed
 
     private void stop_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_varActionPerformed
-                if(canResume==false && valid==true){
-                player.close();
+        if(canResume==false && valid==true&&player1!=null){
+                player1.close();
                 canResume=false;
                 play_var.setEnabled(true);
                 System.out.println(canResume);
@@ -1716,6 +1874,96 @@ void previous(){
         previous_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_previous_varMouseExited
 
+    private void next2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next2_varMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_next2_varMouseEntered
+
+    private void next2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next2_varMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_next2_varMouseExited
+
+    private void next2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next2_varActionPerformed
+        stop_var.doClick();
+        next_2();
+    }//GEN-LAST:event_next2_varActionPerformed
+
+    private void stop2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop2_varMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stop2_varMouseEntered
+
+    private void stop2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop2_varMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_stop2_varMouseExited
+
+    private void stop2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop2_varActionPerformed
+        if(canResume2==false && valid2==true&&player2!=null){
+                player2.close();
+                canResume2=false;
+                play2_var.setEnabled(true);
+                System.out.println(canResume2);
+                System.out.println(valid2);
+        }else{
+            System.out.println("stopping");
+                System.out.println(canResume2);
+                System.out.println(valid2);
+        }
+    }//GEN-LAST:event_stop2_varActionPerformed
+
+    private void play2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play2_varMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_play2_varMouseEntered
+
+    private void play2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play2_varMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_play2_varMouseExited
+
+    private void play2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play2_varActionPerformed
+                stop_var.doClick();
+        
+        if(canResume2==false){ 
+            putar_2(-1);     
+        }
+        else{
+            resume_2();
+            pause2_var.setEnabled(true);
+            play2_var.setEnabled(false);
+            System.out.println("resume");           
+        }
+    }//GEN-LAST:event_play2_varActionPerformed
+
+    private void pause2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause2_varMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pause2_varMouseEntered
+
+    private void pause2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause2_varMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pause2_varMouseExited
+
+    private void pause2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pause2_varActionPerformed
+        pause_2();
+    }//GEN-LAST:event_pause2_varActionPerformed
+
+    private void previous2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous2_varMouseEntered
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previous2_varMouseEntered
+
+    private void previous2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous2_varMouseExited
+        // TODO add your handling code here:
+    }//GEN-LAST:event_previous2_varMouseExited
+
+    private void previous2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous2_varActionPerformed
+        stop_var.doClick();
+        previous_2();
+    }//GEN-LAST:event_previous2_varActionPerformed
+
+    private void logout_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout_varActionPerformed
+        this.setVisible(false);
+        anim=false;
+        stop2_var.doClick();
+        stop_var.doClick();
+        new Intpage().setVisible(true);
+    }//GEN-LAST:event_logout_varActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1756,10 +2004,12 @@ void previous(){
     private javax.swing.JLabel HOME_UNAME;
     private javax.swing.JLabel JL1;
     private javax.swing.JLabel JL2;
-    private javax.swing.JPanel Player_controls;
+    private javax.swing.JPanel Player_controls_1;
+    private javax.swing.JPanel Player_controls_2;
     private javax.swing.JButton add_var;
     private javax.swing.JLabel art_var;
     private javax.swing.JTextField artist_var;
+    private javax.swing.JTabbedPane control_Tab;
     private javax.swing.JPanel coverpanel;
     private javax.swing.JButton create_btn_var;
     private javax.swing.JPanel create_var;
@@ -1799,12 +2049,16 @@ void previous(){
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton logout_var;
+    private javax.swing.JButton next2_var;
     private javax.swing.JButton next_var;
     private javax.swing.JTextField path_var;
+    private javax.swing.JButton pause2_var;
     private javax.swing.JButton pause_var;
+    private javax.swing.JButton play2_var;
     private javax.swing.JButton play_var;
     private javax.swing.JButton playlist_btn_var;
     private javax.swing.JPanel playlist_var;
+    private javax.swing.JButton previous2_var;
     private javax.swing.JButton previous_var;
     private javax.swing.JButton remove_var;
     private javax.swing.JButton reset_var;
@@ -1812,6 +2066,7 @@ void previous(){
     private javax.swing.JList<String> search_list;
     private javax.swing.JPanel search_var;
     private javax.swing.JPanel side_panel;
+    private javax.swing.JButton stop2_var;
     private javax.swing.JButton stop_var;
     private javax.swing.JButton submitTrack_var;
     private javax.swing.JLabel ti_var;
