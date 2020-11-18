@@ -8,18 +8,15 @@ package musiccataloguemasy;
 
 import AppPackage.AnimationClass;
 import java.io.BufferedInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
@@ -32,7 +29,11 @@ import javazoom.jl.player.Player;
 public class Homepage extends javax.swing.JFrame {
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     playlist pl = new playlist();
+    playlist sl = new playlist();
     AnimationClass ac = new AnimationClass();
+    
+    
+    
  
     
 private Player player;
@@ -44,9 +45,11 @@ private String path;
 private int total;
 private int stopped;
 private boolean valid;
+boolean anim = true;
 ////////////////////////////////////////////////////////////////////////////
     
     ArrayList updateList = new ArrayList();
+    ArrayList update = new ArrayList();
     
    
     File simpan;
@@ -68,8 +71,21 @@ private boolean valid;
     canResume = false;
     ispressed=false;
         initComponents();
+        
+        
+        
+        
         HOME_UNAME.setText(UNAME);
+        
+                
+        description_var.setLineWrap(true);
+        description_var.setWrapStyleWord(true);
+        
+        desc_var.setLineWrap(true);
+        desc_var.setWrapStyleWord(true);
+        
         updateList();
+        update();
 
         slideshow();
 //        home_var.setEnabled(false);
@@ -87,23 +103,24 @@ private boolean valid;
 public void slideshow(){
 //        int a = jLabel1.getWidth();
 //        System.out.println(a);
-        int timestamp = 1000;
-        new Thread()  {
+        int timestamp = 2000;
+        Thread th;
+        th = new Thread()  {
             @Override
             public void run() {
                 int nb=0;
                 try{
                     
-                     
-                    while (true) {                        
+                    
+                    while (anim) {                        
                         switch(nb){
-/////////////////////////////////////////////////////////////////////////////////Left move///////////////////////////////////////////////
+
                             case 0:
                                 
                                 ImageIcon II = new ImageIcon(getClass().getResource("/images/smoke.jpg.png"));
                                 JL1.setIcon(II);
                                 
-                                 Thread.sleep(timestamp);
+                                Thread.sleep(timestamp);
                                 ac.jLabelXLeft(0, -500, 12, 10, JL1);
                                 ac.jLabelXLeft(500, 0, 12, 10, JL2);
                                 
@@ -111,12 +128,12 @@ public void slideshow(){
                                 nb++;
                                 break;
                                 
-                             case 1:
-                                 
-                                 ImageIcon II2 = new ImageIcon(getClass().getResource("/images/Alan Walker.jpg.png"));
+                            case 1:
+                                
+                                ImageIcon II2 = new ImageIcon(getClass().getResource("/images/aw.png"));
                                 JL2.setIcon(II2);
-                                 
-                                 Thread.sleep(timestamp);
+                                
+                                Thread.sleep(timestamp);
                                 ac.jLabelXRight(-500, 0, 12, 10, JL1);
                                 ac.jLabelXRight(0, 500, 12, 10, JL2);
                                 
@@ -124,11 +141,11 @@ public void slideshow(){
                                 nb++;
                                 break;        
                                 
-                                case 2:
-                                    
-                                ImageIcon II3 = new ImageIcon(getClass().getResource("/images/Billie Eilish.jpg.png"));
+                            case 2:
+                                
+                                ImageIcon II3 = new ImageIcon(getClass().getResource("/images/bill.png"));
                                 JL1.setIcon(II3);
-                                 Thread.sleep(timestamp);
+                                Thread.sleep(timestamp);
                                 ac.jLabelXLeft(0, -500, 12, 10, JL1);
                                 ac.jLabelXLeft(500, 0, 12, 10, JL2);
                                 
@@ -136,11 +153,11 @@ public void slideshow(){
                                 nb++;
                                 break;
                                 
-                             case 3:
-                                 ImageIcon II4  = new ImageIcon(getClass().getResource("/images/Ed Sheeran.jpg.png"));
+                            case 3:
+                                ImageIcon II4  = new ImageIcon(getClass().getResource("/images/ed.png"));
                                 JL2.setIcon(II4);
-                                 
-                                 Thread.sleep(timestamp);
+                                
+                                Thread.sleep(timestamp);
                                 ac.jLabelXRight(-500, 0, 12, 10, JL1);
                                 ac.jLabelXRight(0, 500, 12, 10, JL2);
                                 
@@ -148,12 +165,12 @@ public void slideshow(){
                                 nb++;
                                 break;
                                 
-                                case 4:
-                                    
-                                ImageIcon II5 = new ImageIcon(getClass().getResource("/images/Khalid.jpg.png"));
-                                JL1.setIcon(II5); 
-                                    
-                                 Thread.sleep(timestamp);
+                            case 4:
+                                
+                                ImageIcon II5 = new ImageIcon(getClass().getResource("/images/kha.png"));
+                                JL1.setIcon(II5);
+                                
+                                Thread.sleep(timestamp);
                                 ac.jLabelXLeft(0, -500, 12, 10, JL1);
                                 ac.jLabelXLeft(500, 0, 12, 10, JL2);
                                 
@@ -161,12 +178,12 @@ public void slideshow(){
                                 nb++;
                                 break;
                                 
-                             case 5:
-                                 
-                                 ImageIcon II6  = new ImageIcon(getClass().getResource("/images/Taylor Swift.jpg.png"));
+                            case 5:
+                                
+                                ImageIcon II6  = new ImageIcon(getClass().getResource("/images/taeswe.png"));
                                 JL2.setIcon(II6);
-                                 
-                                 Thread.sleep(timestamp);
+                                
+                                Thread.sleep(timestamp);
                                 ac.jLabelXRight(-500, 0, 12, 10, JL1);
                                 ac.jLabelXRight(0, 500, 12, 10, JL2);
                                 
@@ -174,12 +191,12 @@ public void slideshow(){
                                 nb++;
                                 break;
                                 
-                                case 6:
-                                    
-                                ImageIcon II7 = new ImageIcon(getClass().getResource("/images/Travis Scott.jpg.png"));
-                                JL1.setIcon(II7); 
-                                    
-                                 Thread.sleep(timestamp);
+                            case 6:
+                                
+                                ImageIcon II7 = new ImageIcon(getClass().getResource("/images/trav.png"));
+                                JL1.setIcon(II7);
+                                
+                                Thread.sleep(timestamp);
                                 ac.jLabelXLeft(0, -500, 12, 10, JL1);
                                 ac.jLabelXLeft(500, 0, 12, 10, JL2);
                                 
@@ -187,20 +204,72 @@ public void slideshow(){
                                 nb++;
                                 break;
                                 
-                             case 7:
-                                 
-                                 ImageIcon II8  = new ImageIcon(getClass().getResource("/images/Post Malone.jpg.png"));
+                            case 7:
+                                
+                                ImageIcon II8  = new ImageIcon(getClass().getResource("/images/pm.png"));
                                 JL2.setIcon(II8);
-                                 
-                                 Thread.sleep(timestamp);
+                                
+                                Thread.sleep(timestamp);
+                                ac.jLabelXRight(-500, 0, 12, 10, JL1);
+                                ac.jLabelXRight(0, 500, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                                case 8:
+                                
+                                ImageIcon II9 = new ImageIcon(getClass().getResource("/images/ag.png"));
+                                JL1.setIcon(II9);
+                                
+                                Thread.sleep(timestamp);
+                                ac.jLabelXLeft(0, -500, 12, 10, JL1);
+                                ac.jLabelXLeft(500, 0, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                            case 9:
+                                
+                                ImageIcon II10  = new ImageIcon(getClass().getResource("/images/jw.png"));
+                                JL2.setIcon(II10);
+                                
+                                Thread.sleep(timestamp);
+                                ac.jLabelXRight(-500, 0, 12, 10, JL1);
+                                ac.jLabelXRight(0, 500, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                                
+                                case 10:
+                                
+                                ImageIcon II11 = new ImageIcon(getClass().getResource("/images/jonb.png"));
+                                JL1.setIcon(II11);
+                                
+                                Thread.sleep(timestamp);
+                                ac.jLabelXLeft(0, -500, 12, 10, JL1);
+                                ac.jLabelXLeft(500, 0, 12, 10, JL2);
+                                
+                                System.out.println("done"+nb);
+                                nb++;
+                                break;
+                                
+                            case 11:
+                                
+                                ImageIcon II12  = new ImageIcon(getClass().getResource("/images/smoke1.jpg.png"));
+                                JL2.setIcon(II12);
+                                
+                                Thread.sleep(timestamp);
                                 ac.jLabelXRight(-500, 0, 12, 10, JL1);
                                 ac.jLabelXRight(0, 500, 12, 10, JL2);
                                 
                                 System.out.println("done"+nb);
                                 nb=0;
                                 break;
-                                
-                                
+                                                             
                         }
                     }
                     
@@ -209,7 +278,9 @@ public void slideshow(){
                 }
                
             }
-        }.start();
+            
+        };
+                th.start();
     }    
     
     
@@ -219,10 +290,50 @@ void updateList() {
         DefaultListModel model =  new DefaultListModel();
         for (int i = 0; i < updateList.size(); i++) {
             int j = i + 1;
-            model.add(i, j + " | " + ((File) updateList.get(i)).getName());
+            
+            GetInfo gf = new GetInfo();
+            File p = (File) updateList.get(i);
+            String pa = (String)p.getAbsolutePath();
+            
+             String ui = gf.getUserId(pa);
+             int ti = gf.getTrackid(pa);
+             String tn = gf.getTrackName(pa);
+             String art = gf.getTrackArtist(pa);
+             String gen = gf.getTrackGenre(pa);
+             String des = gf.getTrackDescription(pa);
+            String a = j + " | "+"#"+ti+"  "+tn+"\n by: "+art;
+            
+            model.add(i,a);
         }
         jPlaylist.setModel(model);
    }    
+
+void update() {
+        update = sl.getAllsong();
+        System.out.println("helllllllllllllllllllllllllllllllllllllllll"+update);
+        DefaultListModel model =  new DefaultListModel();
+        for (int i = 0; i < update.size(); i++) {
+            int j = i + 1;
+            
+            GetInfo gf = new GetInfo();
+            File p = (File) update.get(i);
+            String pa = (String)p.getAbsolutePath();
+            
+             String ui = gf.getUserId(pa);
+             int ti = gf.getTrackid(pa);
+             String tn = gf.getTrackName(pa);
+             String art = gf.getTrackArtist(pa);
+             String gen = gf.getTrackGenre(pa);
+             String des = gf.getTrackDescription(pa);
+            String a = j + " | "+"#"+ti+"  "+tn+"\n by: "+art;
+            
+            
+            model.add(i,a);
+        }
+        search_list.setModel(model);
+   }
+
+
 
 void reset(){
     trackname_var.setText("");
@@ -230,6 +341,7 @@ void reset(){
         description_var.setText("");
         genre_var.setText("");
         path_var.setText("");
+        
 }
 
 
@@ -238,12 +350,59 @@ void add(){
     updateList();
 }
 
+
+
+
+int getTrackid(String pathh){
+    int trackid=0 ;
+    try {
+        
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+        String sql = "select * from tracks where audio=?";
+        pst = con.prepareStatement(sql);
+        pst.setString(1, pathh);
+        ResultSet rs=pst.executeQuery();       
+        while(rs.next()){
+             trackid = rs.getInt("track_id");
+            }       
+        } catch (Exception e) {
+            System.out.println("couldnt get track id");
+        }
+    return trackid;
+}
+
+
 void remove(){
     try{
-        int akandihapus = jPlaylist.getLeadSelectionIndex();
-        pl.ls.remove(akandihapus);
-        updateList();
+        int index = jPlaylist.getLeadSelectionIndex();
+        
+        
+        
+        System.out.println(("this is :"+pl.ls.get(index)));
+        File f = (File) pl.ls.get(index);
+        System.out.println((String)f.getPath());
+        int trackid = getTrackid((String)f.getPath());
+        
+        try {
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+
+        String sql = "delete from tracks where track_id=?";
+        pst = con.prepareStatement(sql);
+        pst.setInt(1, trackid);
+        
+        
+        pst.executeUpdate();
+       
+        
+        } catch (Exception e) {
+            
+            System.out.println("does not connect to db");
+        }
+        
     }catch(Exception e){
+        JOptionPane.showMessageDialog(null, "couldnt remove");
     }
 }
 
@@ -460,6 +619,23 @@ void previous(){
         JL2 = new javax.swing.JLabel();
         JL1 = new javax.swing.JLabel();
         search_var = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        search_list = new javax.swing.JList<>();
+        info_panel = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        jLabel13 = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabel15 = new javax.swing.JLabel();
+        ti_var = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        art_var = new javax.swing.JLabel();
+        tn_var = new javax.swing.JLabel();
+        ui_var = new javax.swing.JLabel();
+        gen_var = new javax.swing.JLabel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        desc_var = new javax.swing.JTextArea();
         playlist_var = new javax.swing.JPanel();
         add_var = new javax.swing.JButton();
         up_var = new javax.swing.JButton();
@@ -498,15 +674,15 @@ void previous(){
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        side_panel.setBackground(new java.awt.Color(204, 204, 255));
+        side_panel.setBackground(new java.awt.Color(187, 134, 252));
 
-        home_btn_var.setBackground(new java.awt.Color(204, 204, 255));
-        home_btn_var.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        home_btn_var.setBackground(new java.awt.Color(208, 173, 252));
+        home_btn_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         home_btn_var.setText("Home");
-        home_btn_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        home_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         home_btn_var.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Homepage.this.mouseClicked(evt);
@@ -524,10 +700,10 @@ void previous(){
             }
         });
 
-        search_btn_var.setBackground(new java.awt.Color(204, 204, 255));
-        search_btn_var.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        search_btn_var.setBackground(new java.awt.Color(208, 173, 252));
+        search_btn_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         search_btn_var.setText("Search");
-        search_btn_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        search_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         search_btn_var.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Homepage.this.mouseClicked(evt);
@@ -545,10 +721,10 @@ void previous(){
             }
         });
 
-        playlist_btn_var.setBackground(new java.awt.Color(204, 204, 255));
-        playlist_btn_var.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        playlist_btn_var.setBackground(new java.awt.Color(208, 173, 252));
+        playlist_btn_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         playlist_btn_var.setText("Playlist");
-        playlist_btn_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        playlist_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         playlist_btn_var.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Homepage.this.mouseClicked(evt);
@@ -566,10 +742,10 @@ void previous(){
             }
         });
 
-        downloads_btn_var.setBackground(new java.awt.Color(204, 204, 255));
-        downloads_btn_var.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        downloads_btn_var.setBackground(new java.awt.Color(208, 173, 252));
+        downloads_btn_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         downloads_btn_var.setText("Downloads");
-        downloads_btn_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        downloads_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         downloads_btn_var.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Homepage.this.mouseClicked(evt);
@@ -587,10 +763,10 @@ void previous(){
             }
         });
 
-        create_btn_var.setBackground(new java.awt.Color(204, 204, 255));
-        create_btn_var.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        create_btn_var.setBackground(new java.awt.Color(208, 173, 252));
+        create_btn_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         create_btn_var.setText("Create");
-        create_btn_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        create_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         create_btn_var.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Homepage.this.mouseClicked(evt);
@@ -613,39 +789,46 @@ void previous(){
         side_panelLayout.setHorizontalGroup(
             side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(side_panelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
+                .addGap(26, 26, 26)
                 .addGroup(side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(create_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(downloads_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)
+                    .addComponent(downloads_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(home_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(search_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(playlist_btn_var, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(26, Short.MAX_VALUE))
+                    .addComponent(playlist_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         side_panelLayout.setVerticalGroup(
             side_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, side_panelLayout.createSequentialGroup()
-                .addContainerGap(105, Short.MAX_VALUE)
-                .addComponent(home_btn_var)
+                .addContainerGap(136, Short.MAX_VALUE)
+                .addComponent(home_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(search_btn_var)
+                .addComponent(search_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(playlist_btn_var)
+                .addComponent(playlist_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(downloads_btn_var)
+                .addComponent(downloads_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33)
-                .addComponent(create_btn_var)
-                .addGap(98, 98, 98))
+                .addComponent(create_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(82, 82, 82))
         );
 
-        jPanel1.add(side_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 140, -1, 510));
+        jPanel1.add(side_panel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, -1, 550));
 
+        jTabbedPane1.setBackground(new java.awt.Color(31, 27, 36));
+
+        home_var.setBackground(new java.awt.Color(31, 27, 36));
         home_var.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        HOME_UNAME.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        HOME_UNAME.setText("NONE");
+        jPanel4.setBackground(new java.awt.Color(31, 27, 36));
 
-        welcome_var.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        HOME_UNAME.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        HOME_UNAME.setForeground(new java.awt.Color(255, 255, 255));
+        HOME_UNAME.setText("None");
+
+        welcome_var.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
+        welcome_var.setForeground(new java.awt.Color(255, 255, 255));
         welcome_var.setText("WELCOME  !!!");
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
@@ -657,7 +840,7 @@ void previous(){
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                     .addComponent(welcome_var)
                     .addComponent(HOME_UNAME))
-                .addContainerGap(118, Short.MAX_VALUE))
+                .addContainerGap(97, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -666,7 +849,7 @@ void previous(){
                 .addComponent(welcome_var)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(HOME_UNAME)
-                .addContainerGap(365, Short.MAX_VALUE))
+                .addContainerGap(368, Short.MAX_VALUE))
         );
 
         home_var.add(jPanel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 0, 430, 510));
@@ -681,15 +864,149 @@ void previous(){
 
         jTabbedPane1.addTab("tab1", home_var);
 
+        search_list.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        search_list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                search_listMouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(search_list);
+
+        info_panel.setBackground(new java.awt.Color(31, 27, 36));
+
+        jLabel10.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(208, 173, 252));
+        jLabel10.setText("Track info");
+
+        jLabel11.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setText("Track Name :");
+
+        jLabel12.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setText("Artists :");
+
+        jLabel13.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel13.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel13.setText("Uploaded by :");
+
+        jLabel14.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setText("Genre :");
+
+        jLabel15.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel15.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel15.setText("Description :");
+
+        ti_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        ti_var.setForeground(new java.awt.Color(255, 255, 255));
+        ti_var.setText("none");
+
+        jLabel16.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel16.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel16.setText("Track id :");
+
+        art_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        art_var.setForeground(new java.awt.Color(255, 255, 255));
+        art_var.setText("none");
+
+        tn_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        tn_var.setForeground(new java.awt.Color(255, 255, 255));
+        tn_var.setText("none");
+
+        ui_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        ui_var.setForeground(new java.awt.Color(255, 255, 255));
+        ui_var.setText("none");
+
+        gen_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        gen_var.setForeground(new java.awt.Color(255, 255, 255));
+        gen_var.setText("none");
+
+        desc_var.setBackground(new java.awt.Color(255, 255, 255));
+        desc_var.setColumns(20);
+        desc_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        desc_var.setRows(5);
+        desc_var.setText("none");
+        desc_var.setDisabledTextColor(new java.awt.Color(0, 0, 0));
+        jScrollPane4.setViewportView(desc_var);
+
+        javax.swing.GroupLayout info_panelLayout = new javax.swing.GroupLayout(info_panel);
+        info_panel.setLayout(info_panelLayout);
+        info_panelLayout.setHorizontalGroup(
+            info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(info_panelLayout.createSequentialGroup()
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(info_panelLayout.createSequentialGroup()
+                        .addGap(177, 177, 177)
+                        .addComponent(jLabel10))
+                    .addGroup(info_panelLayout.createSequentialGroup()
+                        .addGap(20, 20, 20)
+                        .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel16)
+                            .addComponent(jLabel11)
+                            .addComponent(jLabel12)
+                            .addComponent(jLabel13)
+                            .addComponent(jLabel14)
+                            .addComponent(jLabel15))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(tn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ti_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 240, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(gen_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(ui_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(art_var, javax.swing.GroupLayout.PREFERRED_SIZE, 223, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(62, Short.MAX_VALUE))
+        );
+        info_panelLayout.setVerticalGroup(
+            info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(info_panelLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jLabel10)
+                .addGap(26, 26, 26)
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel16)
+                    .addComponent(ti_var))
+                .addGap(27, 27, 27)
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel11)
+                    .addComponent(tn_var))
+                .addGap(27, 27, 27)
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel12)
+                    .addComponent(art_var))
+                .addGap(27, 27, 27)
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel13)
+                    .addComponent(ui_var))
+                .addGap(27, 27, 27)
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel14)
+                    .addComponent(gen_var))
+                .addGap(27, 27, 27)
+                .addGroup(info_panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel15)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout search_varLayout = new javax.swing.GroupLayout(search_var);
         search_var.setLayout(search_varLayout);
         search_varLayout.setHorizontalGroup(
             search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 928, Short.MAX_VALUE)
+            .addGroup(search_varLayout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 389, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(59, 59, 59)
+                .addComponent(info_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         search_varLayout.setVerticalGroup(
             search_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 504, Short.MAX_VALUE)
+            .addComponent(info_panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, search_varLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 356, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
 
         jTabbedPane1.addTab("tab2", search_var);
@@ -773,6 +1090,8 @@ void previous(){
 
         jTabbedPane1.addTab("tab3", playlist_var);
 
+        downloads_var.setBackground(new java.awt.Color(31, 27, 36));
+
         javax.swing.GroupLayout downloads_varLayout = new javax.swing.GroupLayout(downloads_var);
         downloads_var.setLayout(downloads_varLayout);
         downloads_varLayout.setHorizontalGroup(
@@ -786,57 +1105,79 @@ void previous(){
 
         jTabbedPane1.addTab("tab4", downloads_var);
 
-        jLabel2.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        create_var.setBackground(new java.awt.Color(31, 27, 36));
+
+        jLabel2.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(208, 173, 252));
         jLabel2.setText("Create");
 
-        jLabel3.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(208, 173, 252));
         jLabel3.setText("Add Music:");
 
         jLabel4.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Track Name :");
 
         jLabel5.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Artist :");
 
         jLabel6.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Genre :");
 
         jLabel7.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Description :");
 
         jLabel8.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Track file :");
 
         description_var.setColumns(20);
+        description_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         description_var.setRows(5);
         jScrollPane1.setViewportView(description_var);
 
-        submitTrack_var.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        trackname_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        trackname_var.setForeground(new java.awt.Color(0, 0, 0));
+
+        artist_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        genre_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+
+        submitTrack_var.setBackground(new java.awt.Color(208, 173, 252));
+        submitTrack_var.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         submitTrack_var.setText("Submit Track");
-        submitTrack_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        submitTrack_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         submitTrack_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submitTrack_varActionPerformed(evt);
             }
         });
 
-        reset_var.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        reset_var.setBackground(new java.awt.Color(208, 173, 252));
+        reset_var.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         reset_var.setText("Reset");
-        reset_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        reset_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         reset_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 reset_varActionPerformed(evt);
             }
         });
 
-        filechose_var.setFont(new java.awt.Font("Papyrus", 1, 14)); // NOI18N
+        filechose_var.setBackground(new java.awt.Color(208, 173, 252));
+        filechose_var.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         filechose_var.setText("select file");
+        filechose_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         filechose_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 filechose_varActionPerformed(evt);
             }
         });
 
+        path_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         path_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 path_varActionPerformed(evt);
@@ -854,12 +1195,11 @@ void previous(){
                         .addComponent(jLabel3))
                     .addGroup(create_varLayout.createSequentialGroup()
                         .addGap(116, 116, 116)
-                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(create_varLayout.createSequentialGroup()
                                 .addGap(38, 38, 38)
@@ -878,13 +1218,16 @@ void previous(){
                                         .addComponent(filechose_var, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(create_varLayout.createSequentialGroup()
                                         .addGap(2, 2, 2)
-                                        .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))))))
+                                        .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(116, 116, 116)
+                        .addComponent(jLabel8)))
                 .addGap(85, 85, 85)
                 .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(submitTrack_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(reset_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(55, Short.MAX_VALUE))
+                .addContainerGap(57, Short.MAX_VALUE))
         );
         create_varLayout.setVerticalGroup(
             create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -910,17 +1253,18 @@ void previous(){
                             .addComponent(jLabel6))
                         .addGap(40, 40, 40)
                         .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(filechose_var)
+                            .addComponent(filechose_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel8))
                         .addGap(55, 55, 55)
-                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel7)
-                            .addGroup(create_varLayout.createSequentialGroup()
-                                .addComponent(submitTrack_var)
-                                .addGap(25, 25, 25)
-                                .addComponent(reset_var))
-                            .addComponent(jScrollPane1))))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(create_varLayout.createSequentialGroup()
+                        .addGap(363, 363, 363)
+                        .addComponent(submitTrack_var, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(reset_var, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(67, 67, 67))
         );
 
@@ -928,83 +1272,131 @@ void previous(){
 
         jPanel1.add(jTabbedPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 930, 530));
 
-        coverpanel.setBackground(new java.awt.Color(204, 204, 204));
+        coverpanel.setBackground(new java.awt.Color(51, 51, 51));
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(171, 85, 252));
         jLabel1.setText("Music Catalogue Management System!!");
 
-        logout_var.setBackground(new java.awt.Color(204, 255, 255));
+        logout_var.setBackground(new java.awt.Color(208, 173, 252));
         logout_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        logout_var.setForeground(new java.awt.Color(0, 0, 0));
         logout_var.setText("Logout");
-        logout_var.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
-        logout_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                logout_varActionPerformed(evt);
-            }
-        });
+        logout_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
 
         javax.swing.GroupLayout coverpanelLayout = new javax.swing.GroupLayout(coverpanel);
         coverpanel.setLayout(coverpanelLayout);
         coverpanelLayout.setHorizontalGroup(
             coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coverpanelLayout.createSequentialGroup()
-                .addContainerGap(224, Short.MAX_VALUE)
+                .addContainerGap(270, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 698, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(102, 102, 102)
-                .addComponent(logout_var, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24))
+                .addGap(43, 43, 43)
+                .addComponent(logout_var, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         coverpanelLayout.setVerticalGroup(
             coverpanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(coverpanelLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(logout_var)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, coverpanelLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(8, Short.MAX_VALUE)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
+            .addGroup(coverpanelLayout.createSequentialGroup()
+                .addGap(36, 36, 36)
+                .addComponent(logout_var, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jPanel1.add(coverpanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(-10, -8, 1140, 160));
 
-        Player_controls.setBackground(new java.awt.Color(204, 204, 204));
+        Player_controls.setBackground(new java.awt.Color(39, 39, 39));
 
-        next_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        next_var.setBackground(new java.awt.Color(51, 51, 51));
+        next_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        next_var.setForeground(new java.awt.Color(0, 0, 0));
         next_var.setText("►►");
+        next_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                next_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                next_varMouseExited(evt);
+            }
+        });
         next_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 next_varActionPerformed(evt);
             }
         });
 
-        stop_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        stop_var.setBackground(new java.awt.Color(51, 51, 51));
+        stop_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        stop_var.setForeground(new java.awt.Color(0, 0, 0));
         stop_var.setText("■");
+        stop_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                stop_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                stop_varMouseExited(evt);
+            }
+        });
         stop_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 stop_varActionPerformed(evt);
             }
         });
 
-        play_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
+        play_var.setBackground(new java.awt.Color(51, 51, 51));
+        play_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        play_var.setForeground(new java.awt.Color(0, 0, 0));
         play_var.setText(" ▶");
+        play_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        play_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                play_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                play_varMouseExited(evt);
+            }
+        });
         play_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 play_varActionPerformed(evt);
             }
         });
 
-        pause_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        pause_var.setBackground(new java.awt.Color(51, 51, 51));
+        pause_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        pause_var.setForeground(new java.awt.Color(0, 0, 0));
         pause_var.setText("| |");
+        pause_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pause_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pause_varMouseExited(evt);
+            }
+        });
         pause_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 pause_varActionPerformed(evt);
             }
         });
 
-        previous_var.setFont(new java.awt.Font("Arial", 1, 12)); // NOI18N
+        previous_var.setBackground(new java.awt.Color(51, 51, 51));
+        previous_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
+        previous_var.setForeground(new java.awt.Color(0, 0, 0));
         previous_var.setText("◄◄");
+        previous_var.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                previous_varMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                previous_varMouseExited(evt);
+            }
+        });
         previous_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previous_varActionPerformed(evt);
@@ -1068,16 +1460,6 @@ void previous(){
     private void mouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseExited
 
     }//GEN-LAST:event_mouseExited
-
-    private void logout_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout_varActionPerformed
-         new Intpage().setVisible(true);
-         player.close();
-         
-         
-
-       this.setVisible(false);
-       
-    }//GEN-LAST:event_logout_varActionPerformed
 
     private void home_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_home_btn_varActionPerformed
         jTabbedPane1.setSelectedIndex(0);
@@ -1149,6 +1531,7 @@ void previous(){
                     if (i>=1) {
                         JOptionPane.showMessageDialog(null, "Song uploaded!!");
                         updateList();
+                        update();
                         reset();
                     }else{
                         JOptionPane.showMessageDialog(null, "There was an error while uploading!!!");
@@ -1172,7 +1555,8 @@ void previous(){
     }//GEN-LAST:event_reset_varActionPerformed
 
     private void add_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_add_varActionPerformed
-        add();        // TODO add your handling code here:
+//        add();   
+        jTabbedPane1.setSelectedIndex(4);
     }//GEN-LAST:event_add_varActionPerformed
 
     private void up_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_up_varActionPerformed
@@ -1180,7 +1564,23 @@ void previous(){
     }//GEN-LAST:event_up_varActionPerformed
 
     private void remove_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_varActionPerformed
-      remove();  // TODO add your handling code here:
+      
+       int dia = JOptionPane.showConfirmDialog(null,"Sure? You want to remove This song?", "Track remove",
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.QUESTION_MESSAGE);
+     
+
+        if(dia==JOptionPane.YES_OPTION ){ 
+       remove();  // TODO add your handling code here:
+      Homepage h = new Homepage(HOME_UNAME.getText());
+      stop_var.doClick();
+      this.dispose();
+      anim=false;
+      h.setVisible(true);
+        }else{
+            System.out.println("cancel removing the song");
+        }
+      
     }//GEN-LAST:event_remove_varActionPerformed
 
     private void down_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_down_varActionPerformed
@@ -1246,6 +1646,76 @@ void previous(){
         System.out.println("mouse click");
     }//GEN-LAST:event_JL2MouseClicked
 
+    private void search_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_listMouseClicked
+        int a = search_list.getSelectedIndex();
+        System.out.println(a);
+         File f = (File) sl.sear.get(a);
+         String pa = (String)f.getAbsolutePath();
+         
+         
+         GetInfo gf = new GetInfo();
+            
+            
+            
+             String ui = gf.getUserId(pa);
+             int ti = gf.getTrackid(pa);
+             String tn = gf.getTrackName(pa);
+             String art = gf.getTrackArtist(pa);
+             String gen = gf.getTrackGenre(pa);
+             String des = gf.getTrackDescription(pa);
+             
+             
+             
+             ti_var.setText("#"+ti);
+             tn_var.setText(tn);
+             art_var.setText(art);
+             gen_var.setText(gen);
+             desc_var.setText(des);
+             ui_var.setText(ui);
+             desc_var.setText(des);
+    }//GEN-LAST:event_search_listMouseClicked
+
+    private void play_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play_varMouseEntered
+        
+        play_var.setForeground(new java.awt.Color(187,134,252));
+    }//GEN-LAST:event_play_varMouseEntered
+
+    private void play_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play_varMouseExited
+        play_var.setForeground(new java.awt.Color(0,0,0));
+    }//GEN-LAST:event_play_varMouseExited
+
+    private void stop_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop_varMouseEntered
+        stop_var.setForeground(new java.awt.Color(187,134,252));
+    }//GEN-LAST:event_stop_varMouseEntered
+
+    private void stop_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop_varMouseExited
+        stop_var.setForeground(new java.awt.Color(0,0,0));
+    }//GEN-LAST:event_stop_varMouseExited
+
+    private void pause_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause_varMouseEntered
+        pause_var.setForeground(new java.awt.Color(187,134,252));
+    }//GEN-LAST:event_pause_varMouseEntered
+
+    private void pause_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause_varMouseExited
+        pause_var.setForeground(new java.awt.Color(0,0,0));
+    }//GEN-LAST:event_pause_varMouseExited
+
+    private void next_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next_varMouseEntered
+        next_var.setForeground(new java.awt.Color(187,134,252));
+    }//GEN-LAST:event_next_varMouseEntered
+
+    private void next_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next_varMouseExited
+        next_var.setForeground(new java.awt.Color(0,0,0));
+    }//GEN-LAST:event_next_varMouseExited
+
+    private void previous_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous_varMouseEntered
+        previous_var.setForeground(new java.awt.Color(187,134,252));
+    }//GEN-LAST:event_previous_varMouseEntered
+
+    private void previous_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous_varMouseExited
+        previous_var.setForeground(new java.awt.Color(0,0,0));
+    }//GEN-LAST:event_previous_varMouseExited
+
     /**
      * @param args the command line arguments
      */
@@ -1288,19 +1758,30 @@ void previous(){
     private javax.swing.JLabel JL2;
     private javax.swing.JPanel Player_controls;
     private javax.swing.JButton add_var;
+    private javax.swing.JLabel art_var;
     private javax.swing.JTextField artist_var;
     private javax.swing.JPanel coverpanel;
     private javax.swing.JButton create_btn_var;
     private javax.swing.JPanel create_var;
+    private javax.swing.JTextArea desc_var;
     private javax.swing.JTextArea description_var;
     private javax.swing.JButton down_var;
     private javax.swing.JButton downloads_btn_var;
     private javax.swing.JPanel downloads_var;
     private javax.swing.JButton filechose_var;
+    private javax.swing.JLabel gen_var;
     private javax.swing.JTextField genre_var;
     private javax.swing.JButton home_btn_var;
     private javax.swing.JPanel home_var;
+    private javax.swing.JPanel info_panel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel13;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel15;
+    private javax.swing.JLabel jLabel16;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1314,6 +1795,8 @@ void previous(){
     private javax.swing.JList<String> jPlaylist;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton logout_var;
     private javax.swing.JButton next_var;
@@ -1326,11 +1809,15 @@ void previous(){
     private javax.swing.JButton remove_var;
     private javax.swing.JButton reset_var;
     private javax.swing.JButton search_btn_var;
+    private javax.swing.JList<String> search_list;
     private javax.swing.JPanel search_var;
     private javax.swing.JPanel side_panel;
     private javax.swing.JButton stop_var;
     private javax.swing.JButton submitTrack_var;
+    private javax.swing.JLabel ti_var;
+    private javax.swing.JLabel tn_var;
     private javax.swing.JTextField trackname_var;
+    private javax.swing.JLabel ui_var;
     private javax.swing.JButton up_var;
     private javax.swing.JLabel welcome_var;
     // End of variables declaration//GEN-END:variables

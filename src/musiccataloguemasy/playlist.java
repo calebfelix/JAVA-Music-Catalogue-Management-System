@@ -39,6 +39,7 @@ import javax.swing.JOptionPane;
 public class playlist {
     JFileChooser fc = new JFileChooser();
     ArrayList ls = new ArrayList();
+    ArrayList sear = new ArrayList();
     MySQLConnect myc = new MySQLConnect();
     
     void add(JFrame frame){
@@ -51,6 +52,43 @@ public class playlist {
             ls.addAll(Arrays.asList(file));
         }
     }
+    
+    
+    ArrayList getAllsong(){
+        try {
+        
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+        String sql = "select * from tracks";
+        
+        pst = con.prepareStatement(sql);
+        ResultSet rs=pst.executeQuery();
+        
+        while(rs.next()){
+            String songpath = rs.getString("audio");
+            
+            File f = new File(songpath); 
+//           ls.addAll(Arrays.asList(file));
+            if(sear.contains(f)){
+            
+            System.out.println("song already present");
+  
+        }else{
+            sear.add(f);
+            System.out.println("song aadded");
+            }
+        }
+        
+         return sear;
+       
+        
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "nope");
+    }
+        
+        return sear;
+    }
+    
     
     ArrayList getListSong(String name){
          try {
@@ -65,6 +103,7 @@ public class playlist {
         
         while(rs.next()){
             String songpath = rs.getString("audio");
+            
             File f = new File(songpath); 
 //           ls.addAll(Arrays.asList(file));
             if(ls.contains(f)){
@@ -74,14 +113,16 @@ public class playlist {
         }else{
             ls.add(f);
             System.out.println("song aadded");
+            }
         }
-        }
+        
          return ls;
        
         
     } catch (Exception e) {
         JOptionPane.showMessageDialog(null, "nope");
     }
+        
         return ls;
 }
     

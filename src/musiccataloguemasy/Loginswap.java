@@ -98,28 +98,35 @@ public class Loginswap extends javax.swing.JFrame {
         DOB_dc = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(51, 51, 51));
 
-        jPanel1.setBackground(new java.awt.Color(204, 204, 204));
+        jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setForeground(new java.awt.Color(204, 204, 204));
 
-        jPanel2.setBackground(new java.awt.Color(204, 204, 255));
+        jPanel2.setBackground(new java.awt.Color(31, 27, 36));
 
         jLabel1.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(187, 83, 251));
         jLabel1.setText("Sign Up ");
 
         jLabel2.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("First Name:");
 
         jLabel3.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("Last Name:");
 
         jLabel4.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
         jLabel4.setText("Date of Birth:");
 
         jLabel5.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
         jLabel5.setText("Confirm Password:");
 
         jLabel6.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
         jLabel6.setText("Gender:");
 
         FirstName_var.setBackground(new java.awt.Color(255, 255, 255));
@@ -134,18 +141,23 @@ public class Loginswap extends javax.swing.JFrame {
         Lastname_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
         jLabel7.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
         jLabel7.setText("Username:");
 
         jLabel8.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
         jLabel8.setText("Email-Id:");
 
         jLabel9.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
         jLabel9.setText("Phone no:");
 
         jLabel10.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
         jLabel10.setText("Password:");
 
         jLabel11.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
         jLabel11.setText("Country:");
 
         User_id_var.setBackground(new java.awt.Color(255, 255, 255));
@@ -171,20 +183,20 @@ public class Loginswap extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setBackground(new java.awt.Color(153, 255, 255));
+        jButton1.setBackground(new java.awt.Color(208, 173, 252));
         jButton1.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         jButton1.setText("< Previous page");
-        jButton1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        submit_signup_btn.setBackground(new java.awt.Color(153, 255, 255));
+        submit_signup_btn.setBackground(new java.awt.Color(208, 173, 252));
         submit_signup_btn.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        submit_signup_btn.setText("Submit");
-        submit_signup_btn.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        submit_signup_btn.setText("Signup");
+        submit_signup_btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         submit_signup_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submit_signup_btnActionPerformed(evt);
@@ -209,7 +221,7 @@ public class Loginswap extends javax.swing.JFrame {
         Gender_cb.setBackground(new java.awt.Color(204, 204, 204));
         Gender_cb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select...", "Male", "Female", "Others" }));
 
-        DOB_dc.setBackground(new java.awt.Color(204, 204, 255));
+        DOB_dc.setBackground(new java.awt.Color(31, 27, 36));
         DOB_dc.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -220,8 +232,8 @@ public class Loginswap extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
-                        .addComponent(jButton1)
-                        .addGap(237, 237, 237)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(228, 228, 228)
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(71, 71, 71)
@@ -280,10 +292,8 @@ public class Loginswap extends javax.swing.JFrame {
                 .addGap(22, 22, 22)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(40, 40, 40)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
