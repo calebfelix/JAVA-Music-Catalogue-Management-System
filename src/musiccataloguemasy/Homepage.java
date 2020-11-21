@@ -101,6 +101,7 @@ boolean anim = true;
         description_var.setForeground(new java.awt.Color(235,224,249));
         
         
+        
         home_btn_var.setBackground(new Color(187,83,251));
         
         playlist_btn_var.setBackground(new Color(208,173,252));
