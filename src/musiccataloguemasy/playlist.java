@@ -40,6 +40,7 @@ public class playlist {
     JFileChooser fc = new JFileChooser();
     ArrayList ls = new ArrayList();
     ArrayList sear = new ArrayList();
+    ArrayList down = new ArrayList();
     MySQLConnect myc = new MySQLConnect();
     
     void add(JFrame frame){
@@ -51,6 +52,37 @@ public class playlist {
             File[] file = fc.getSelectedFiles();
             ls.addAll(Arrays.asList(file));
         }
+    }
+    
+    
+    ArrayList getDownload(String user_id){
+        try{
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+        String sql = "select * from downloads where user_id=?";
+        pst = con.prepareStatement(sql);
+        pst.setString(1, user_id);
+        ResultSet rs=pst.executeQuery();
+        
+        while(rs.next()){
+            String songpath = rs.getString("audio");
+            
+            File f = new File(songpath); 
+//           ls.addAll(Arrays.asList(file));
+            if(down.contains(f)){
+            
+            System.out.println("song already present");
+  
+        }else{
+            down.add(f);
+            System.out.println("song aadded");
+            }
+        }
+        
+        }catch(Exception e){
+            
+        }
+        return down;
     }
     
     

@@ -23,6 +23,11 @@ public class Signup extends javax.swing.JFrame {
     MySQLConnect myc;
     public Signup() {
         initComponents();
+        
+        PP1.setBackground(new Color(187,83,251));
+        PP2.setBackground(new Color(208,173,252));
+        PP3.setBackground(new Color(208,173,252));
+        
         myc = new MySQLConnect();
         setVisible(true);
         setLocationRelativeTo(null);
@@ -82,6 +87,7 @@ public class Signup extends javax.swing.JFrame {
         PP1.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
         PP1.setText("Username");
         PP1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        PP1.setFocusPainted(false);
         PP1.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Signup.this.mouseClicked(evt);
@@ -116,6 +122,7 @@ public class Signup extends javax.swing.JFrame {
         PP2.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
         PP2.setText("Email-ID");
         PP2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        PP2.setFocusPainted(false);
         PP2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Signup.this.mouseClicked(evt);
@@ -150,6 +157,7 @@ public class Signup extends javax.swing.JFrame {
         PP3.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
         PP3.setText("Phone no.");
         PP3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        PP3.setFocusPainted(false);
         PP3.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 Signup.this.mouseClicked(evt);
@@ -207,13 +215,13 @@ public class Signup extends javax.swing.JFrame {
         p1.setBackground(new java.awt.Color(31, 27, 36));
         p1.setForeground(new java.awt.Color(171, 85, 252));
 
-        jLabel2.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Username:");
+        jLabel2.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel2.setText("Username");
 
-        jLabel3.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("Password:");
+        jLabel3.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel3.setText("Password");
 
         u_username_var.setBackground(new java.awt.Color(204, 204, 204));
         u_username_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -231,10 +239,11 @@ public class Signup extends javax.swing.JFrame {
             }
         });
 
-        u_submit_var.setBackground(new java.awt.Color(0, 204, 204));
+        u_submit_var.setBackground(new java.awt.Color(208, 173, 252));
         u_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        u_submit_var.setText("Submit");
+        u_submit_var.setText("Login");
         u_submit_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        u_submit_var.setFocusPainted(false);
         u_submit_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 u_submit_varActionPerformed(evt);
@@ -253,21 +262,21 @@ public class Signup extends javax.swing.JFrame {
                 .addContainerGap(133, Short.MAX_VALUE)
                 .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                        .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel10)
-                            .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(p1Layout.createSequentialGroup()
-                                    .addComponent(jLabel3)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(p1Layout.createSequentialGroup()
-                                    .addComponent(jLabel2)
-                                    .addGap(42, 42, 42)
-                                    .addComponent(u_username_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jLabel10)
                         .addGap(158, 158, 158))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
                         .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33))))
+            .addGroup(p1Layout.createSequentialGroup()
+                .addGap(143, 143, 143)
+                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jLabel3)
+                    .addComponent(jLabel2))
+                .addGap(42, 42, 42)
+                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(u_username_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         p1Layout.setVerticalGroup(
             p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -282,7 +291,7 @@ public class Signup extends javax.swing.JFrame {
                 .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -295,13 +304,13 @@ public class Signup extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(171, 85, 252));
         jLabel4.setText("Login through Email-ID");
 
-        jLabel5.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel5.setText("Email-ID:");
+        jLabel5.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel5.setText("Email-ID");
 
-        jLabel6.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel6.setText("Password:");
+        jLabel6.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel6.setText("Password");
 
         e_email_var.setBackground(new java.awt.Color(204, 204, 204));
         e_email_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -309,9 +318,9 @@ public class Signup extends javax.swing.JFrame {
         e_password_var.setBackground(new java.awt.Color(204, 204, 204));
         e_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        e_submit_var.setBackground(new java.awt.Color(0, 204, 204));
+        e_submit_var.setBackground(new java.awt.Color(208, 173, 252));
         e_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        e_submit_var.setText("Submit");
+        e_submit_var.setText("Login");
         e_submit_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         e_submit_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -324,22 +333,23 @@ public class Signup extends javax.swing.JFrame {
         p2Layout.setHorizontalGroup(
             p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p2Layout.createSequentialGroup()
-                .addContainerGap(134, Short.MAX_VALUE)
+                .addGap(134, 134, 134)
                 .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p2Layout.createSequentialGroup()
                         .addComponent(e_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p2Layout.createSequentialGroup()
                         .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(p2Layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, p2Layout.createSequentialGroup()
-                                .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(13, 13, 13)
+                                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel6))
                                 .addGap(42, 42, 42)
-                                .addComponent(e_email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING))
+                                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(e_email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addGap(170, 170, 170))))
         );
         p2Layout.setVerticalGroup(
@@ -353,9 +363,9 @@ public class Signup extends javax.swing.JFrame {
                     .addComponent(jLabel5))
                 .addGap(44, 44, 44)
                 .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 189, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
                 .addComponent(e_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -368,13 +378,13 @@ public class Signup extends javax.swing.JFrame {
         jLabel7.setForeground(new java.awt.Color(171, 85, 252));
         jLabel7.setText("Login through Phone no.");
 
-        jLabel8.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel8.setText("Phone no:");
+        jLabel8.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel8.setText("Phone no");
 
-        jLabel9.setFont(new java.awt.Font("Papyrus", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel9.setText("Password:");
+        jLabel9.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel9.setText("Password");
 
         p_phone_var.setBackground(new java.awt.Color(204, 204, 204));
         p_phone_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -382,9 +392,9 @@ public class Signup extends javax.swing.JFrame {
         p_password_var.setBackground(new java.awt.Color(204, 204, 204));
         p_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
-        p_submit_var.setBackground(new java.awt.Color(0, 204, 204));
+        p_submit_var.setBackground(new java.awt.Color(208, 173, 252));
         p_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        p_submit_var.setText("Submit");
+        p_submit_var.setText("Login");
         p_submit_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
         p_submit_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -401,12 +411,12 @@ public class Signup extends javax.swing.JFrame {
                 .addComponent(p_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
             .addGroup(p3Layout.createSequentialGroup()
-                .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(p3Layout.createSequentialGroup()
-                        .addGap(136, 136, 136)
-                        .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel9)
-                            .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(147, 147, 147)
+                        .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel8)
+                            .addComponent(jLabel9))
                         .addGap(42, 42, 42)
                         .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(p_phone_var, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
@@ -423,23 +433,24 @@ public class Signup extends javax.swing.JFrame {
                 .addComponent(jLabel7)
                 .addGap(91, 91, 91)
                 .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(p_phone_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(44, 44, 44)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(p_phone_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(43, 43, 43)
                 .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(p_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 191, Short.MAX_VALUE)
+                    .addComponent(jLabel9)
+                    .addComponent(p_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
                 .addComponent(p_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
 
         jPanel6.add(p3, "card4");
 
-        previouspage_btn_var.setBackground(new java.awt.Color(153, 255, 255));
+        previouspage_btn_var.setBackground(new java.awt.Color(208, 173, 252));
         previouspage_btn_var.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         previouspage_btn_var.setText("< previous page");
         previouspage_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        previouspage_btn_var.setFocusPainted(false);
         previouspage_btn_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 previouspage_btn_varActionPerformed(evt);
@@ -495,16 +506,34 @@ public class Signup extends javax.swing.JFrame {
 
     private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
         if (evt.getSource()==PP1){
+           
+            
+            
+           PP1.setBackground(new Color(187,83,251));
+           PP2.setBackground(new Color(208,173,252));
+           PP3.setBackground(new Color(208,173,252));
+           
+          
            p1.setVisible(true);
            p2.setVisible(false);
            p3.setVisible(false);
+           
         }
         if (evt.getSource()==PP2){
+           PP2.setBackground(new Color(187,83,251));
+           PP1.setBackground(new Color(208,173,252));
+           PP3.setBackground(new Color(208,173,252));
+           
+           
            p1.setVisible(false);
            p2.setVisible(true);
            p3.setVisible(false);
         }
         if (evt.getSource()==PP3){
+           PP3.setBackground(new Color(187,83,251));
+           PP1.setBackground(new Color(208,173,252));
+           PP2.setBackground(new Color(208,173,252));
+           
            p1.setVisible(false);
            p2.setVisible(false);
            p3.setVisible(true);
@@ -512,27 +541,11 @@ public class Signup extends javax.swing.JFrame {
     }//GEN-LAST:event_mouseClicked
 
     private void PP1mouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PP1mouseEntered
-        if (evt.getSource()==PP1){
-        PP1.setBackground(new Color(204,204,255));
-        }
-        if (evt.getSource()==PP2){
-        PP2.setBackground(new Color(204,204,255));
-        }
-        if (evt.getSource()==PP3){
-        PP3.setBackground(new Color(204,204,255));
-        }
+
     }//GEN-LAST:event_PP1mouseEntered
 
     private void mouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseExited
-      if (evt.getSource()==PP1){
-        PP1.setBackground(new Color(208,173,252));
-        }
-        if (evt.getSource()==PP2){
-        PP2.setBackground(new Color(208,173,252));
-        }
-        if (evt.getSource()==PP3){
-        PP3.setBackground(new Color(208,173,252));
-        } 
+
     }//GEN-LAST:event_mouseExited
 
     private void previouspage_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previouspage_btn_varActionPerformed

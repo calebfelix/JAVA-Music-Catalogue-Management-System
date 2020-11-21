@@ -5,6 +5,8 @@
  */
 package musiccataloguemasy;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,6 +16,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import java.util.regex.Matcher; 
 import java.util.regex.Pattern;
+import javax.swing.JComponent;
 
 /**
  *
@@ -27,6 +30,37 @@ public class Loginswap extends javax.swing.JFrame {
     MySQLConnect myc;
     public Loginswap() {
         initComponents();
+        
+        FirstName_var.setBackground(new java.awt.Color(29,24,36));
+        Lastname_var.setBackground(new java.awt.Color(29,24,36));
+        password_var.setBackground(new java.awt.Color(29,24,36));
+        Confirmpassword_var.setBackground(new java.awt.Color(29,24,36));
+
+        Gender_cb.setBackground(new java.awt.Color(29,24,36));
+        PhoneNo_var.setBackground(new java.awt.Color(29,24,36));
+        Email_var.setBackground(new java.awt.Color(29,24,36));
+        User_id_var.setBackground(new java.awt.Color(29,24,36));
+        Country_var.setBackground(new java.awt.Color(29,24,36));
+        
+        for(Component c : DOB_dc.getComponents()){
+            ((JComponent)c).setBackground(new java.awt.Color(208,173,252));
+        }
+        
+        
+        
+        
+        
+        FirstName_var.setForeground(new java.awt.Color(235,224,249));
+        Lastname_var.setForeground(new java.awt.Color(235,224,249));
+        password_var.setForeground(new java.awt.Color(235,224,249));
+        Confirmpassword_var.setForeground(new java.awt.Color(235,224,249));
+
+        Gender_cb.setForeground(new java.awt.Color(235,224,249));
+        PhoneNo_var.setForeground(new java.awt.Color(235,224,249));
+        Email_var.setForeground(new java.awt.Color(235,224,249));
+        User_id_var.setForeground(new java.awt.Color(235,224,249));
+        Country_var.setForeground(new java.awt.Color(235,224,249));
+        
         myc = new MySQLConnect();
         setLocationRelativeTo(null);
     }
@@ -105,28 +139,28 @@ public class Loginswap extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(31, 27, 36));
 
-        jLabel1.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(187, 83, 251));
         jLabel1.setText("Sign Up ");
 
-        jLabel2.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(235, 224, 249));
         jLabel2.setText("First Name:");
 
-        jLabel3.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel3.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(235, 224, 249));
         jLabel3.setText("Last Name:");
 
-        jLabel4.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(235, 224, 249));
         jLabel4.setText("Date of Birth:");
 
-        jLabel5.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel5.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(235, 224, 249));
         jLabel5.setText("Confirm Password:");
 
-        jLabel6.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel6.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(235, 224, 249));
         jLabel6.setText("Gender:");
 
         FirstName_var.setBackground(new java.awt.Color(255, 255, 255));
@@ -140,24 +174,24 @@ public class Loginswap extends javax.swing.JFrame {
         Lastname_var.setBackground(new java.awt.Color(255, 255, 255));
         Lastname_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jLabel7.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel7.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(235, 224, 249));
         jLabel7.setText("Username:");
 
-        jLabel8.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel8.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(235, 224, 249));
         jLabel8.setText("Email-Id:");
 
-        jLabel9.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel9.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(235, 224, 249));
         jLabel9.setText("Phone no:");
 
-        jLabel10.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel10.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(235, 224, 249));
         jLabel10.setText("Password:");
 
-        jLabel11.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(235, 224, 249));
         jLabel11.setText("Country:");
 
         User_id_var.setBackground(new java.awt.Color(255, 255, 255));
@@ -187,6 +221,7 @@ public class Loginswap extends javax.swing.JFrame {
         jButton1.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
         jButton1.setText("< Previous page");
         jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton1.setFocusPainted(false);
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -194,9 +229,10 @@ public class Loginswap extends javax.swing.JFrame {
         });
 
         submit_signup_btn.setBackground(new java.awt.Color(208, 173, 252));
-        submit_signup_btn.setFont(new java.awt.Font("Papyrus", 1, 18)); // NOI18N
+        submit_signup_btn.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
         submit_signup_btn.setText("Signup");
         submit_signup_btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        submit_signup_btn.setFocusPainted(false);
         submit_signup_btn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 submit_signup_btnActionPerformed(evt);
@@ -222,6 +258,7 @@ public class Loginswap extends javax.swing.JFrame {
         Gender_cb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select...", "Male", "Female", "Others" }));
 
         DOB_dc.setBackground(new java.awt.Color(31, 27, 36));
+        DOB_dc.setForeground(new java.awt.Color(255, 255, 255));
         DOB_dc.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
@@ -233,7 +270,7 @@ public class Loginswap extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(23, 23, 23)
                         .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(228, 228, 228)
+                        .addGap(294, 294, 294)
                         .addComponent(jLabel1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(71, 71, 71)
@@ -351,7 +388,7 @@ public class Loginswap extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

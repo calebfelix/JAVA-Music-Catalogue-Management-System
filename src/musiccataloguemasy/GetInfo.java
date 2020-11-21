@@ -18,6 +18,24 @@ public class GetInfo {
     MySQLConnect myc = new MySQLConnect();
         
    
+    int getdownload_id(String pathh){
+        int download_id=0 ;
+        try {
+        
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+        String sql = "select * from downloads where audio=?";
+        pst = con.prepareStatement(sql);
+        pst.setString(1, pathh);
+        ResultSet rs=pst.executeQuery();       
+        while(rs.next()){
+             download_id = rs.getInt("download_id");
+            }       
+        } catch (Exception e) {
+            System.out.println("couldnt get track id");
+        }
+    return download_id;
+    }
     
     
     int getTrackid(String pathh){
