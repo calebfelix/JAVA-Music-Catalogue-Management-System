@@ -11,8 +11,6 @@ import java.awt.Color;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.FileInputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,9 +19,11 @@ import java.util.ArrayList;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.UIManager;
+import javax.swing.filechooser.FileFilter;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javazoom.jl.player.Player;
+
+
 
 /**
  *
@@ -109,7 +109,8 @@ boolean anim = true;
         create_btn_var.setBackground(new Color(208,173,252));
         downloads_btn_var.setBackground(new Color(208,173,252));
         
-        
+
+
         
         desc_var.setBackground(new java.awt.Color(29,24,36));
         desc_var.setForeground(new java.awt.Color(235,224,249));
@@ -349,7 +350,7 @@ void updateList() {
             
             model.add(i,a);
         }
-        jPlaylist.setModel(model);
+        Playlist_list.setModel(model);
    }    
 
 void update() {
@@ -445,7 +446,7 @@ int getTrackid(String pathh){
 
 void remove(){
     try{
-        int index = jPlaylist.getLeadSelectionIndex();
+        int index = Playlist_list.getLeadSelectionIndex();
         
         
         
@@ -456,15 +457,23 @@ void remove(){
         
         try {
         Connection con = myc.getConn();
-        PreparedStatement pst ;
-
-        String sql = "delete from tracks where track_id=?";
-        pst = con.prepareStatement(sql);
-        pst.setInt(1, trackid);
         
+        PreparedStatement pst1 ;        
+        String pre =  "SET FOREIGN_KEY_CHECKS=0";
+        pst1 = con.prepareStatement(pre);
+        pst1.executeUpdate();
         
-        pst.executeUpdate();
+        PreparedStatement pst2 ;        
+        String sql =  "delete from tracks where track_id=?";
+        pst2 = con.prepareStatement(sql);
+        pst2.setInt(1, trackid);
+        pst2.executeUpdate();
        
+        
+        PreparedStatement pst3 ;        
+        String post =  "SET FOREIGN_KEY_CHECKS=1";
+        pst3 = con.prepareStatement(post);
+        pst3.executeUpdate();
         
         } catch (Exception e) {
             
@@ -476,26 +485,75 @@ void remove(){
     }
 }
 
+int getTrackidDown(String pathh){
+    int trackid=0 ;
+    try {
+        
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+        String sql = "select * from downloads where audio=? and user_id=?";
+        pst = con.prepareStatement(sql);
+        pst.setString(1, pathh);
+        pst.setString(2, HOME_UNAME.getText());
+        ResultSet rs=pst.executeQuery();       
+        while(rs.next()){
+             trackid = rs.getInt("track_id");
+            }       
+        } catch (Exception e) {
+            System.out.println("couldnt get track id");
+        }
+    return trackid;
+}
+
+void removeDown(){
+    int index = download_list.getLeadSelectionIndex();
+        
+        
+        
+        System.out.println(("this is :"+dl.down.get(index)));
+        File f = (File) dl.down.get(index);
+        System.out.println((String)f.getPath());
+        int trackid = getTrackidDown((String)f.getPath());
+        
+        try {
+        Connection con = myc.getConn();
+        PreparedStatement pst ;
+
+        String sql = "delete from downloads where track_id=? and user_id=?";
+        pst = con.prepareStatement(sql);
+        pst.setInt(1, trackid);
+        pst.setString(2, HOME_UNAME.getText());
+        
+        
+        pst.executeUpdate();
+       
+        
+        } catch (Exception e) {
+            
+            System.out.println("does not connect to db");
+        }
+}
+
 void up(){
     try{
-        int s1 = jPlaylist.getLeadSelectionIndex();
+        int s1 = Playlist_list.getLeadSelectionIndex();
         simpan = (File) pl.ls.get(s1);
         pl.ls.remove(s1);
         pl.ls.add(s1 - 1, simpan );
         updateList();
-        jPlaylist.setSelectedIndex(s1-1);
+        Playlist_list.setSelectedIndex(s1-1);
     }catch(Exception e){
     }
 }
 
 void down(){
     try{
-        int s1 = jPlaylist.getLeadSelectionIndex();
+        int s1 = Playlist_list.getLeadSelectionIndex();
         simpan = (File) pl.ls.get(s1);
         pl.ls.remove(s1);
         pl.ls.add(s1 + 1, simpan );
         updateList();
-        jPlaylist.setSelectedIndex(s1+1);
+        Playlist_list.setSelectedIndex(s1+1);
     }catch(Exception e){
     }
 }
@@ -522,8 +580,12 @@ public void pause_1(){
     player1 = null;
     if(valid) canResume = true;
         pause_var.setEnabled(false);
+        pause2_var.setEnabled(false);
+        pause3_var.setEnabled(false);
         System.out.println("pause");
         play_var.setEnabled(true);
+        play2_var.setEnabled(true);
+        play3_var.setEnabled(true);
         
     }catch(Exception e){
 
@@ -538,9 +600,13 @@ public void pause_2(){
     BIS = null;
     player2 = null;
     if(valid2) canResume2 = true;
+        pause_var.setEnabled(false);
         pause2_var.setEnabled(false);
+        pause3_var.setEnabled(false);
         System.out.println("pause");
+        play_var.setEnabled(true);
         play2_var.setEnabled(true);
+        play3_var.setEnabled(true);
         
     }catch(Exception e){
 
@@ -555,8 +621,12 @@ public void pause_3(){
     BIS = null;
     player3 = null;
     if(valid3) canResume3 = true;
+        pause_var.setEnabled(false);
+        pause2_var.setEnabled(false);
         pause3_var.setEnabled(false);
         System.out.println("pause");
+        play_var.setEnabled(true);
+        play2_var.setEnabled(true);
         play3_var.setEnabled(true);
         
     }catch(Exception e){
@@ -585,7 +655,7 @@ public boolean putar_1(int pos){
     valid = true;
     canResume = false;
     try{
-     int p1 = jPlaylist.getSelectedIndex();
+     int p1 = Playlist_list.getSelectedIndex();
      plai = (File) this.updateList.get(p1);
     FIS = new FileInputStream(plai);
     total = FIS.available();
@@ -597,8 +667,12 @@ public boolean putar_1(int pos){
                 public void run(){
                     try{
                         play_var.setEnabled(false);
+                        play2_var.setEnabled(false);
+                        play3_var.setEnabled(false);
                         player1.play();
                         play_var.setEnabled(true);
+                        play2_var.setEnabled(true);
+                        play3_var.setEnabled(true);
                         System.out.println("song done");   
                         
                     }catch(Exception e){
@@ -610,8 +684,9 @@ public boolean putar_1(int pos){
             }
     ).start();
     }catch(Exception e){
-        JOptionPane.showMessageDialog(null, "Select mp3 file");
-        playlist_btn_var.doClick();
+//        JOptionPane.showMessageDialog(null, "Select mp3 file");
+System.out.println("player1 empty");
+//        playlist_btn_var.doClick();
         valid = false;
         
     }
@@ -636,9 +711,13 @@ public boolean putar_2(int pos){
             new Runnable(){
                 public void run(){
                     try{
+                        play_var.setEnabled(false);
                         play2_var.setEnabled(false);
+                        play3_var.setEnabled(false);
                         player2.play();
+                        play_var.setEnabled(true);
                         play2_var.setEnabled(true);
+                        play3_var.setEnabled(true);
                         System.out.println("song done");   
                         
                     }catch(Exception e){
@@ -650,8 +729,9 @@ public boolean putar_2(int pos){
             }
     ).start();
     }catch(Exception e){
-        JOptionPane.showMessageDialog(null, "Select mp3 file");
-        search_btn_var.doClick();
+//        JOptionPane.showMessageDialog(null, "Select mp3 file");
+System.out.println("player2 empty");
+//        search_btn_var.doClick();
         valid2 = false;
         
     }
@@ -675,8 +755,12 @@ public boolean putar_3(int pos){
             new Runnable(){
                 public void run(){
                     try{
+                        play_var.setEnabled(false);
+                        play2_var.setEnabled(false);
                         play3_var.setEnabled(false);
                         player3.play();
+                        play_var.setEnabled(true);
+                        play2_var.setEnabled(true);
                         play3_var.setEnabled(true);
                         System.out.println("song done");   
                         
@@ -689,8 +773,9 @@ public boolean putar_3(int pos){
             }
     ).start();
     }catch(Exception e){
-        JOptionPane.showMessageDialog(null, "Select mp3 file");
-        downloads_btn_var.doClick();
+//        JOptionPane.showMessageDialog(null, "Select mp3 file");
+System.out.println("player3 empty");
+//        downloads_btn_var.doClick();
         valid3 = false;
         
     }
@@ -707,13 +792,13 @@ void next_1(){
     
         try{
             player1.close();
-            int s1 = jPlaylist.getSelectedIndex() +1;
+            int s1 = Playlist_list.getSelectedIndex() +1;
             sa = (File) this.pl.ls.get(s1);
             FileInputStream fis = new FileInputStream(sa);
             BufferedInputStream bis = new BufferedInputStream(fis);
             player1 = new javazoom.jl.player.Player(bis);
             
-            jPlaylist.setSelectedIndex(s1);
+            Playlist_list.setSelectedIndex(s1);
         }catch(Exception e){
             System.out.println("Problem playing file");
             System.out.println(e);
@@ -725,7 +810,7 @@ void next_1(){
             BufferedInputStream bis = new BufferedInputStream(fis);
             player1 = new javazoom.jl.player.Player(bis);
             
-            jPlaylist.setSelectedIndex(s1);
+            Playlist_list.setSelectedIndex(s1);
         }catch(Exception er){
             
                 System.out.println(er);
@@ -734,6 +819,8 @@ void next_1(){
             
         }
         pause_var.setEnabled(true);
+        pause2_var.setEnabled(true);
+        pause3_var.setEnabled(true);
         putar_1(-1);
 
 }
@@ -768,7 +855,9 @@ void next_2(){
             
             
         }
+        pause_var.setEnabled(true);
         pause2_var.setEnabled(true);
+        pause3_var.setEnabled(true);
         putar_2(-1);
 
 }
@@ -803,6 +892,8 @@ void next_3(){
             
             
         }
+       pause_var.setEnabled(true);
+        pause2_var.setEnabled(true);
         pause3_var.setEnabled(true);
         putar_3(-1);
 
@@ -813,17 +904,19 @@ void previous_1(){
    
         try{
             player1.close();
-            int s1 = jPlaylist.getSelectedIndex() -1;
+            int s1 = Playlist_list.getSelectedIndex() -1;
             sa = (File) this.pl.ls.get(s1);
             FileInputStream fis = new FileInputStream(sa);
             BufferedInputStream bis = new BufferedInputStream(fis);
             player1 = new javazoom.jl.player.Player(bis);
-            jPlaylist.setSelectedIndex(s1);
+            Playlist_list.setSelectedIndex(s1);
         }catch(Exception e){
             System.out.println("Problem playing file");
             System.out.println(e);
         }
         pause_var.setEnabled(true);
+        pause2_var.setEnabled(true);
+        pause3_var.setEnabled(true);
         putar_1(-1); 
 }
 
@@ -841,7 +934,9 @@ void previous_2(){
             System.out.println("Problem playing file");
             System.out.println(e);
         }
+       pause_var.setEnabled(true);
         pause2_var.setEnabled(true);
+        pause3_var.setEnabled(true);
         putar_2(-1);
 }
 
@@ -859,6 +954,8 @@ void previous_3(){
             System.out.println("Problem playing file");
             System.out.println(e);
         }
+        pause_var.setEnabled(true);
+        pause2_var.setEnabled(true);
         pause3_var.setEnabled(true);
         putar_3(-1);
 }
@@ -919,6 +1016,90 @@ boolean exists(String pathh){
     }
     return false;
 }
+
+
+
+
+void play_1_1(){
+            if(canResume==false){ 
+            putar_1(-1);     
+        }
+        else{
+            resume_1();
+            pause_var.setEnabled(true);
+            play_var.setEnabled(false);
+            System.out.println("resume");           
+        }
+}
+
+void play_2_1(){
+        if(canResume2==false){ 
+            putar_2(-1);     
+        }
+        else{
+            resume_2();
+            pause2_var.setEnabled(true);
+            play2_var.setEnabled(false);
+            System.out.println("resume");           
+        }
+}
+
+void play_3_1(){
+       if(canResume3==false){ 
+            putar_3(-1);     
+        }
+        else{
+            resume_3();
+            pause3_var.setEnabled(true);
+            play3_var.setEnabled(false);
+            System.out.println("resume");           
+                 
+        }
+}
+
+
+void stop1_1(){
+                if(canResume==false && valid==true&&player1!=null){
+                player1.close();
+                canResume=false;
+                play_var.setEnabled(true);
+                System.out.println(canResume);
+                System.out.println(valid);
+        }else{
+            System.out.println("stopping");
+                System.out.println(canResume);
+                System.out.println(valid);
+        }
+}
+
+void stop2_1(){
+      if(canResume2==false && valid2==true&&player2!=null){
+                player2.close();
+                canResume2=false;
+                play2_var.setEnabled(true);
+                System.out.println(canResume2);
+                System.out.println(valid2);
+        }else{
+            System.out.println("stopping");
+                System.out.println(canResume2);
+                System.out.println(valid2);
+        }
+}
+
+void stop3_1(){
+      if(canResume3==false && valid3==true&&player3!=null){
+                player3.close();
+                canResume3=false;
+                play3_var.setEnabled(true);
+                System.out.println(canResume3);
+                System.out.println(valid3);
+        }else{
+            System.out.println("stopping");
+                System.out.println(canResume3);
+                System.out.println(valid3);
+        }
+}
+
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     /**
@@ -973,12 +1154,13 @@ boolean exists(String pathh){
         remove_var = new javax.swing.JButton();
         down_var = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jPlaylist = new javax.swing.JList<>();
+        Playlist_list = new javax.swing.JList<>();
         jLabel9 = new javax.swing.JLabel();
         downloads_var = new javax.swing.JPanel();
         jScrollPane5 = new javax.swing.JScrollPane();
         download_list = new javax.swing.JList<>();
         jLabel18 = new javax.swing.JLabel();
+        remove_download_var = new javax.swing.JButton();
         create_var = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
@@ -1291,7 +1473,7 @@ boolean exists(String pathh){
         jLabel15.setForeground(new java.awt.Color(235, 224, 249));
         jLabel15.setText("Description :");
 
-        ti_var.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ti_var.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         ti_var.setForeground(new java.awt.Color(235, 224, 249));
         ti_var.setText("none");
 
@@ -1299,25 +1481,25 @@ boolean exists(String pathh){
         jLabel16.setForeground(new java.awt.Color(235, 224, 249));
         jLabel16.setText("Track id :");
 
-        art_var.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        art_var.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         art_var.setForeground(new java.awt.Color(235, 224, 249));
         art_var.setText("none");
 
-        tn_var.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        tn_var.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         tn_var.setForeground(new java.awt.Color(235, 224, 249));
         tn_var.setText("none");
 
-        ui_var.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        ui_var.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         ui_var.setForeground(new java.awt.Color(235, 224, 249));
         ui_var.setText("none");
 
-        gen_var.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        gen_var.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         gen_var.setForeground(new java.awt.Color(235, 224, 249));
         gen_var.setText("none");
 
         desc_var.setBackground(new java.awt.Color(31, 27, 36));
         desc_var.setColumns(20);
-        desc_var.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        desc_var.setFont(new java.awt.Font("Dialog", 0, 15)); // NOI18N
         desc_var.setRows(5);
         desc_var.setText("none");
         desc_var.setDisabledTextColor(new java.awt.Color(0, 0, 0));
@@ -1451,12 +1633,17 @@ boolean exists(String pathh){
             }
         });
 
-        jPlaylist.setBackground(new java.awt.Color(29, 24, 36));
-        jPlaylist.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jPlaylist.setForeground(new java.awt.Color(235, 224, 249));
-        jPlaylist.setSelectionBackground(new java.awt.Color(208, 173, 252));
-        jPlaylist.setSelectionForeground(new java.awt.Color(31, 27, 36));
-        jScrollPane2.setViewportView(jPlaylist);
+        Playlist_list.setBackground(new java.awt.Color(29, 24, 36));
+        Playlist_list.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        Playlist_list.setForeground(new java.awt.Color(235, 224, 249));
+        Playlist_list.setSelectionBackground(new java.awt.Color(208, 173, 252));
+        Playlist_list.setSelectionForeground(new java.awt.Color(31, 27, 36));
+        Playlist_list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Playlist_listMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(Playlist_list);
 
         jLabel9.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(208, 173, 252));
@@ -1512,27 +1699,47 @@ boolean exists(String pathh){
         downloads_var.setBackground(new java.awt.Color(31, 27, 36));
 
         download_list.setBackground(new java.awt.Color(29, 24, 36));
+        download_list.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         download_list.setForeground(new java.awt.Color(235, 224, 249));
         download_list.setSelectionBackground(new java.awt.Color(208, 173, 252));
         download_list.setSelectionForeground(new java.awt.Color(31, 27, 36));
+        download_list.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                download_listMouseClicked(evt);
+            }
+        });
         jScrollPane5.setViewportView(download_list);
 
         jLabel18.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
         jLabel18.setForeground(new java.awt.Color(208, 173, 252));
         jLabel18.setText("Downloads");
 
+        remove_download_var.setBackground(new java.awt.Color(208, 173, 252));
+        remove_download_var.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
+        remove_download_var.setForeground(new java.awt.Color(0, 0, 0));
+        remove_download_var.setText("Remove ");
+        remove_download_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        remove_download_var.setFocusPainted(false);
+        remove_download_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                remove_download_varActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout downloads_varLayout = new javax.swing.GroupLayout(downloads_var);
         downloads_var.setLayout(downloads_varLayout);
         downloads_varLayout.setHorizontalGroup(
             downloads_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(downloads_varLayout.createSequentialGroup()
-                .addGap(122, 122, 122)
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(384, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, downloads_varLayout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel18)
                 .addGap(50, 50, 50))
+            .addGroup(downloads_varLayout.createSequentialGroup()
+                .addGap(122, 122, 122)
+                .addGroup(downloads_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(remove_download_var, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(387, Short.MAX_VALUE))
         );
         downloads_varLayout.setVerticalGroup(
             downloads_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -1541,7 +1748,9 @@ boolean exists(String pathh){
                 .addComponent(jLabel18)
                 .addGap(40, 40, 40)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(85, 85, 85))
+                .addGap(18, 18, 18)
+                .addComponent(remove_download_var, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(60, 60, 60))
         );
 
         jTabbedPane1.addTab("tab4", downloads_var);
@@ -2273,7 +2482,7 @@ boolean exists(String pathh){
      
 
         if(dia==JOptionPane.YES_OPTION ){ 
-       remove();  // TODO add your handling code here:
+       remove(); 
       Homepage h = new Homepage(HOME_UNAME.getText());
       stop_var.doClick();
       stop2_var.doClick();
@@ -2294,52 +2503,49 @@ boolean exists(String pathh){
 
     private void pause_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pause_varActionPerformed
        
-        pause_1(); // TODO add your handling code here:
+         pause_1();
+        pause_2();
+        pause_3();
     }//GEN-LAST:event_pause_varActionPerformed
 
     private void previous_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous_varActionPerformed
        stop2_var.doClick();
        stop3_var.doClick();
-        previous_1(); // TODO add your handling code here:
+        
+       previous_1();
+       previous_2();
+       previous_3();
     }//GEN-LAST:event_previous_varActionPerformed
 
     private void play_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play_varActionPerformed
         stop2_var.doClick();
         stop3_var.doClick();
         
-        if(canResume==false){ 
-            putar_1(-1);     
-        }
-        else{
-            resume_1();
-            pause_var.setEnabled(true);
-            play_var.setEnabled(false);
-            System.out.println("resume");           
-        }
+        play_1_1();
+        play_2_1();
+        play_3_1();
+
     }//GEN-LAST:event_play_varActionPerformed
 
     private void next_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next_varActionPerformed
         stop2_var.doClick();
         stop3_var.doClick();
-        next_1();// TODO add your handling code here:
+        
+        next_1();
+        next_2();
+        next_3();
     }//GEN-LAST:event_next_varActionPerformed
 
     private void stop_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop_varActionPerformed
-        if(canResume==false && valid==true&&player1!=null){
-                player1.close();
-                canResume=false;
-                play_var.setEnabled(true);
-                System.out.println(canResume);
-                System.out.println(valid);
-        }else{
-            System.out.println("stopping");
-                System.out.println(canResume);
-                System.out.println(valid);
-        }
+         stop1_1();
+         stop2_1();
+         stop3_1();
     }//GEN-LAST:event_stop_varActionPerformed
 
     private void filechose_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_filechose_varActionPerformed
        JFileChooser chooser = new JFileChooser();
+       FileFilter filter = new FileNameExtensionFilter("MP3 File","mp3");
+       chooser.setFileFilter(filter);
        chooser.showOpenDialog(null);
        File f = chooser.getSelectedFile();
        String filename = f.getAbsolutePath();
@@ -2356,6 +2562,9 @@ boolean exists(String pathh){
     }//GEN-LAST:event_JL2MouseClicked
 
     private void search_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_search_listMouseClicked
+        download_list.clearSelection();
+        Playlist_list.clearSelection();
+        
         int a = search_list.getSelectedIndex();
         System.out.println(a);
          File f = (File) sl.sear.get(a);
@@ -2428,39 +2637,34 @@ boolean exists(String pathh){
     }//GEN-LAST:event_previous_varMouseExited
 
     private void next2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next2_varMouseEntered
-        // TODO add your handling code here:
+        next2_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_next2_varMouseEntered
 
     private void next2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next2_varMouseExited
-        // TODO add your handling code here:
+        next2_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_next2_varMouseExited
 
     private void next2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next2_varActionPerformed
         stop_var.doClick();
         stop3_var.doClick();
+        
+        next_1();
         next_2();
+        next_3();
     }//GEN-LAST:event_next2_varActionPerformed
 
     private void stop2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop2_varMouseEntered
-        // TODO add your handling code here:
+        stop2_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_stop2_varMouseEntered
 
     private void stop2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop2_varMouseExited
-        // TODO add your handling code here:
+        stop2_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_stop2_varMouseExited
 
     private void stop2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop2_varActionPerformed
-        if(canResume2==false && valid2==true&&player2!=null){
-                player2.close();
-                canResume2=false;
-                play2_var.setEnabled(true);
-                System.out.println(canResume2);
-                System.out.println(valid2);
-        }else{
-            System.out.println("stopping");
-                System.out.println(canResume2);
-                System.out.println(valid2);
-        }
+        stop1_1();
+         stop2_1();
+         stop3_1();
     }//GEN-LAST:event_stop2_varActionPerformed
 
     private void play2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play2_varMouseEntered
@@ -2474,42 +2678,42 @@ boolean exists(String pathh){
     private void play2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play2_varActionPerformed
                 stop_var.doClick();
                 stop3_var.doClick();
-        
-        if(canResume2==false){ 
-            putar_2(-1);     
-        }
-        else{
-            resume_2();
-            pause2_var.setEnabled(true);
-            play2_var.setEnabled(false);
-            System.out.println("resume");           
-        }
+                
+        play_1_1();
+        play_2_1();
+        play_3_1();
+
     }//GEN-LAST:event_play2_varActionPerformed
 
     private void pause2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause2_varMouseEntered
-        // TODO add your handling code here:
+        pause2_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_pause2_varMouseEntered
 
     private void pause2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause2_varMouseExited
-        // TODO add your handling code here:
+        pause2_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_pause2_varMouseExited
 
     private void pause2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pause2_varActionPerformed
+         pause_1();
         pause_2();
+        pause_3();
     }//GEN-LAST:event_pause2_varActionPerformed
 
     private void previous2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous2_varMouseEntered
-        // TODO add your handling code here:
+        previous2_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_previous2_varMouseEntered
 
     private void previous2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous2_varMouseExited
-        // TODO add your handling code here:
+        previous2_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_previous2_varMouseExited
 
     private void previous2_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous2_varActionPerformed
         stop_var.doClick();
         stop3_var.doClick();
-        previous_2();
+        
+       previous_1();
+       previous_2();
+       previous_3();
     }//GEN-LAST:event_previous2_varActionPerformed
 
     private void logout_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_logout_varActionPerformed
@@ -2522,88 +2726,84 @@ boolean exists(String pathh){
     }//GEN-LAST:event_logout_varActionPerformed
 
     private void next3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next3_varMouseEntered
-        // TODO add your handling code here:
+       next3_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_next3_varMouseEntered
 
     private void next3_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_next3_varMouseExited
-        // TODO add your handling code here:
+        next3_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_next3_varMouseExited
 
     private void next3_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_next3_varActionPerformed
         stop_var.doClick();
         stop2_var.doClick();
+        next_1();
+        next_2();
         next_3();
     }//GEN-LAST:event_next3_varActionPerformed
 
     private void stop3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop3_varMouseEntered
-        // TODO add your handling code here:
+        stop3_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_stop3_varMouseEntered
 
     private void stop3_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_stop3_varMouseExited
-        // TODO add your handling code here:
+        stop3_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_stop3_varMouseExited
 
     private void stop3_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stop3_varActionPerformed
-        if(canResume3==false && valid3==true&&player3!=null){
-                player3.close();
-                canResume3=false;
-                play3_var.setEnabled(true);
-                System.out.println(canResume3);
-                System.out.println(valid3);
-        }else{
-            System.out.println("stopping");
-                System.out.println(canResume3);
-                System.out.println(valid3);
-        }
+        stop1_1();
+         stop2_1();
+         stop3_1();
     }//GEN-LAST:event_stop3_varActionPerformed
 
     private void play3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play3_varMouseEntered
-        // TODO add your handling code here:
+        play3_var.setForeground(new java.awt.Color(187,134,252));
+
     }//GEN-LAST:event_play3_varMouseEntered
 
     private void play3_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play3_varMouseExited
-        // TODO add your handling code here:
+        play3_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_play3_varMouseExited
 
     private void play3_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_play3_varActionPerformed
         stop_var.doClick();
         stop2_var.doClick();
+       
+        play_1_1();
+        play_2_1();
+        play_3_1();
         
-        if(canResume3==false){ 
-            putar_3(-1);     
-        }
-        else{
-            resume_3();
-            pause3_var.setEnabled(true);
-            play3_var.setEnabled(false);
-            System.out.println("resume");           
-        }
     }//GEN-LAST:event_play3_varActionPerformed
 
     private void pause3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause3_varMouseEntered
-        // TODO add your handling code here:
+        pause3_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_pause3_varMouseEntered
 
     private void pause3_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause3_varMouseExited
-        // TODO add your handling code here:
+        pause3_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_pause3_varMouseExited
 
     private void pause3_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pause3_varActionPerformed
+        pause_1();
+        pause_2();
         pause_3();
+        
     }//GEN-LAST:event_pause3_varActionPerformed
 
     private void previous3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous3_varMouseEntered
-        // TODO add your handling code here:
+        previous3_var.setForeground(new java.awt.Color(187,134,252));
     }//GEN-LAST:event_previous3_varMouseEntered
 
     private void previous3_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_previous3_varMouseExited
-        // TODO add your handling code here:
+       previous3_var.setForeground(new java.awt.Color(0,0,0));
     }//GEN-LAST:event_previous3_varMouseExited
 
     private void previous3_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previous3_varActionPerformed
         stop_var.doClick();
         stop2_var.doClick();
-        previous_3();
+        
+        previous_1();
+       previous_2();
+       previous_3();
     }//GEN-LAST:event_previous3_varActionPerformed
 
     private void song_download_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_song_download_varActionPerformed
@@ -2639,6 +2839,39 @@ boolean exists(String pathh){
 
   
     }//GEN-LAST:event_song_download_varActionPerformed
+
+    private void Playlist_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Playlist_listMouseClicked
+        download_list.clearSelection();
+        search_list.clearSelection();
+    }//GEN-LAST:event_Playlist_listMouseClicked
+
+    private void download_listMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_download_listMouseClicked
+        search_list.clearSelection();
+        Playlist_list.clearSelection();
+    }//GEN-LAST:event_download_listMouseClicked
+
+    private void remove_download_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_remove_download_varActionPerformed
+       int dia = JOptionPane.showConfirmDialog(null,"Sure? You want to remove This song?", "Track remove",
+               JOptionPane.YES_NO_OPTION,
+               JOptionPane.QUESTION_MESSAGE);
+     
+
+        if(dia==JOptionPane.YES_OPTION ){ 
+        
+                
+           removeDown();
+      Homepage h = new Homepage(HOME_UNAME.getText());
+      stop_var.doClick();
+      stop2_var.doClick();
+      stop3_var.doClick();
+      
+      this.dispose();
+      anim=false;
+      h.setVisible(true);
+        }else{
+            System.out.println("cancel removing the song");
+        }
+    }//GEN-LAST:event_remove_download_varActionPerformed
 
     /**
      * @param args the command line arguments
@@ -2683,6 +2916,7 @@ boolean exists(String pathh){
     private javax.swing.JPanel Player_controls_1;
     private javax.swing.JPanel Player_controls_2;
     private javax.swing.JPanel Player_controls_3;
+    private javax.swing.JList<String> Playlist_list;
     private javax.swing.JButton add_var;
     private javax.swing.JLabel art_var;
     private javax.swing.JTextField artist_var;
@@ -2722,7 +2956,6 @@ boolean exists(String pathh){
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JList<String> jPlaylist;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -2745,6 +2978,7 @@ boolean exists(String pathh){
     private javax.swing.JButton previous2_var;
     private javax.swing.JButton previous3_var;
     private javax.swing.JButton previous_var;
+    private javax.swing.JButton remove_download_var;
     private javax.swing.JButton remove_var;
     private javax.swing.JButton reset_var;
     private javax.swing.JButton search_btn_var;
