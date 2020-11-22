@@ -1729,7 +1729,6 @@ boolean exists(String pathh){
         control_Tab.setForeground(new java.awt.Color(255, 255, 255));
 
         Player_controls_1.setBackground(new java.awt.Color(39, 39, 39));
-        Player_controls_1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         next_var.setBackground(new java.awt.Color(51, 51, 51));
         next_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1748,7 +1747,6 @@ boolean exists(String pathh){
                 next_varActionPerformed(evt);
             }
         });
-        Player_controls_1.add(next_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 60, 60));
 
         stop_var.setBackground(new java.awt.Color(51, 51, 51));
         stop_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1767,7 +1765,6 @@ boolean exists(String pathh){
                 stop_varActionPerformed(evt);
             }
         });
-        Player_controls_1.add(stop_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 60, 60));
 
         play_var.setBackground(new java.awt.Color(51, 51, 51));
         play_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1787,7 +1784,6 @@ boolean exists(String pathh){
                 play_varActionPerformed(evt);
             }
         });
-        Player_controls_1.add(play_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 60, 60));
 
         pause_var.setBackground(new java.awt.Color(51, 51, 51));
         pause_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1806,7 +1802,6 @@ boolean exists(String pathh){
                 pause_varActionPerformed(evt);
             }
         });
-        Player_controls_1.add(pause_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 60, 60));
 
         previous_var.setBackground(new java.awt.Color(51, 51, 51));
         previous_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1825,12 +1820,38 @@ boolean exists(String pathh){
                 previous_varActionPerformed(evt);
             }
         });
-        Player_controls_1.add(previous_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 60));
+
+        javax.swing.GroupLayout Player_controls_1Layout = new javax.swing.GroupLayout(Player_controls_1);
+        Player_controls_1.setLayout(Player_controls_1Layout);
+        Player_controls_1Layout.setHorizontalGroup(
+            Player_controls_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Player_controls_1Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        Player_controls_1Layout.setVerticalGroup(
+            Player_controls_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Player_controls_1Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(Player_controls_1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(previous_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pause_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stop_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(next_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         control_Tab.addTab("tab1", Player_controls_1);
 
         Player_controls_2.setBackground(new java.awt.Color(39, 39, 39));
-        Player_controls_2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         next2_var.setBackground(new java.awt.Color(51, 51, 51));
         next2_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1849,7 +1870,6 @@ boolean exists(String pathh){
                 next2_varActionPerformed(evt);
             }
         });
-        Player_controls_2.add(next2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 60, 60));
 
         stop2_var.setBackground(new java.awt.Color(51, 51, 51));
         stop2_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1868,7 +1888,6 @@ boolean exists(String pathh){
                 stop2_varActionPerformed(evt);
             }
         });
-        Player_controls_2.add(stop2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 60, 60));
 
         play2_var.setBackground(new java.awt.Color(51, 51, 51));
         play2_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1888,7 +1907,6 @@ boolean exists(String pathh){
                 play2_varActionPerformed(evt);
             }
         });
-        Player_controls_2.add(play2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 60, 60));
 
         pause2_var.setBackground(new java.awt.Color(51, 51, 51));
         pause2_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1907,7 +1925,6 @@ boolean exists(String pathh){
                 pause2_varActionPerformed(evt);
             }
         });
-        Player_controls_2.add(pause2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 60, 60));
 
         previous2_var.setBackground(new java.awt.Color(51, 51, 51));
         previous2_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1926,12 +1943,38 @@ boolean exists(String pathh){
                 previous2_varActionPerformed(evt);
             }
         });
-        Player_controls_2.add(previous2_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 60));
+
+        javax.swing.GroupLayout Player_controls_2Layout = new javax.swing.GroupLayout(Player_controls_2);
+        Player_controls_2.setLayout(Player_controls_2Layout);
+        Player_controls_2Layout.setHorizontalGroup(
+            Player_controls_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Player_controls_2Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(previous2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(pause2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(play2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(stop2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(next2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        Player_controls_2Layout.setVerticalGroup(
+            Player_controls_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Player_controls_2Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(Player_controls_2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(previous2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pause2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stop2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(next2_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         control_Tab.addTab("tab1", Player_controls_2);
 
         Player_controls_3.setBackground(new java.awt.Color(39, 39, 39));
-        Player_controls_3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         next3_var.setBackground(new java.awt.Color(51, 51, 51));
         next3_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -1950,7 +1993,6 @@ boolean exists(String pathh){
                 next3_varActionPerformed(evt);
             }
         });
-        Player_controls_3.add(next3_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(430, 10, 60, 60));
 
         stop3_var.setBackground(new java.awt.Color(51, 51, 51));
         stop3_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1969,7 +2011,6 @@ boolean exists(String pathh){
                 stop3_varActionPerformed(evt);
             }
         });
-        Player_controls_3.add(stop3_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(330, 10, 60, 60));
 
         play3_var.setBackground(new java.awt.Color(51, 51, 51));
         play3_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
@@ -1989,7 +2030,6 @@ boolean exists(String pathh){
                 play3_varActionPerformed(evt);
             }
         });
-        Player_controls_3.add(play3_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 10, 60, 60));
 
         pause3_var.setBackground(new java.awt.Color(51, 51, 51));
         pause3_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -2008,7 +2048,6 @@ boolean exists(String pathh){
                 pause3_varActionPerformed(evt);
             }
         });
-        Player_controls_3.add(pause3_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 10, 60, 60));
 
         previous3_var.setBackground(new java.awt.Color(51, 51, 51));
         previous3_var.setFont(new java.awt.Font("Arial", 1, 14)); // NOI18N
@@ -2027,7 +2066,34 @@ boolean exists(String pathh){
                 previous3_varActionPerformed(evt);
             }
         });
-        Player_controls_3.add(previous3_var, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, 60, 60));
+
+        javax.swing.GroupLayout Player_controls_3Layout = new javax.swing.GroupLayout(Player_controls_3);
+        Player_controls_3.setLayout(Player_controls_3Layout);
+        Player_controls_3Layout.setHorizontalGroup(
+            Player_controls_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Player_controls_3Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(previous3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(pause3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(play3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(stop3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(40, 40, 40)
+                .addComponent(next3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        Player_controls_3Layout.setVerticalGroup(
+            Player_controls_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(Player_controls_3Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(Player_controls_3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(previous3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(pause3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(play3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(stop3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(next3_var, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
+        );
 
         control_Tab.addTab("tab1", Player_controls_3);
 

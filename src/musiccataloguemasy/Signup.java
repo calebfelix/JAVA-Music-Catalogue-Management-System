@@ -6,10 +6,17 @@
 package musiccataloguemasy;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import javax.swing.JOptionPane;
+import java.util.regex.Matcher; 
+import java.util.regex.Pattern;
+import javax.swing.JComponent;
 
 /**
  *
@@ -24,14 +31,70 @@ public class Signup extends javax.swing.JFrame {
     public Signup() {
         initComponents();
         
-        PP1.setBackground(new Color(187,83,251));
-        PP2.setBackground(new Color(208,173,252));
-        PP3.setBackground(new Color(208,173,252));
+        FirstName_var.setBackground(new java.awt.Color(29,24,36));
+        Lastname_var.setBackground(new java.awt.Color(29,24,36));
+        password_var.setBackground(new java.awt.Color(29,24,36));
+        Confirmpassword_var.setBackground(new java.awt.Color(29,24,36));
+
+        Gender_cb.setBackground(new java.awt.Color(29,24,36));
+        PhoneNo_var.setBackground(new java.awt.Color(29,24,36));
+        Email_var.setBackground(new java.awt.Color(29,24,36));
+        User_id_var.setBackground(new java.awt.Color(29,24,36));
+        Country_var.setBackground(new java.awt.Color(29,24,36));
+        
+        for(Component c : DOB_dc.getComponents()){
+            ((JComponent)c).setBackground(new java.awt.Color(208,173,252));
+        }
+        
+        
+        
+        
+        
+        FirstName_var.setForeground(new java.awt.Color(235,224,249));
+        Lastname_var.setForeground(new java.awt.Color(235,224,249));
+        password_var.setForeground(new java.awt.Color(235,224,249));
+        Confirmpassword_var.setForeground(new java.awt.Color(235,224,249));
+
+        Gender_cb.setForeground(new java.awt.Color(235,224,249));
+        PhoneNo_var.setForeground(new java.awt.Color(235,224,249));
+        Email_var.setForeground(new java.awt.Color(235,224,249));
+        User_id_var.setForeground(new java.awt.Color(235,224,249));
+        Country_var.setForeground(new java.awt.Color(235,224,249));
         
         myc = new MySQLConnect();
-        setVisible(true);
         setLocationRelativeTo(null);
     }
+    
+        boolean isValid(String email) { 
+        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+ 
+                            "[a-zA-Z0-9_+&*-]+)*@" + 
+                            "(?:[a-zA-Z0-9-]+\\.)+[a-z" + 
+                            "A-Z]{2,7}$"; 
+                              
+        Pattern pat = Pattern.compile(emailRegex); 
+        if (email == null) 
+            return false; 
+        return pat.matcher(email).matches(); 
+    } 
+        boolean passValid(String password){
+            String PASSWORD_REGEX = "^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,}$";
+            Pattern  PASSWORD_PATTERN =Pattern.compile(PASSWORD_REGEX);
+            if (PASSWORD_PATTERN.matcher(password).matches()){
+                return true;
+            }else{
+                return false;
+            }
+       }
+        
+        boolean phValid(String phNo){
+            String regex = "(0/91)?[7-9][0-9]{9}";
+            if(phNo.matches(regex)){
+                return true;
+            }else{
+                return false;
+            }
+        }
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,446 +107,295 @@ public class Signup extends javax.swing.JFrame {
 
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        PP1 = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
-        PP2 = new javax.swing.JButton();
-        jPanel5 = new javax.swing.JPanel();
-        PP3 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
-        p1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        u_username_var = new javax.swing.JTextField();
-        u_password_var = new javax.swing.JPasswordField();
-        u_submit_var = new javax.swing.JButton();
-        jLabel10 = new javax.swing.JLabel();
-        p2 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        e_email_var = new javax.swing.JTextField();
-        e_password_var = new javax.swing.JPasswordField();
-        e_submit_var = new javax.swing.JButton();
-        p3 = new javax.swing.JPanel();
+        FirstName_var = new javax.swing.JTextField();
+        Lastname_var = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
-        p_phone_var = new javax.swing.JTextField();
-        p_password_var = new javax.swing.JPasswordField();
-        p_submit_var = new javax.swing.JButton();
-        previouspage_btn_var = new javax.swing.JButton();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        User_id_var = new javax.swing.JTextField();
+        Email_var = new javax.swing.JTextField();
+        PhoneNo_var = new javax.swing.JTextField();
+        Country_var = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
+        submit_signup_btn = new javax.swing.JButton();
+        Confirmpassword_var = new javax.swing.JPasswordField();
+        password_var = new javax.swing.JPasswordField();
+        Gender_cb = new javax.swing.JComboBox<>();
+        DOB_dc = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 51, 51));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
+        jPanel1.setForeground(new java.awt.Color(204, 204, 204));
 
-        jPanel2.setBackground(new java.awt.Color(187, 134, 252));
+        jPanel2.setBackground(new java.awt.Color(31, 27, 36));
 
-        jPanel3.setBackground(new java.awt.Color(187, 134, 252));
+        jLabel1.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(187, 83, 251));
+        jLabel1.setText("Sign Up ");
 
-        PP1.setBackground(new java.awt.Color(208, 173, 252));
-        PP1.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        PP1.setText("Username");
-        PP1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PP1.setFocusPainted(false);
-        PP1.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Signup.this.mouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                PP1mouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Signup.this.mouseExited(evt);
-            }
-        });
-        PP1.addActionListener(new java.awt.event.ActionListener() {
+        jLabel2.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel2.setText("First Name:");
+
+        jLabel3.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel3.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel3.setText("Last Name:");
+
+        jLabel4.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel4.setText("Date of Birth:");
+
+        jLabel5.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel5.setText("Confirm Password:");
+
+        jLabel6.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel6.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel6.setText("Gender:");
+
+        FirstName_var.setBackground(new java.awt.Color(255, 255, 255));
+        FirstName_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        FirstName_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PP1ActionPerformed(evt);
+                FirstName_varActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
-        jPanel3.setLayout(jPanel3Layout);
-        jPanel3Layout.setHorizontalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PP1, javax.swing.GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)
-        );
-        jPanel3Layout.setVerticalGroup(
-            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PP1, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-        );
+        Lastname_var.setBackground(new java.awt.Color(255, 255, 255));
+        Lastname_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
 
-        jPanel4.setBackground(new java.awt.Color(187, 134, 252));
+        jLabel7.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel7.setText("Username:");
 
-        PP2.setBackground(new java.awt.Color(208, 173, 252));
-        PP2.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        PP2.setText("Email-ID");
-        PP2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PP2.setFocusPainted(false);
-        PP2.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Signup.this.mouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                PP1mouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Signup.this.mouseExited(evt);
-            }
-        });
-        PP2.addActionListener(new java.awt.event.ActionListener() {
+        jLabel8.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel8.setText("Email-Id:");
+
+        jLabel9.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel9.setText("Phone no:");
+
+        jLabel10.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel10.setText("Password:");
+
+        jLabel11.setFont(new java.awt.Font("Ink Free", 1, 20)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(235, 224, 249));
+        jLabel11.setText("Country:");
+
+        User_id_var.setBackground(new java.awt.Color(255, 255, 255));
+        User_id_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        Email_var.setBackground(new java.awt.Color(255, 255, 255));
+        Email_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+
+        PhoneNo_var.setBackground(new java.awt.Color(255, 255, 255));
+        PhoneNo_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        PhoneNo_var.setForeground(new java.awt.Color(0, 0, 0));
+        PhoneNo_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PP2ActionPerformed(evt);
+                PhoneNo_varActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PP2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PP2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-        );
-
-        jPanel5.setBackground(new java.awt.Color(187, 134, 252));
-
-        PP3.setBackground(new java.awt.Color(208, 173, 252));
-        PP3.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        PP3.setText("Phone no.");
-        PP3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        PP3.setFocusPainted(false);
-        PP3.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                Signup.this.mouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                PP1mouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                Signup.this.mouseExited(evt);
-            }
-        });
-        PP3.addActionListener(new java.awt.event.ActionListener() {
+        Country_var.setBackground(new java.awt.Color(255, 255, 255));
+        Country_var.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        Country_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                PP3ActionPerformed(evt);
+                Country_varActionPerformed(evt);
             }
         });
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-        jPanel5.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PP3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PP3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 54, Short.MAX_VALUE)
-        );
+        jButton1.setBackground(new java.awt.Color(208, 173, 252));
+        jButton1.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
+        jButton1.setText("< Previous page");
+        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton1.setFocusPainted(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        submit_signup_btn.setBackground(new java.awt.Color(208, 173, 252));
+        submit_signup_btn.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
+        submit_signup_btn.setText("Signup");
+        submit_signup_btn.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        submit_signup_btn.setFocusPainted(false);
+        submit_signup_btn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                submit_signup_btnActionPerformed(evt);
+            }
+        });
+
+        Confirmpassword_var.setBackground(new java.awt.Color(255, 255, 255));
+        Confirmpassword_var.setForeground(new java.awt.Color(0, 0, 0));
+        Confirmpassword_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Confirmpassword_varActionPerformed(evt);
+            }
+        });
+
+        password_var.setBackground(new java.awt.Color(255, 255, 255));
+        password_var.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                password_varActionPerformed(evt);
+            }
+        });
+
+        Gender_cb.setBackground(new java.awt.Color(204, 204, 204));
+        Gender_cb.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Select...", "Male", "Female", "Others" }));
+
+        DOB_dc.setBackground(new java.awt.Color(31, 27, 36));
+        DOB_dc.setForeground(new java.awt.Color(255, 255, 255));
+        DOB_dc.setDateFormatString("dd-MM-yyyy");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(23, 23, 23)
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(294, 294, 294)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(FirstName_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel7)
+                        .addGap(18, 18, 18)
+                        .addComponent(User_id_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Lastname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(68, 68, 68)
+                        .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(69, 69, 69)
+                        .addComponent(jLabel5)
+                        .addGap(18, 18, 18)
+                        .addComponent(Confirmpassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(717, 717, 717)
+                        .addComponent(submit_signup_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(71, 71, 71)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 163, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(68, 68, 68)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel2Layout.createSequentialGroup()
+                                .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(67, 67, 67)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(Country_var, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(Gender_cb, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                .addContainerGap(105, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(85, 85, 85)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(45, 45, 45)
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(95, Short.MAX_VALUE))
-        );
-
-        jPanel6.setLayout(new java.awt.CardLayout());
-
-        p1.setBackground(new java.awt.Color(31, 27, 36));
-        p1.setForeground(new java.awt.Color(171, 85, 252));
-
-        jLabel2.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(235, 224, 249));
-        jLabel2.setText("Username");
-
-        jLabel3.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(235, 224, 249));
-        jLabel3.setText("Password");
-
-        u_username_var.setBackground(new java.awt.Color(204, 204, 204));
-        u_username_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        u_username_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                u_username_varActionPerformed(evt);
-            }
-        });
-
-        u_password_var.setBackground(new java.awt.Color(204, 204, 204));
-        u_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        u_password_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                u_password_varActionPerformed(evt);
-            }
-        });
-
-        u_submit_var.setBackground(new java.awt.Color(208, 173, 252));
-        u_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        u_submit_var.setText("Login");
-        u_submit_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        u_submit_var.setFocusPainted(false);
-        u_submit_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                u_submit_varActionPerformed(evt);
-            }
-        });
-
-        jLabel10.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(187, 83, 251));
-        jLabel10.setText("Login through Username");
-
-        javax.swing.GroupLayout p1Layout = new javax.swing.GroupLayout(p1);
-        p1.setLayout(p1Layout);
-        p1Layout.setHorizontalGroup(
-            p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                .addContainerGap(133, Short.MAX_VALUE)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(158, 158, 158))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                        .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))))
-            .addGroup(p1Layout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addGap(42, 42, 42)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(u_username_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 0, Short.MAX_VALUE))
-        );
-        p1Layout.setVerticalGroup(
-            p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(p1Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel10)
-                .addGap(97, 97, 97)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(u_username_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(44, 44, 44)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
-                .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-        );
-
-        jPanel6.add(p1, "card2");
-
-        p2.setBackground(new java.awt.Color(31, 27, 36));
-
-        jLabel4.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
-        jLabel4.setForeground(new java.awt.Color(171, 85, 252));
-        jLabel4.setText("Login through Email-ID");
-
-        jLabel5.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(235, 224, 249));
-        jLabel5.setText("Email-ID");
-
-        jLabel6.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(235, 224, 249));
-        jLabel6.setText("Password");
-
-        e_email_var.setBackground(new java.awt.Color(204, 204, 204));
-        e_email_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        e_password_var.setBackground(new java.awt.Color(204, 204, 204));
-        e_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        e_submit_var.setBackground(new java.awt.Color(208, 173, 252));
-        e_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        e_submit_var.setText("Login");
-        e_submit_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        e_submit_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                e_submit_varActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout p2Layout = new javax.swing.GroupLayout(p2);
-        p2.setLayout(p2Layout);
-        p2Layout.setHorizontalGroup(
-            p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p2Layout.createSequentialGroup()
-                .addGap(134, 134, 134)
-                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p2Layout.createSequentialGroup()
-                        .addComponent(e_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p2Layout.createSequentialGroup()
-                        .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(p2Layout.createSequentialGroup()
-                                .addGap(13, 13, 13)
-                                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel5)
-                                    .addComponent(jLabel6))
-                                .addGap(42, 42, 42)
-                                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(e_email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(170, 170, 170))))
-        );
-        p2Layout.setVerticalGroup(
-            p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(p2Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel4)
-                .addGap(97, 97, 97)
-                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(e_email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel5))
-                .addGap(44, 44, 44)
-                .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
-                .addComponent(e_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-        );
-
-        jPanel6.add(p2, "card3");
-
-        p3.setBackground(new java.awt.Color(31, 27, 36));
-
-        jLabel7.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(171, 85, 252));
-        jLabel7.setText("Login through Phone no.");
-
-        jLabel8.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(235, 224, 249));
-        jLabel8.setText("Phone no");
-
-        jLabel9.setFont(new java.awt.Font("Ink Free", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(235, 224, 249));
-        jLabel9.setText("Password");
-
-        p_phone_var.setBackground(new java.awt.Color(204, 204, 204));
-        p_phone_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        p_password_var.setBackground(new java.awt.Color(204, 204, 204));
-        p_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        p_submit_var.setBackground(new java.awt.Color(208, 173, 252));
-        p_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
-        p_submit_var.setText("Login");
-        p_submit_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        p_submit_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                p_submit_varActionPerformed(evt);
-            }
-        });
-
-        javax.swing.GroupLayout p3Layout = new javax.swing.GroupLayout(p3);
-        p3.setLayout(p3Layout);
-        p3Layout.setHorizontalGroup(
-            p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p3Layout.createSequentialGroup()
-                .addGap(563, 565, Short.MAX_VALUE)
-                .addComponent(p_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
-            .addGroup(p3Layout.createSequentialGroup()
-                .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(p3Layout.createSequentialGroup()
-                        .addGap(147, 147, 147)
-                        .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                            .addComponent(jLabel8)
-                            .addComponent(jLabel9))
-                        .addGap(42, 42, 42)
-                        .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(p_phone_var, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)
-                            .addComponent(p_password_var, javax.swing.GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))
-                    .addGroup(p3Layout.createSequentialGroup()
-                        .addGap(134, 134, 134)
-                        .addComponent(jLabel7)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        p3Layout.setVerticalGroup(
-            p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(p3Layout.createSequentialGroup()
-                .addGap(69, 69, 69)
-                .addComponent(jLabel7)
-                .addGap(91, 91, 91)
-                .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGap(22, 22, 22)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(54, 54, 54)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(FirstName_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(User_id_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(Lastname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(p_phone_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(43, 43, 43)
-                .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel9)
-                    .addComponent(p_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
-                .addComponent(p_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(33, 33, 33))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(Email_var, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(31, 31, 31)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(PhoneNo_var, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(DOB_dc, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9))))
+                .addGap(21, 21, 21)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(10, 10, 10)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Gender_cb, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(35, 35, 35)
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Confirmpassword_var, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11, javax.swing.GroupLayout.PREFERRED_SIZE, 55, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Country_var, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(135, 135, 135)
+                .addComponent(submit_signup_btn, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
-
-        jPanel6.add(p3, "card4");
-
-        previouspage_btn_var.setBackground(new java.awt.Color(208, 173, 252));
-        previouspage_btn_var.setFont(new java.awt.Font("Ink Free", 1, 14)); // NOI18N
-        previouspage_btn_var.setText("< previous page");
-        previouspage_btn_var.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
-        previouspage_btn_var.setFocusPainted(false);
-        previouspage_btn_var.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                previouspage_btn_varActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(previouspage_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 705, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 67, Short.MAX_VALUE))
+                .addGap(41, 41, 41)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(14, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(64, 64, 64)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, 613, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(19, 19, 19)
-                        .addComponent(previouspage_btn_var, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(96, 96, 96)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(73, Short.MAX_VALUE))
+                .addGap(38, 38, 38)
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(27, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -500,162 +412,131 @@ public class Signup extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void PP1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PP1ActionPerformed
+    private void Country_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Country_varActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_PP1ActionPerformed
+    }//GEN-LAST:event_Country_varActionPerformed
 
-    private void mouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseClicked
-        if (evt.getSource()==PP1){
-           
-            
-            
-           PP1.setBackground(new Color(187,83,251));
-           PP2.setBackground(new Color(208,173,252));
-           PP3.setBackground(new Color(208,173,252));
-           
-          
-           p1.setVisible(true);
-           p2.setVisible(false);
-           p3.setVisible(false);
-           
-        }
-        if (evt.getSource()==PP2){
-           PP2.setBackground(new Color(187,83,251));
-           PP1.setBackground(new Color(208,173,252));
-           PP3.setBackground(new Color(208,173,252));
-           
-           
-           p1.setVisible(false);
-           p2.setVisible(true);
-           p3.setVisible(false);
-        }
-        if (evt.getSource()==PP3){
-           PP3.setBackground(new Color(187,83,251));
-           PP1.setBackground(new Color(208,173,252));
-           PP2.setBackground(new Color(208,173,252));
-           
-           p1.setVisible(false);
-           p2.setVisible(false);
-           p3.setVisible(true);
-        }
-    }//GEN-LAST:event_mouseClicked
-
-    private void PP1mouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PP1mouseEntered
-
-    }//GEN-LAST:event_PP1mouseEntered
-
-    private void mouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mouseExited
-
-    }//GEN-LAST:event_mouseExited
-
-    private void previouspage_btn_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_previouspage_btn_varActionPerformed
-        new Intpage().setVisible(true);
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+       new Intpage().setVisible(true);
        this.setVisible(false);
-    }//GEN-LAST:event_previouspage_btn_varActionPerformed
+    }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void u_submit_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_u_submit_varActionPerformed
-         String username = u_username_var.getText();
-        String pass =u_password_var.getText();
-        if(username.trim().equals("") || pass.trim().equals("")){
-                JOptionPane.showMessageDialog(null, "All Fields are Compulsory!!");
-        }else{
-            try{
-                    Connection con = (Connection) myc.getConn();
-                    String sql = "select * from account where user_id=? and password=?" ;
-                    PreparedStatement pst =  con.prepareStatement(sql);
-                    pst.setString(1, username);
-                    pst.setString(2, pass);
-                    ResultSet rs = pst.executeQuery();
-                    System.out.println(rs);
-                    if(rs.next()){
-                            JOptionPane.showMessageDialog(null, "Login Successful");
-                            String UNAME = rs.getString("user_id");
-                             new Homepage(UNAME).setVisible(true);
-                             this.setVisible(false);
-                    }else{
-                            JOptionPane.showMessageDialog(null, "Incorrect username/Password!!!");
-                    }
-            
-                    }catch(Exception e){
-                        
-                    }
-        }
+    private void submit_signup_btnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_submit_signup_btnActionPerformed
+                String first_name = FirstName_var.getText();
+        String last_name = Lastname_var.getText();
+        String email = Email_var.getText();
+        String country = Country_var.getText();
+        String phone_no = PhoneNo_var.getText();
+        String password = password_var.getText();
+        String confirm_password = Confirmpassword_var.getText();
+        String gender = Gender_cb.getItemAt(Gender_cb.getSelectedIndex());
+        Date dob = DOB_dc.getDate();
+        String user_id = User_id_var.getText();
         
-        
+        if (first_name.trim().equals("")||
+            last_name.trim().equals("")||
+            email.trim().equals("")||
+            country.trim().equals("")||
+            password.trim().equals("")||
+            confirm_password.trim().equals("")||
+            phone_no.trim().equals("")||
+            gender.trim().equals("Select...")||
+            user_id.trim().equals("")) {
+            JOptionPane.showMessageDialog(null,"All fields are compulsary...please check missing fields!!");
+            if(isValid(email)==false){
+               JOptionPane.showMessageDialog(null,"please enter valid email");
 
-    }//GEN-LAST:event_u_submit_varActionPerformed
-
-    private void PP2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PP2ActionPerformed
-      
-    }//GEN-LAST:event_PP2ActionPerformed
-
-    private void PP3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PP3ActionPerformed
-     
-    }//GEN-LAST:event_PP3ActionPerformed
-
-    private void e_submit_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_e_submit_varActionPerformed
-         String email = e_email_var.getText();
-        String pass =e_password_var.getText();
-        if(email.trim().equals("") || pass.trim().equals("")){
-                JOptionPane.showMessageDialog(null, "All Fields are Compulsory!!");
-        }else{
-            try{
-                    Connection con = (Connection) myc.getConn();
-                    String sql = "select * from account where email=? and password=?" ;
-                    PreparedStatement pst =  con.prepareStatement(sql);
-                    pst.setString(1, email);
-                    pst.setString(2, pass);
-                    ResultSet rs = pst.executeQuery();
-                    if(rs.next()){
-                            JOptionPane.showMessageDialog(null, "Login Successful");
-                            String UNAME = rs.getString("user_id");
-                             new Homepage(UNAME).setVisible(true);
-                             this.setVisible(false);
-                    }else{
-                            JOptionPane.showMessageDialog(null, "Incorrect email/Password!!!");
-                    }
-            
-                    }catch(Exception e){
+            }
+           
+        }else if(password.equals(confirm_password)){
+            if(dob==null){
+                JOptionPane.showMessageDialog(null, "Please enter date of birth");
+                DOB_dc.grabFocus();
+            }else{
+                 if(passValid(password)==false){
+                JOptionPane.showMessageDialog(null, "Invalid Password :\n" +
+                                                                           "- minimum 8 or more characters\n" +
+                                                                           "- one or more uppercase characters\n" +
+                                                                           "- one or more lowercase characters\n" +
+                                                                           "- one or more digits\n" +
+                                                                           "- one or more special characters (like $, @, or !)");
+            }else if(phValid(phone_no)==false){
+                JOptionPane.showMessageDialog(null,"invalid phone Number");
+            }else{
+              ///main code
+              //chicking email reg
+                try {
+                        Connection con = (Connection) myc.getConn();
+                        String checkemail = "select first_name from account where email=?";
+                        PreparedStatement pat = con.prepareStatement(checkemail);
+                        pat.setString(1, email);
+                        ResultSet rs=pat.executeQuery();
                         
-                    }
-        }
-    }//GEN-LAST:event_e_submit_varActionPerformed
-
-    private void p_submit_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_p_submit_varActionPerformed
-        String phone = p_phone_var.getText();
-        String pass =p_password_var.getText();
-        if(phone.trim().equals("") || pass.trim().equals("")){
-                JOptionPane.showMessageDialog(null, "All Fields are Compulsory!!");
+                            if(rs.next()){
+                                JOptionPane.showMessageDialog(null, "This ("+email+") Email is already taken!!");
+                                Email_var.setText("");
+                                Email_var.grabFocus();
+                            }else{
+                                String saveQry = "insert into account(first_name, last_name, password, email, country, gender, phone_no, dob,user_id) values(?,?,?,?,?,?,?,?,?)";
+                                pat = con.prepareStatement(saveQry);
+                                pat.setString(1, first_name);
+                                pat.setString(2, last_name);
+                                pat.setString(3, password);
+                                pat.setString(4, email);
+                                pat.setString(5, country);
+                                pat.setString(6, gender);
+                                pat.setString(7, phone_no);
+                                
+//                                SimpleDateFormat sdf = new SimpleDateFormat("dd-mm-yyyy");
+//                                String dob1 = sdf.format(DOB_dc.getDate());
+//                                System.out.println(DOB_dc.getDate());
+                                
+                                DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
+                      
+                                String dob1 = dateFormat.format(DOB_dc.getDate());
+                                System.out.println(gender);
+                                pat.setString(8, dob1.toString());
+                                pat.setString(9, user_id);
+                                
+                                int i = pat.executeUpdate();
+                                if (i>=1) {
+                                    JOptionPane.showMessageDialog(null,first_name+" "+last_name+" User Signup successful!!");
+                                    new Login().setVisible(true);
+                                    this.setVisible(false);
+                                }else{
+                                    JOptionPane.showMessageDialog(null,first_name+" "+last_name+" User Signup Failed!!");
+                                }
+                            }
+                } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null,"User not inserted/saved exception : "+e);
+                }
+            }
+                
+               
+                
+            }
         }else{
-            try{
-                    Connection con = (Connection) myc.getConn();
-                    String sql = "select * from account where phone_no=? and password=?" ;
-                    PreparedStatement pst =  con.prepareStatement(sql);
-                    pst.setString(1, phone);
-                    pst.setString(2, pass);
-                    ResultSet rs = pst.executeQuery();
-                    if(rs.next()){
-                            JOptionPane.showMessageDialog(null, "Login Successful");
-                            String UNAME = rs.getString("user_id");
-                             new Homepage(UNAME).setVisible(true);
-                             this.setVisible(false);
-                    }else{
-                            JOptionPane.showMessageDialog(null, "Incorrect phone no/Password!!!");
-                    }
-            
-                    }catch(Exception e){
-                        
-                    }
+            JOptionPane.showMessageDialog(null, "Password and Confirm Password must be same!!");
+            password_var.setText("");
+            Confirmpassword_var.setText("");
         }
-    }//GEN-LAST:event_p_submit_varActionPerformed
+    }//GEN-LAST:event_submit_signup_btnActionPerformed
 
-    private void u_username_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_u_username_varActionPerformed
+    private void FirstName_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_FirstName_varActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_u_username_varActionPerformed
+    }//GEN-LAST:event_FirstName_varActionPerformed
 
-    private void u_password_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_u_password_varActionPerformed
+    private void PhoneNo_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PhoneNo_varActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_u_password_varActionPerformed
+    }//GEN-LAST:event_PhoneNo_varActionPerformed
+
+    private void Confirmpassword_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Confirmpassword_varActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_Confirmpassword_varActionPerformed
+
+    private void password_varActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_password_varActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_password_varActionPerformed
 
     /**
      * @param args the command line arguments
@@ -683,6 +564,7 @@ public class Signup extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(Signup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -691,13 +573,19 @@ public class Signup extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton PP1;
-    private javax.swing.JButton PP2;
-    private javax.swing.JButton PP3;
-    private javax.swing.JTextField e_email_var;
-    private javax.swing.JPasswordField e_password_var;
-    private javax.swing.JButton e_submit_var;
+    private javax.swing.JPasswordField Confirmpassword_var;
+    private javax.swing.JTextField Country_var;
+    private com.toedter.calendar.JDateChooser DOB_dc;
+    private javax.swing.JTextField Email_var;
+    private javax.swing.JTextField FirstName_var;
+    private javax.swing.JComboBox<String> Gender_cb;
+    private javax.swing.JTextField Lastname_var;
+    private javax.swing.JTextField PhoneNo_var;
+    private javax.swing.JTextField User_id_var;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -708,19 +596,7 @@ public class Signup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JPanel p1;
-    private javax.swing.JPanel p2;
-    private javax.swing.JPanel p3;
-    private javax.swing.JPasswordField p_password_var;
-    private javax.swing.JTextField p_phone_var;
-    private javax.swing.JButton p_submit_var;
-    private javax.swing.JButton previouspage_btn_var;
-    private javax.swing.JPasswordField u_password_var;
-    private javax.swing.JButton u_submit_var;
-    private javax.swing.JTextField u_username_var;
+    private javax.swing.JPasswordField password_var;
+    private javax.swing.JButton submit_signup_btn;
     // End of variables declaration//GEN-END:variables
 }

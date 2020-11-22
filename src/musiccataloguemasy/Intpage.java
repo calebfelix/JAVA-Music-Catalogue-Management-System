@@ -102,12 +102,12 @@ public class Intpage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-       new Loginswap().setVisible(true);
+       new Signup().setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-       new Signup().setVisible(true);
+       new Login().setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_jButton2MouseClicked
 
