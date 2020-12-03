@@ -16,6 +16,7 @@ import java.util.Date;
 import javax.swing.JOptionPane;
 import java.util.regex.Matcher; 
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 
 /**
@@ -30,6 +31,9 @@ public class Signup extends javax.swing.JFrame {
     MySQLConnect myc;
     public Signup() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/images/testicon.png")).getImage());
+        password_var.setEchoChar('\u25CF');
+        Confirmpassword_var.setEchoChar('\u25CF');
         
         FirstName_var.setBackground(new java.awt.Color(29,24,36));
         Lastname_var.setBackground(new java.awt.Color(29,24,36));
@@ -132,6 +136,7 @@ public class Signup extends javax.swing.JFrame {
         DOB_dc = new com.toedter.calendar.JDateChooser();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Sign up");
         setBackground(new java.awt.Color(51, 51, 51));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));

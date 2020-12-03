@@ -9,6 +9,7 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 /**
@@ -24,9 +25,16 @@ public class Login extends javax.swing.JFrame {
     public Login() {
         initComponents();
         
+        setIconImage(new ImageIcon(getClass().getResource("/images/testicon.png")).getImage());
+        
         PP1.setBackground(new Color(187,83,251));
         PP2.setBackground(new Color(208,173,252));
         PP3.setBackground(new Color(208,173,252));
+        
+        u_password_var.setEchoChar('\u25CF');
+        e_password_var.setEchoChar('\u25CF');
+        p_password_var.setEchoChar('\u25CF');
+        
         
         myc = new MySQLConnect();
         setVisible(true);
@@ -75,6 +83,7 @@ public class Login extends javax.swing.JFrame {
         previouspage_btn_var = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
         setBackground(new java.awt.Color(51, 51, 51));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
@@ -232,7 +241,7 @@ public class Login extends javax.swing.JFrame {
         });
 
         u_password_var.setBackground(new java.awt.Color(204, 204, 204));
-        u_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        u_password_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
         u_password_var.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 u_password_varActionPerformed(evt);
@@ -250,8 +259,8 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel10.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(187, 83, 251));
+        jLabel10.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(171, 85, 252));
         jLabel10.setText("Login through Username");
 
         javax.swing.GroupLayout p1Layout = new javax.swing.GroupLayout(p1);
@@ -259,23 +268,21 @@ public class Login extends javax.swing.JFrame {
         p1Layout.setHorizontalGroup(
             p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                .addContainerGap(133, Short.MAX_VALUE)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
-                        .addGap(158, 158, 158))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, p1Layout.createSequentialGroup()
-                        .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(33, 33, 33))))
+                .addContainerGap(565, Short.MAX_VALUE)
+                .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(33, 33, 33))
             .addGroup(p1Layout.createSequentialGroup()
-                .addGap(143, 143, 143)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jLabel3)
-                    .addComponent(jLabel2))
-                .addGap(42, 42, 42)
-                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(u_username_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(136, 136, 136)
+                .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel10)
+                    .addGroup(p1Layout.createSequentialGroup()
+                        .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addGap(42, 42, 42)
+                        .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(u_username_var, javax.swing.GroupLayout.PREFERRED_SIZE, 245, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         p1Layout.setVerticalGroup(
@@ -291,7 +298,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(p1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(u_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
                 .addComponent(u_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -300,7 +307,7 @@ public class Login extends javax.swing.JFrame {
 
         p2.setBackground(new java.awt.Color(31, 27, 36));
 
-        jLabel4.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(171, 85, 252));
         jLabel4.setText("Login through Email-ID");
 
@@ -316,7 +323,7 @@ public class Login extends javax.swing.JFrame {
         e_email_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         e_password_var.setBackground(new java.awt.Color(204, 204, 204));
-        e_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        e_password_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         e_submit_var.setBackground(new java.awt.Color(208, 173, 252));
         e_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
@@ -365,7 +372,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(p2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(e_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 195, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 207, Short.MAX_VALUE)
                 .addComponent(e_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );
@@ -374,7 +381,7 @@ public class Login extends javax.swing.JFrame {
 
         p3.setBackground(new java.awt.Color(31, 27, 36));
 
-        jLabel7.setFont(new java.awt.Font("Papyrus", 1, 36)); // NOI18N
+        jLabel7.setFont(new java.awt.Font("Ink Free", 1, 36)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(171, 85, 252));
         jLabel7.setText("Login through Phone no.");
 
@@ -390,7 +397,7 @@ public class Login extends javax.swing.JFrame {
         p_phone_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
 
         p_password_var.setBackground(new java.awt.Color(204, 204, 204));
-        p_password_var.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        p_password_var.setFont(new java.awt.Font("Dialog", 1, 12)); // NOI18N
 
         p_submit_var.setBackground(new java.awt.Color(208, 173, 252));
         p_submit_var.setFont(new java.awt.Font("Ink Free", 1, 18)); // NOI18N
@@ -439,7 +446,7 @@ public class Login extends javax.swing.JFrame {
                 .addGroup(p3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(p_password_var, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 206, Short.MAX_VALUE)
                 .addComponent(p_submit_var, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(33, 33, 33))
         );

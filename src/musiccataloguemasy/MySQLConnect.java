@@ -9,10 +9,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author caleb
- */
+
 public class MySQLConnect {
     
     static Connection conn;

@@ -88,6 +88,8 @@ boolean anim = true;
     ispressed=false;
         initComponents();
         
+        setIconImage(new ImageIcon(getClass().getResource("/images/testicon.png")).getImage());
+        
         trackname_var.setBackground(new java.awt.Color(29,24,36));
         artist_var.setBackground(new java.awt.Color(29,24,36));
         path_var.setBackground(new java.awt.Color(29,24,36));
@@ -454,6 +456,7 @@ void remove(){
         File f = (File) pl.ls.get(index);
         System.out.println((String)f.getPath());
         int trackid = getTrackid((String)f.getPath());
+        int trackidDown = getTrackidDown((String)f.getPath());
         
         try {
         Connection con = myc.getConn();
@@ -467,6 +470,31 @@ void remove(){
         String sql =  "delete from tracks where track_id=?";
         pst2 = con.prepareStatement(sql);
         pst2.setInt(1, trackid);
+        pst2.executeUpdate();
+       
+        
+        PreparedStatement pst3 ;        
+        String post =  "SET FOREIGN_KEY_CHECKS=1";
+        pst3 = con.prepareStatement(post);
+        pst3.executeUpdate();
+        
+        } catch (Exception e) {
+            
+            System.out.println("does not connect to db");
+        }
+        
+        try {
+        Connection con = myc.getConn();
+        
+        PreparedStatement pst1 ;        
+        String pre =  "SET FOREIGN_KEY_CHECKS=0";
+        pst1 = con.prepareStatement(pre);
+        pst1.executeUpdate();
+        
+        PreparedStatement pst2 ;        
+        String sql =  "delete from downloads where track_id=?";
+        pst2 = con.prepareStatement(sql);
+        pst2.setInt(1, trackidDown);
         pst2.executeUpdate();
        
         
@@ -1027,7 +1055,11 @@ void play_1_1(){
         else{
             resume_1();
             pause_var.setEnabled(true);
+            pause2_var.setEnabled(true);
+            pause3_var.setEnabled(true);
             play_var.setEnabled(false);
+            play2_var.setEnabled(false);
+            play3_var.setEnabled(false);
             System.out.println("resume");           
         }
 }
@@ -1038,8 +1070,12 @@ void play_2_1(){
         }
         else{
             resume_2();
+            pause_var.setEnabled(true);
             pause2_var.setEnabled(true);
+            pause3_var.setEnabled(true);
+            play_var.setEnabled(false);
             play2_var.setEnabled(false);
+            play3_var.setEnabled(false);
             System.out.println("resume");           
         }
 }
@@ -1050,7 +1086,11 @@ void play_3_1(){
         }
         else{
             resume_3();
+            pause_var.setEnabled(true);
+            pause2_var.setEnabled(true);
             pause3_var.setEnabled(true);
+            play_var.setEnabled(false);
+            play2_var.setEnabled(false);
             play3_var.setEnabled(false);
             System.out.println("resume");           
                  
@@ -1199,6 +1239,7 @@ void stop3_1(){
         previous3_var = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Homepage");
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
         jPanel1.setFocusable(false);
@@ -1866,26 +1907,23 @@ void stop3_1(){
                         .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(create_varLayout.createSequentialGroup()
                                 .addGap(38, 38, 38)
-                                .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(create_varLayout.createSequentialGroup()
-                                .addGap(38, 38, 38)
                                 .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 344, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(create_varLayout.createSequentialGroup()
+                                        .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(genre_var, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(path_var, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(18, 18, 18)
+                                        .addComponent(filechose_var, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(create_varLayout.createSequentialGroup()
                                 .addGap(36, 36, 36)
-                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(create_varLayout.createSequentialGroup()
-                                        .addComponent(trackname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(31, 31, 31)
-                                        .addComponent(filechose_var, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(create_varLayout.createSequentialGroup()
-                                        .addGap(2, 2, 2)
-                                        .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(trackname_var, javax.swing.GroupLayout.PREFERRED_SIZE, 345, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(artist_var, javax.swing.GroupLayout.PREFERRED_SIZE, 343, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(create_varLayout.createSequentialGroup()
                         .addGap(116, 116, 116)
                         .addComponent(jLabel8)))
-                .addGap(85, 85, 85)
+                .addGap(21, 21, 21)
                 .addGroup(create_varLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jLabel2)
                     .addComponent(submitTrack_var, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -2596,8 +2634,9 @@ void stop3_1(){
     }//GEN-LAST:event_search_listMouseClicked
 
     private void play_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play_varMouseEntered
-        
+        if(play_var.isEnabled()){
         play_var.setForeground(new java.awt.Color(187,134,252));
+        }
     }//GEN-LAST:event_play_varMouseEntered
 
     private void play_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play_varMouseExited
@@ -2613,7 +2652,9 @@ void stop3_1(){
     }//GEN-LAST:event_stop_varMouseExited
 
     private void pause_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause_varMouseEntered
+        if(pause_var.isEnabled()){
         pause_var.setForeground(new java.awt.Color(187,134,252));
+        }
     }//GEN-LAST:event_pause_varMouseEntered
 
     private void pause_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause_varMouseExited
@@ -2668,7 +2709,9 @@ void stop3_1(){
     }//GEN-LAST:event_stop2_varActionPerformed
 
     private void play2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play2_varMouseEntered
+        if(play2_var.isEnabled()){
         play2_var.setForeground(new java.awt.Color(187,134,252));
+        }
     }//GEN-LAST:event_play2_varMouseEntered
 
     private void play2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play2_varMouseExited
@@ -2686,7 +2729,9 @@ void stop3_1(){
     }//GEN-LAST:event_play2_varActionPerformed
 
     private void pause2_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause2_varMouseEntered
+        if(pause2_var.isEnabled()){
         pause2_var.setForeground(new java.awt.Color(187,134,252));
+        }
     }//GEN-LAST:event_pause2_varMouseEntered
 
     private void pause2_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause2_varMouseExited
@@ -2756,7 +2801,9 @@ void stop3_1(){
     }//GEN-LAST:event_stop3_varActionPerformed
 
     private void play3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_play3_varMouseEntered
+        if(play3_var.isEnabled()){
         play3_var.setForeground(new java.awt.Color(187,134,252));
+        }
 
     }//GEN-LAST:event_play3_varMouseEntered
 
@@ -2775,7 +2822,9 @@ void stop3_1(){
     }//GEN-LAST:event_play3_varActionPerformed
 
     private void pause3_varMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause3_varMouseEntered
+        if(pause3_var.isEnabled()){
         pause3_var.setForeground(new java.awt.Color(187,134,252));
+        }
     }//GEN-LAST:event_pause3_varMouseEntered
 
     private void pause3_varMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pause3_varMouseExited

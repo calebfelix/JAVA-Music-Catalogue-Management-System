@@ -5,6 +5,10 @@
  */
 package musiccataloguemasy;
 
+import java.awt.Color;
+import java.awt.Toolkit;
+import javax.swing.ImageIcon;
+
 /**
  *
  * @author Nancy Merciline
@@ -16,7 +20,9 @@ public class Intpage extends javax.swing.JFrame {
      */
     public Intpage() {
         initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("/images/testicon.png")).getImage());
         setLocationRelativeTo(null);
+        
     }
 
     /**
@@ -35,6 +41,7 @@ public class Intpage extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Welcome");
         setBackground(new java.awt.Color(51, 51, 51));
 
         jPanel1.setBackground(new java.awt.Color(51, 51, 51));
