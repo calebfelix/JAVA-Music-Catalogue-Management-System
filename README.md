@@ -1,4 +1,4 @@
-# My_repo_mini_proj
+# Music_Catalogue_Management_System
 
 #### List of Software and libraries used
 
